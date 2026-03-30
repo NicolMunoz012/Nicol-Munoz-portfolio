@@ -81,7 +81,7 @@ export function ProjectsSection() {
   return (
     <section id="projects" className="relative mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 sm:px-6 lg:px-10 py-16">
       {/* Línea superior decorativa */}
-      <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
 
       {/* Encabezado */}
       <Reveal direction="up">
@@ -98,8 +98,8 @@ export function ProjectsSection() {
       </Reveal>
       <Reveal direction="up" delay={0.15}>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.6fr_1fr]">
-          <div className="overflow-hidden rounded-3xl border border-border bg-surface/50 shadow-lg backdrop-blur">
-            <div className="flex items-center justify-between gap-4 border-b border-border/70 px-6 py-5">
+          <div className="overflow-hidden rounded-3xl bg-surface/30 shadow-lg backdrop-blur-sm">
+            <div className="flex items-center justify-between gap-4 border-b border-[#6D0B31]/15 px-6 py-5">
               <div className="flex flex-col gap-1">
                 <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
                   {t("projects.githubFeatured")}
@@ -112,7 +112,7 @@ export function ProjectsSection() {
                 href="https://github.com/NicolMunoz012"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-accent/35 bg-surface/40 px-4 py-2 text-xs font-semibold text-accent shadow-sm backdrop-blur transition-all hover:border-accent/60 hover:bg-accent/10 active:scale-95"
+                className="rounded-full bg-[#6D0B31]/20 px-4 py-2 text-xs font-semibold text-accent shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/30 active:scale-95"
               >
                 {t("projects.visitGithub")}
               </a>
@@ -124,12 +124,12 @@ export function ProjectsSection() {
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div
                       key={i}
-                      className="h-[140px] rounded-2xl border border-border bg-surface-2/40"
+                      className="h-[140px] rounded-2xl bg-surface-2/30"
                     />
                   ))}
                 </div>
               ) : status === "error" ? (
-                <div className="rounded-2xl border border-border bg-surface/40 p-6 text-sm text-foreground/75">
+                <div className="rounded-2xl bg-surface/30 p-6 text-sm text-foreground/75">
                   {t("projects.githubError")}
                 </div>
               ) : (
@@ -140,7 +140,7 @@ export function ProjectsSection() {
                       href={repo.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group relative overflow-hidden rounded-2xl border border-border bg-surface/40 p-5 shadow-sm backdrop-blur transition-all hover:border-accent/40 hover:bg-surface-2/50"
+                      className="group relative overflow-hidden rounded-2xl bg-surface/30 p-5 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40"
                       whileHover={{ y: -3 }}
                       transition={{ duration: 0.2 }}
                     >
@@ -150,7 +150,7 @@ export function ProjectsSection() {
                           <span className="font-display text-lg font-bold text-foreground group-hover:text-accent">
                             {repo.name}
                           </span>
-                          <span className="rounded-full border border-border bg-surface-2/60 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
+                          <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
                             {formatRelativeDate(repo.pushedAt)}
                           </span>
                         </div>
@@ -159,14 +159,14 @@ export function ProjectsSection() {
                         </p>
                         <div className="flex flex-wrap items-center gap-2 text-xs text-foreground/60">
                           {repo.language ? (
-                            <span className="rounded-full border border-border bg-surface-2/60 px-3 py-1">
+                            <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1">
                               {repo.language}
                             </span>
                           ) : null}
-                          <span className="rounded-full border border-border bg-surface-2/60 px-3 py-1">
+                          <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1">
                             ★ {repo.stars}
                           </span>
-                          <span className="rounded-full border border-border bg-surface-2/60 px-3 py-1">
+                          <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1">
                             ⑂ {repo.forks}
                           </span>
                         </div>
@@ -178,8 +178,8 @@ export function ProjectsSection() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-3xl border border-border bg-surface/50 shadow-lg backdrop-blur">
-            <div className="border-b border-border/70 px-6 py-5">
+          <div className="overflow-hidden rounded-3xl bg-surface/30 shadow-lg backdrop-blur-sm">
+            <div className="border-b border-[#6D0B31]/15 px-6 py-5">
               <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
                 {t("projects.githubActivity")}
               </span>
@@ -194,16 +194,16 @@ export function ProjectsSection() {
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div
                       key={i}
-                      className="h-[56px] rounded-2xl border border-border bg-surface-2/40"
+                      className="h-[56px] rounded-2xl bg-surface-2/30"
                     />
                   ))}
                 </div>
               ) : status === "error" ? (
-                <div className="rounded-2xl border border-border bg-surface/40 p-6 text-sm text-foreground/75">
+                <div className="rounded-2xl bg-surface/30 p-6 text-sm text-foreground/75">
                   {t("projects.githubError")}
                 </div>
               ) : recentCommits.length === 0 ? (
-                <div className="rounded-2xl border border-border bg-surface/40 p-6 text-sm text-foreground/75">
+                <div className="rounded-2xl bg-surface/30 p-6 text-sm text-foreground/75">
                   {t("projects.noCommits")}
                 </div>
               ) : (
@@ -214,7 +214,7 @@ export function ProjectsSection() {
                       href={c.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex flex-col gap-1 rounded-2xl border border-border bg-surface/40 px-4 py-3 shadow-sm backdrop-blur transition-all hover:border-accent/40 hover:bg-surface-2/50"
+                      className="group flex flex-col gap-1 rounded-2xl bg-surface/30 px-4 py-3 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40"
                     >
                       <div className="flex items-center justify-between gap-3">
                         <span className="truncate text-xs font-bold uppercase tracking-widest text-foreground/60">
@@ -243,7 +243,7 @@ export function ProjectsSection() {
             href="https://github.com/NicolMunoz012"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-accent/35 bg-surface/40 px-6 py-2.5 text-sm font-semibold text-accent shadow-sm backdrop-blur transition-all hover:border-accent/60 hover:bg-accent/10 active:scale-95"
+            className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/20 px-6 py-2.5 text-sm font-semibold text-accent shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/30 active:scale-95"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

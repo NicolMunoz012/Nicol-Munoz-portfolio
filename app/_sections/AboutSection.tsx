@@ -52,7 +52,7 @@ export function AboutSection() {
 
   return (
     <section id="about" className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10 pt-6 pb-16">
-      <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
 
       <Reveal direction="up">
         <div className="mb-12 flex flex-col items-center gap-4 text-center">
@@ -69,13 +69,13 @@ export function AboutSection() {
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-14">
         <Reveal direction="left">
           <div
-            className="rounded-3xl border border-border bg-surface/50 p-4 shadow-2xl backdrop-blur"
+            className="rounded-3xl bg-surface/30 p-4 shadow-xl"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            <div className="relative overflow-hidden rounded-2xl border border-border bg-surface-2">
+            <div className="relative overflow-hidden rounded-2xl bg-surface-2/40 backdrop-blur-sm">
               <motion.div
-                className="relative aspect-[4/5] cursor-grab active:cursor-grabbing"
+                className="relative aspect-square cursor-grab active:cursor-grabbing"
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={0.12}
@@ -104,11 +104,11 @@ export function AboutSection() {
                 </AnimatePresence>
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.22),transparent_55%)]" />
                 <div className="absolute left-4 right-4 top-4 flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-foreground/70 backdrop-blur">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-foreground/70 backdrop-blur-md">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                     {t("about.galleryLabel")}
                   </span>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-foreground/70 backdrop-blur">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-foreground/70 backdrop-blur-md">
                     <button
                       type="button"
                       aria-label="Previous image"
@@ -131,7 +131,7 @@ export function AboutSection() {
               </motion.div>
             </div>
 
-            <div className="mt-3 overflow-hidden rounded-full border border-border bg-surface/50">
+            <div className="mt-3 overflow-hidden rounded-full bg-surface/30 backdrop-blur-sm">
               <motion.div
                 key={`${currentImage}-${isPaused ? "paused" : "play"}`}
                 className="h-1.5 origin-left bg-gradient-to-r from-primary-dark to-accent"
@@ -151,10 +151,10 @@ export function AboutSection() {
                     setCurrentImage(i);
                   }}
                   aria-label={`About image ${i + 1}`}
-                  className={`h-12 w-12 overflow-hidden rounded-xl border transition-all ${
+                  className={`h-10 w-10 overflow-hidden rounded-xl transition-all ${
                     i === currentImage
-                      ? "border-accent/60 ring-2 ring-accent/25"
-                      : "border-border hover:border-accent/30"
+                      ? "ring-2 ring-accent/40"
+                      : "opacity-60 hover:opacity-90"
                   }`}
                 >
                   <span
@@ -169,7 +169,7 @@ export function AboutSection() {
 
         <Reveal direction="right">
           <div className="flex flex-col gap-5">
-            <div className="rounded-3xl border border-border bg-surface/50 p-3 shadow-lg backdrop-blur">
+            <div className="rounded-3xl bg-[#6D0B31]/10 p-3 shadow-lg backdrop-blur-sm">
               <div className="grid grid-cols-3 gap-2">
                 {([
                   { key: "bio1", label: t("about.tabs.profile") },
@@ -197,7 +197,7 @@ export function AboutSection() {
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-3xl border border-border bg-surface/50 p-6 shadow-2xl backdrop-blur">
+            <div className="relative overflow-hidden rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.16),transparent_60%)]" />
               <AnimatePresence mode="wait">
                 <motion.div
@@ -223,7 +223,7 @@ export function AboutSection() {
               <motion.button
                 type="button"
                 onClick={() => toggleRecommendation("playlist")}
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-2/60 px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm backdrop-blur transition-all hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-95"
+                className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/15 px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-95"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -232,7 +232,7 @@ export function AboutSection() {
               <motion.button
                 type="button"
                 onClick={() => toggleRecommendation("books")}
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-2/60 px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm backdrop-blur transition-all hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-95"
+                className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/15 px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-95"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -241,7 +241,7 @@ export function AboutSection() {
               <motion.button
                 type="button"
                 onClick={() => toggleRecommendation("podcast")}
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-2/60 px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm backdrop-blur transition-all hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-95"
+                className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/15 px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-95"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -256,7 +256,7 @@ export function AboutSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 12 }}
                   transition={{ duration: 0.25 }}
-                  className="rounded-3xl border border-border bg-surface/50 p-5 shadow-lg backdrop-blur"
+                  className="rounded-3xl bg-surface/30 p-5 shadow-lg backdrop-blur-sm"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex flex-col gap-1">
@@ -275,7 +275,7 @@ export function AboutSection() {
                       type="button"
                       aria-label="Close"
                       onClick={() => setActiveRecommendation(null)}
-                      className="rounded-full border border-border bg-surface-2/60 px-3 py-1.5 text-xs font-semibold text-foreground/70 transition-colors hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-95"
+                      className="rounded-full bg-[#6D0B31]/20 px-3 py-1.5 text-xs font-semibold text-foreground/70 transition-colors hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
                     >
                       ✕
                     </button>

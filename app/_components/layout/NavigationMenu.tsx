@@ -78,7 +78,7 @@ export function NavigationMenu({ isOpen, onClose }: NavigationMenuProps) {
             initial="closed"
             animate="open"
             exit="closed"
-            className="fixed inset-y-0 left-0 z-50 flex w-full flex-col bg-surface p-8 shadow-2xl overflow-hidden"
+            className="fixed inset-y-0 left-0 z-50 flex w-full flex-col bg-surface py-8 shadow-2xl overflow-hidden"
           >
             {/* Background Decor - SVG Pattern */}
             <div className="absolute inset-0 pointer-events-none select-none overflow-hidden opacity-[0.05] dark:opacity-[0.03]">
@@ -106,32 +106,42 @@ export function NavigationMenu({ isOpen, onClose }: NavigationMenuProps) {
             </div>
 
             {/* Header in Menu */}
-            <div className="mb-12 flex items-center justify-between relative z-10">
-              <div className="flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground shadow-lg">
-                  NM
+            <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10">
+              <div className="mb-12 flex items-center justify-between relative z-10">
+                <div className="flex items-center gap-4">
+                  
+                 {/* Logo izquierdo */}
+                  <div className="flex items-center">
+                    <div className="relative h-14 w-14 overflow-hidden rounded-full">
+                      <img
+                        src="/logo.jpg"
+                        alt="Nicol Muñoz"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  {/* Availability Status */}
+                  <div className="flex items-center gap-2 rounded-full bg-surface-2/40 px-3 py-1.5 backdrop-blur-sm">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/70">
+                      {locale === 'en' ? 'Available' : 'Disponible'}
+                    </span>
+                  </div>
                 </div>
-                {/* Availability Status */}
-                <div className="flex items-center gap-2 rounded-full bg-surface-2/50 px-3 py-1.5 border border-accent/10">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                  </span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/70">
-                    {locale === 'en' ? 'Available' : 'Disponible'}
-                  </span>
-                </div>
+                <IconButton
+                  label="Close menu"
+                  onClick={onClose}
+                  className="h-10 w-10 rounded-full bg-[#6D0B31]/15 p-0 text-foreground backdrop-blur-sm hover:bg-[#6D0B31]/30"
+                  icon={<X size={20} />}
+                />
               </div>
-              <IconButton
-                label="Close menu"
-                onClick={onClose}
-                className="h-10 w-10 rounded-full bg-surface-2/70 p-0 text-foreground"
-                icon={<X size={20} />}
-              />
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex flex-1 flex-col justify-center gap-6">
+            <nav className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10 flex flex-1 flex-col justify-center gap-6">
               {NAV_ITEMS.map((item, index) => (
                 <motion.div
                   key={item.key}
@@ -156,7 +166,7 @@ export function NavigationMenu({ isOpen, onClose }: NavigationMenuProps) {
             </nav>
 
             {/* Footer in Menu (Controls + Socials) */}
-            <div className="mt-auto flex flex-col gap-8 relative z-10 pt-8">
+            <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10 mt-auto flex flex-col gap-8 relative z-10 pt-8">
               <div className="flex flex-wrap items-center justify-between gap-6">
                 {/* Social Links */}
                 <div className="flex items-center gap-3">
@@ -166,7 +176,7 @@ export function NavigationMenu({ isOpen, onClose }: NavigationMenuProps) {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface-2/80 text-foreground transition-all hover:bg-accent hover:text-accent-foreground shadow-sm"
+                      className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#6D0B31]/15 text-foreground backdrop-blur-sm transition-all hover:bg-[#6D0B31]/30 hover:text-accent shadow-sm"
                       whileHover={{ y: -4, scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       aria-label={social.label}
@@ -181,7 +191,7 @@ export function NavigationMenu({ isOpen, onClose }: NavigationMenuProps) {
                   <button
                     type="button"
                     onClick={toggleLanguage}
-                    className="flex h-10 min-w-[56px] items-center justify-center rounded-xl bg-surface-2/80 px-4 text-[11px] font-bold uppercase tracking-widest text-foreground transition-all hover:bg-accent/10 hover:text-accent btn-ghost"
+                    className="flex h-10 min-w-[56px] items-center justify-center rounded-xl bg-[#6D0B31]/15 px-4 text-[11px] font-bold uppercase tracking-widest text-foreground backdrop-blur-sm transition-all hover:bg-[#6D0B31]/30 hover:text-accent"
                   >
                     {locale.toUpperCase()}
                   </button>
@@ -189,13 +199,13 @@ export function NavigationMenu({ isOpen, onClose }: NavigationMenuProps) {
                   <IconButton
                     label="Toggle theme"
                     onClick={toggleTheme}
-                    className="h-10 w-10 rounded-xl bg-surface-2/80 p-0 text-foreground"
+                    className="h-10 w-10 rounded-xl bg-[#6D0B31]/15 p-0 text-foreground backdrop-blur-sm hover:bg-[#6D0B31]/30"
                     icon={theme === 'dark' ? <Moon size={18} /> : <Sun size={18} />}
                   />
                 </div>
               </div>
               
-              <div className="flex justify-center border-t border-accent/10 pt-4">
+              <div className="flex justify-center border-t border-[#6D0B31]/15 pt-4">
                 <span className="text-[9px] uppercase tracking-[0.3em] text-foreground/30 font-bold">
                   © {new Date().getFullYear()} {t("nav.name")}
                 </span>

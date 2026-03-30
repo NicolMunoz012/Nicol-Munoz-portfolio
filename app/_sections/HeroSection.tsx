@@ -10,7 +10,7 @@ export function HeroSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="relative w-full min-h-[calc(100vh-4rem)] flex items-center justify-center py-8 sm:py-12">
+    <section className="relative w-full min-h-[75vh] flex items-center justify-center py-6 sm:py-10">
       <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:px-10">
         {/* Columna izquierda: Contenido de texto */}
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
@@ -56,7 +56,7 @@ export function HeroSection() {
 
             <motion.a
               href="#contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface/60 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-foreground shadow-sm backdrop-blur transition-all hover:border-accent/40 hover:bg-surface-2/60 active:scale-95"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#6D0B31]/15 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 active:scale-95"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -75,7 +75,7 @@ export function HeroSection() {
               href="https://github.com/NicolMunoz012"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface-2/60 text-foreground shadow-sm backdrop-blur transition-all hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-90"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/15 text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-90"
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.92 }}
               aria-label="GitHub"
@@ -86,7 +86,7 @@ export function HeroSection() {
               href="https://www.linkedin.com/in/nicol-mu%C3%B1oz-7b4b14307/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface-2/60 text-foreground shadow-sm backdrop-blur transition-all hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-90"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/15 text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-90"
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.92 }}
               aria-label="LinkedIn"

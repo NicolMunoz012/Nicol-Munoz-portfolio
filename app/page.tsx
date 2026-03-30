@@ -9,7 +9,7 @@ import { Footer } from "./_components/layout/Footer";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col gap-20 md:gap-24">
+    <div className="flex flex-1 flex-col gap-6 md:gap-8">
       <HeroSection />
       <AboutSection />
       <ProjectsSection />

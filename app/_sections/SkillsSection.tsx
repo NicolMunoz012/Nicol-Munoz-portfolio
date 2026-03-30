@@ -215,7 +215,7 @@ export function SkillsSection() {
 
         <Reveal direction="up" delay={0.2}>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px_1fr]">
-            <div className="rounded-3xl border border-border bg-surface/50 p-4 shadow-lg backdrop-blur">
+            <div className="rounded-3xl bg-surface/30 p-4 shadow-lg backdrop-blur-sm">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex flex-col gap-1">
                   <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
@@ -225,7 +225,7 @@ export function SkillsSection() {
                     {t("skills.pickTech")}
                   </span>
                 </div>
-                <div className="rounded-full border border-border bg-surface px-4 py-2 text-xs font-semibold text-foreground/60 shadow-sm">
+                <div className="rounded-full bg-[#6D0B31]/15 px-4 py-2 text-xs font-semibold text-foreground/60 shadow-sm">
                   {status === "loading"
                     ? t("skills.loading")
                     : status === "error"
@@ -244,23 +244,23 @@ export function SkillsSection() {
                       onClick={() => {
                         setSelected(name);
                       }}
-                      className={`relative flex items-center gap-3 rounded-2xl border px-4 py-3 text-left shadow-sm backdrop-blur transition-all ${
+                      className={`relative flex items-center gap-3 rounded-2xl px-4 py-3 text-left shadow-sm backdrop-blur-sm transition-all ${
                         isSelected
-                          ? "border-accent/45 bg-surface-2/60"
-                          : "border-border bg-surface/40 hover:border-accent/30 hover:bg-surface-2/50"
+                          ? "bg-surface-2/50"
+                          : "bg-surface/30 hover:bg-surface-2/40"
                       }`}
                     >
                       {isSelected ? (
                         <motion.div
                           layoutId="skill-toy"
-                          className="absolute -left-6 top-1/2 -translate-y-1/2 rounded-full border border-accent/25 bg-surface/70 px-3 py-1 text-xs font-bold text-accent shadow-sm backdrop-blur"
+                          className="absolute -left-6 top-1/2 -translate-y-1/2 rounded-full bg-[#6D0B31]/20 px-3 py-1 text-xs font-bold text-accent shadow-sm backdrop-blur-md"
                           transition={{ type: "spring", stiffness: 450, damping: 34 }}
                         >
                           {t("skills.toy")}
                         </motion.div>
                       ) : null}
 
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface/50">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#6D0B31]/15">
                         <Icon style={{ color }} size={20} />
                       </div>
                       <div className="flex flex-col">
@@ -273,7 +273,7 @@ export function SkillsSection() {
                           initial={{ opacity: 0, x: -8 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute -right-3 top-1/2 hidden -translate-y-1/2 rounded-2xl border border-border bg-surface px-4 py-3 text-left shadow-lg lg:block"
+                          className="absolute -right-3 top-1/2 hidden -translate-y-1/2 rounded-2xl bg-surface/80 px-4 py-3 text-left shadow-lg backdrop-blur-md lg:block"
                         >
                           <div className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
                             {t("skills.projectsFor")}
@@ -296,8 +296,8 @@ export function SkillsSection() {
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-3xl border border-border bg-surface shadow-lg">
-              <div className="flex items-center justify-between gap-4 border-b border-border/70 px-6 py-5">
+            <div className="overflow-hidden rounded-3xl bg-surface/30 shadow-lg backdrop-blur-sm">
+              <div className="flex items-center justify-between gap-4 border-b border-[#6D0B31]/15 px-6 py-5">
                 <div className="flex flex-col gap-1">
                   <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
                     {t("skills.projectsFor")}
@@ -310,7 +310,7 @@ export function SkillsSection() {
                   href="https://github.com/NicolMunoz012"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full border border-accent/35 bg-surface-2 px-4 py-2 text-xs font-semibold text-accent shadow-sm transition-all hover:border-accent/60 hover:bg-accent/10 active:scale-95"
+                  className="rounded-full bg-[#6D0B31]/20 px-4 py-2 text-xs font-semibold text-accent shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/30 active:scale-95"
                 >
                   {t("projects.visitGithub")}
                 </a>
@@ -318,7 +318,7 @@ export function SkillsSection() {
 
               <div className="p-6">
                 {projectsForSkill.length === 0 ? (
-                  <div className="rounded-2xl border border-border bg-surface-2 p-5 text-sm text-foreground/75">
+                  <div className="rounded-2xl bg-surface-2/30 p-5 text-sm text-foreground/75">
                     {t("skills.editorEmpty")}
                   </div>
                 ) : (
@@ -326,7 +326,7 @@ export function SkillsSection() {
                     {projectsForSkill.map((p, i) => (
                       <div
                         key={`${p.name}-${i}`}
-                        className="group rounded-2xl border border-border bg-surface-2 p-5 shadow-sm transition-colors hover:border-accent/35"
+                        className="group rounded-2xl bg-surface-2/30 p-5 shadow-sm backdrop-blur-sm transition-colors hover:bg-surface-2/40"
                       >
                         <div className="mb-2 flex items-center justify-between gap-3">
                           <span className="font-display text-base font-bold text-foreground">
@@ -337,7 +337,7 @@ export function SkillsSection() {
                               href={p.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-accent transition-colors hover:border-accent/60 hover:bg-accent/20"
+                              className="rounded-full bg-[#6D0B31]/20 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-accent transition-colors hover:bg-[#6D0B31]/30"
                             >
                               {t("projects.github")}
                             </a>
@@ -351,7 +351,7 @@ export function SkillsSection() {
                             {p.tags.map((tag) => (
                               <span
                                 key={tag}
-                                className="rounded-full border border-border bg-surface px-2.5 py-1 text-[11px] font-semibold text-foreground/70"
+                                className="rounded-full bg-[#6D0B31]/15 px-2.5 py-1 text-[11px] font-semibold text-foreground/70"
                               >
                                 {tag}
                               </span>

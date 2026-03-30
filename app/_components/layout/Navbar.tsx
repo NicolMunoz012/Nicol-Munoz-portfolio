@@ -52,7 +52,7 @@ export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
           {/* Botón de Tema */}
           <motion.button
             onClick={toggleTheme}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-surface-2/80 text-foreground backdrop-blur-md transition-all hover:bg-accent/10 hover:text-accent border border-accent/25"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/15 text-foreground backdrop-blur-md transition-all hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Toggle theme"
@@ -63,7 +63,7 @@ export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
           {/* Botón de Idioma */}
           <motion.button
             onClick={() => setLocale(locale === "es" ? "en" : "es")}
-            className="flex h-10 items-center justify-center rounded-full bg-surface-2/80 px-4 text-xs font-bold uppercase tracking-widest text-foreground backdrop-blur-md transition-all hover:bg-accent/10 hover:text-accent border border-accent/25"
+            className="flex h-10 items-center justify-center rounded-full bg-[#6D0B31]/15 px-4 text-xs font-bold uppercase tracking-widest text-foreground backdrop-blur-md transition-all hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Toggle language"
@@ -74,8 +74,8 @@ export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
           {/* Botón de Menú */}
           <button
             onClick={onMenuToggle}
-            className={`group flex items-center gap-3 rounded-full bg-surface-2/80 py-2 pl-4 pr-2 text-xs font-bold uppercase tracking-widest text-foreground backdrop-blur-md transition-all hover:bg-accent/10 hover:text-accent border ${
-              isMenuOpen ? "border-transparent" : "border-accent/25"
+            className={`group flex items-center gap-3 rounded-full bg-[#6D0B31]/15 py-2 pl-4 pr-2 text-xs font-bold uppercase tracking-widest text-foreground backdrop-blur-md transition-all hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95 ${
+              isMenuOpen ? "bg-[#6D0B31]/25" : ""
             }`}
           >
             <span>{t("nav.menu") || "Menu"}</span>

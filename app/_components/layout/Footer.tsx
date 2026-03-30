@@ -46,7 +46,7 @@ export function Footer() {
             href="https://github.com/NicolMunoz012"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-surface-2 text-foreground shadow-sm transition-colors hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-95"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/15 text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
             aria-label="GitHub"
           >
             <FaGithub size={18} />
@@ -55,14 +55,14 @@ export function Footer() {
             href="https://linkedin.com/in/nicol-munoz"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-surface-2 text-foreground shadow-sm transition-colors hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-95"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/15 text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
             aria-label="LinkedIn"
           >
             <FaLinkedin size={18} />
           </a>
           <a
             href="mailto:nicol@email.com"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-surface-2 text-foreground shadow-sm transition-colors hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-95"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/15 text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
             aria-label="Email"
           >
             <Mail size={18} />
@@ -70,7 +70,7 @@ export function Footer() {
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="rounded-full border border-border/70 bg-surface-2 px-4 py-2 text-xs font-semibold text-muted-foreground shadow-sm transition-colors hover:border-accent/40 hover:bg-accent/10 hover:text-accent active:scale-95"
+            className="rounded-full bg-[#6D0B31]/15 px-4 py-2 text-xs font-semibold text-muted-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
           >
             {t("footer.backToTop")}
           </button>

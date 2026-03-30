@@ -18,11 +18,11 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-10">
-      <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
         <Reveal direction="left">
-          <div className="rounded-3xl border border-border bg-surface p-6 shadow-2xl">
+          <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
             <div className="flex flex-col items-center gap-4 text-center mb-6">
               <div className="flex items-center gap-5 w-full max-w-4xl mx-auto">
                 <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#6D0B31]/35" />
@@ -36,12 +36,12 @@ export function ContactSection() {
             <div className="mt-8 grid grid-cols-1 gap-3">
               <motion.a
                 href={`mailto:${email}`}
-                className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-surface-2 px-5 py-4 shadow-sm transition-all hover:border-accent/35"
+                className="group flex items-center justify-between gap-4 rounded-2xl bg-surface-2/30 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="flex items-center gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-surface">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#6D0B31]/15">
                     <Mail size={18} className="text-accent" />
                   </div>
                   <div className="flex flex-col">
@@ -49,7 +49,7 @@ export function ContactSection() {
                     <span className="text-xs text-foreground/60">{email}</span>
                   </div>
                 </div>
-                <span className="rounded-full border border-border bg-surface px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60 group-hover:border-accent/30 group-hover:text-accent">
+                <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60 group-hover:bg-[#6D0B31]/25 group-hover:text-accent">
                   Mail
                 </span>
               </motion.a>
@@ -65,10 +65,10 @@ export function ContactSection() {
                     setCopied(false);
                   }
                 }}
-                className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-surface-2 px-5 py-4 shadow-sm transition-all hover:border-accent/35 active:scale-[0.99]"
+                className="flex items-center justify-between gap-4 rounded-2xl bg-surface-2/30 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40 active:scale-[0.99]"
               >
                 <div className="flex items-center gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-surface">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#6D0B31]/15">
                     {copied ? (
                       <Check size={18} className="text-accent" />
                     ) : (
@@ -82,7 +82,7 @@ export function ContactSection() {
                     <span className="text-xs text-foreground/60">{email}</span>
                   </div>
                 </div>
-                <span className="rounded-full border border-border bg-surface/60 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
+                <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
                   {copied ? "OK" : "Copy"}
                 </span>
               </motion.button>
@@ -92,11 +92,11 @@ export function ContactSection() {
                   href="https://github.com/NicolMunoz012"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 rounded-2xl border border-border bg-surface-2 px-5 py-4 shadow-sm transition-all hover:border-accent/35"
+                  className="group flex items-center gap-4 rounded-2xl bg-surface-2/30 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40"
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-surface">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#6D0B31]/15">
                     <FaGithub size={18} className="text-foreground" />
                   </div>
                   <div className="flex flex-col">
@@ -109,11 +109,11 @@ export function ContactSection() {
                   href="https://linkedin.com/in/nicol-munoz"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 rounded-2xl border border-border bg-surface-2 px-5 py-4 shadow-sm transition-all hover:border-accent/35"
+                  className="group flex items-center gap-4 rounded-2xl bg-surface-2/30 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40"
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-surface">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#6D0B31]/15">
                     <FaLinkedin size={18} className="text-[#0077b5]" />
                   </div>
                   <div className="flex flex-col">
@@ -126,11 +126,11 @@ export function ContactSection() {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 rounded-2xl border border-border bg-surface-2 px-5 py-4 shadow-sm transition-all hover:border-accent/35 sm:col-span-2"
+                  className="group flex items-center gap-4 rounded-2xl bg-surface-2/30 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40 sm:col-span-2"
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-surface">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#6D0B31]/15">
                     <FaInstagram size={18} className="text-accent" />
                   </div>
                   <div className="flex flex-col">
@@ -154,7 +154,7 @@ export function ContactSection() {
               </motion.a>
               <motion.a
                 href="#projects"
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-surface-2 px-8 py-4 text-sm font-semibold uppercase tracking-wider text-foreground shadow-sm transition-all hover:border-accent/35 hover:bg-accent/10 hover:text-accent active:scale-95"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#6D0B31]/15 px-8 py-4 text-sm font-semibold uppercase tracking-wider text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 active:scale-95"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -166,7 +166,7 @@ export function ContactSection() {
 
         <Reveal direction="right" delay={0.1}>
           <div className="flex flex-col gap-6">
-            <div className="rounded-3xl border border-border bg-surface p-6 shadow-2xl">
+            <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
               <div className="mb-5 flex items-start justify-between gap-4">
                 <div className="flex flex-col gap-1">
                   <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
@@ -176,7 +176,7 @@ export function ContactSection() {
                     {t("sections.contact.form.title")}
                   </span>
                 </div>
-                <div className="rounded-full border border-border bg-surface-2 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
+                <div className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
                   {submitState === "sent"
                     ? t("sections.contact.form.sent")
                     : submitState === "error"
@@ -208,7 +208,7 @@ export function ContactSection() {
                     <input
                       value={form.name}
                       onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                      className="h-11 rounded-2xl border border-border bg-surface-2 px-4 text-sm text-foreground outline-none transition-colors focus:border-accent/45"
+                      className="h-11 rounded-2xl bg-surface-2/40 px-4 text-sm text-foreground outline-none transition-colors focus:bg-surface-2/60 focus:ring-2 focus:ring-accent/30"
                       placeholder={t("sections.contact.form.namePlaceholder")}
                       required
                     />
@@ -221,7 +221,7 @@ export function ContactSection() {
                       type="email"
                       value={form.email}
                       onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                      className="h-11 rounded-2xl border border-border bg-surface-2 px-4 text-sm text-foreground outline-none transition-colors focus:border-accent/45"
+                      className="h-11 rounded-2xl bg-surface-2/40 px-4 text-sm text-foreground outline-none transition-colors focus:bg-surface-2/60 focus:ring-2 focus:ring-accent/30"
                       placeholder={t("sections.contact.form.emailPlaceholder")}
                       required
                     />
@@ -234,7 +234,7 @@ export function ContactSection() {
                   <textarea
                     value={form.message}
                     onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-                    className="min-h-[140px] resize-none rounded-2xl border border-border bg-surface-2 px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent/45"
+                    className="min-h-[140px] resize-none rounded-2xl bg-surface-2/40 px-4 py-3 text-sm text-foreground outline-none transition-colors focus:bg-surface-2/60 focus:ring-2 focus:ring-accent/30"
                     placeholder={t("sections.contact.form.messagePlaceholder")}
                     required
                   />
@@ -257,7 +257,7 @@ export function ContactSection() {
               </form>
             </div>
 
-            <div className="rounded-3xl border border-border bg-surface p-6 shadow-2xl">
+            <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex flex-col gap-1">
                   <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
@@ -267,7 +267,7 @@ export function ContactSection() {
                     {t("hero.eyebrow")}
                   </span>
                 </div>
-                <div className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-accent">
+                <div className="rounded-full bg-[#6D0B31]/20 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-accent">
                   16:3
                 </div>
               </div>
@@ -277,16 +277,16 @@ export function ContactSection() {
               <p className="mt-2 text-xs font-semibold text-accent">Proverbios 16:3</p>
             </div>
 
-            <div className="rounded-3xl border border-border bg-surface p-6 shadow-2xl">
+            <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
                   {t("hero.animationPlaceholderTitle")}
                 </span>
-                <span className="rounded-full border border-border bg-surface-2 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
+                <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
                   {t("hero.animationLabel")}
                 </span>
               </div>
-              <div className="flex h-48 items-center justify-center rounded-2xl border border-border bg-surface-2 text-sm text-foreground/60">
+              <div className="flex h-48 items-center justify-center rounded-2xl bg-surface-2/30 text-sm text-foreground/60">
                 🐑 Lottie
               </div>
               <p className="mt-4 text-sm text-foreground/70">

@@ -11,7 +11,7 @@
   --muted-foreground: 100 80 120;
   --surface: 245 240 233; /* misma superficie */
   --surface-2: 235 228 218;
-  --border: 220 205 190; /* tono cálido, sin líneas frías */
+  --border: 195 120 140; /* vino-rosa suave, acorde al bordeaux */
   --accent: 143 18 66; /* #8F1242 */
   --accent-foreground: 245 240 233;
   --primary-dark: 109 11 49; /* #6D0B31 */
@@ -42,7 +42,7 @@
   --muted-foreground: 226 214 236; /* bone-lavender */
   --surface: 38 25 60; /* superficie */
   --surface-2: 48 32 75;
-  --border: 68 45 105;
+  --border: 130 50 75; /* vino oscuro — visible y temático en dark mode */
   --accent: 229 154 196;
   --accent-foreground: 28 18 45;
   --ambient-1: 54 28 84;

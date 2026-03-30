@@ -48,7 +48,7 @@ export function ExperienceSection() {
 
         <Reveal direction="up" delay={0.15}>
           <div className="mx-auto w-full max-w-3xl">
-            <div className="rounded-3xl border border-border bg-surface/50 p-2 shadow-lg backdrop-blur">
+            <div className="rounded-3xl bg-surface/30 p-2 shadow-lg backdrop-blur-sm">
               <div className="grid grid-cols-2 gap-2">
                 {([
                   { key: "academic", label: t("sections.experience.academic") },
@@ -100,7 +100,7 @@ export function ExperienceSection() {
                     >
                       <motion.div
                         layoutId="exp-active"
-                        className="flex h-12 w-12 items-center justify-center rounded-full border border-accent/30 bg-gradient-to-r from-primary-dark to-accent shadow-lg"
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-primary-dark to-accent shadow-lg"
                         animate={{ scale: 1.18 }}
                         transition={{ type: "spring", stiffness: 380, damping: 26 }}
                       >
@@ -112,7 +112,7 @@ export function ExperienceSection() {
                       </motion.div>
                     </motion.div>
                   ) : (
-                    <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-border bg-surface px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm">
+                    <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface/80 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-md">
                       {t("sections.experience.selectHint")}
                     </div>
                   )}
@@ -129,7 +129,7 @@ export function ExperienceSection() {
                           aria-label={`${it.title} ${it.period}`}
                         >
                           <motion.div
-                            className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/20 bg-surface shadow-sm"
+                            className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/20 shadow-sm backdrop-blur-sm"
                             animate={{ scale: isActive ? 1.12 : 1 }}
                             transition={{ type: "spring", stiffness: 300, damping: 22 }}
                           >
@@ -160,11 +160,11 @@ export function ExperienceSection() {
                   transition={{ duration: 0.25 }}
                   className="mx-auto mt-4 max-w-4xl"
                 >
-                  <div className="relative overflow-hidden rounded-3xl border border-border bg-surface p-6 shadow-lg">
+                  <div className="relative overflow-hidden rounded-3xl bg-surface/30 p-6 shadow-lg backdrop-blur-sm">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.16),transparent_60%)]" />
                     <div className="relative mb-3 flex items-start justify-between gap-3">
                       <div className="flex items-start gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/25 bg-gradient-to-r from-primary-dark to-accent">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-primary-dark to-accent shadow-sm">
                           {track === "academic" ? (
                             <GraduationCap size={18} className="text-accent-foreground" />
                           ) : (
@@ -180,7 +180,7 @@ export function ExperienceSection() {
                           </span>
                         </div>
                       </div>
-                      <span className="shrink-0 rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-accent">
+                      <span className="shrink-0 rounded-full bg-[#6D0B31]/20 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-accent">
                         {items[selectedIndex]?.period}
                       </span>
                     </div>
@@ -200,14 +200,14 @@ export function ExperienceSection() {
                           )
                         }
                         disabled={selectedIndex === 0}
-                        className="rounded-full border border-border bg-surface-2/60 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur transition-colors hover:border-accent/40 hover:bg-accent/10 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
+                        className="rounded-full bg-surface-2/40 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/20 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         ←
                       </button>
                       <button
                         type="button"
                         onClick={() => setSelectedIndex(null)}
-                        className="rounded-full border border-border bg-surface-2/60 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur transition-colors hover:border-accent/40 hover:bg-accent/10 hover:text-accent"
+                        className="rounded-full bg-surface-2/40 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/20 hover:text-accent"
                       >
                         ✕
                       </button>
@@ -219,7 +219,7 @@ export function ExperienceSection() {
                           )
                         }
                         disabled={selectedIndex >= items.length - 1}
-                        className="rounded-full border border-border bg-surface-2/60 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur transition-colors hover:border-accent/40 hover:bg-accent/10 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
+                        className="rounded-full bg-surface-2/40 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/20 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         →
                       </button>

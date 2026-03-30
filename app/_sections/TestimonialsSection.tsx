@@ -141,12 +141,12 @@ export function TestimonialsSection() {
                   exit={{ opacity: 0, y: -18 }}
                   transition={{ duration: 0.35, delay: index * 0.06 }}
                   whileHover={{ y: -4 }}
-                  className="group relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-accent/15 bg-surface p-6 shadow-lg transition-colors hover:border-accent/35"
+                  className="group relative flex flex-col gap-5 overflow-hidden rounded-3xl bg-surface/30 p-6 shadow-lg backdrop-blur-sm transition-colors hover:bg-surface/40"
                 >
                   <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.16),transparent_60%)]" />
                   <div className="relative flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full border border-accent/20 bg-surface/60 text-xs font-bold tracking-widest text-accent-foreground shadow-sm backdrop-blur">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#6D0B31]/20 text-xs font-bold tracking-widest text-accent-foreground shadow-sm backdrop-blur-md">
                         {getInitials(testimonial.author)}
                       </div>
                       <div className="flex flex-col">
@@ -178,7 +178,7 @@ export function TestimonialsSection() {
                   </div>
 
                   <div className="relative mt-auto flex items-center justify-between gap-3">
-                    <span className="rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-accent-foreground/90">
+                    <span className="rounded-full bg-[#6D0B31]/20 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-accent-foreground/90">
                       {t("sections.testimonials.title")}
                     </span>
                     <span className="text-xs text-accent-foreground/55">★★★★★</span>
@@ -194,7 +194,7 @@ export function TestimonialsSection() {
                 <motion.button
                   onClick={handlePrev}
                   disabled={safeIndex === 0}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/20 bg-surface-2 text-accent-foreground transition-all hover:border-accent/50 hover:bg-accent/15 disabled:cursor-not-allowed disabled:opacity-30 active:scale-90"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-surface-2/40 text-accent-foreground backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 disabled:cursor-not-allowed disabled:opacity-30 active:scale-90"
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.92 }}
                   aria-label="Previous testimonials"
@@ -221,7 +221,7 @@ export function TestimonialsSection() {
                 <motion.button
                   onClick={handleNext}
                   disabled={safeIndex >= maxIndex}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/20 bg-surface-2 text-accent-foreground transition-all hover:border-accent/50 hover:bg-accent/15 disabled:cursor-not-allowed disabled:opacity-30 active:scale-90"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-surface-2/40 text-accent-foreground backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 disabled:cursor-not-allowed disabled:opacity-30 active:scale-90"
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.92 }}
                   aria-label="Next testimonials"
