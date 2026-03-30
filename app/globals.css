@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/* Comentario: Tailwind v4 - estrategia dark mode por clase (obligatoria). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Tokens semánticos del tema claro */
+  --background: 245 240 233; /* #F5F0E9 warm cream */
+  --foreground: 43 22 58;
+  --muted: 90 60 116;
+  --muted-foreground: 100 80 120;
+  --surface: 245 240 233; /* misma superficie */
+  --surface-2: 235 228 218;
+  --border: 220 205 190; /* tono cálido, sin líneas frías */
+  --accent: 143 18 66; /* #8F1242 */
+  --accent-foreground: 245 240 233;
+  --primary-dark: 109 11 49; /* #6D0B31 */
+}
+
+@theme inline {
+  /* Comentario: Colores de Tailwind expuestos como tokens semánticos. */
+  --color-background: rgb(var(--background) / <alpha-value>);
+  --color-foreground: rgb(var(--foreground) / <alpha-value>);
+  --color-muted: rgb(var(--muted) / <alpha-value>);
+  --color-muted-foreground: rgb(var(--muted-foreground) / <alpha-value>);
+  --color-surface: rgb(var(--surface) / <alpha-value>);
+  --color-surface-2: rgb(var(--surface-2) / <alpha-value>);
+  --color-border: rgb(var(--border) / <alpha-value>);
+  --color-accent: rgb(var(--accent) / <alpha-value>);
+  --color-accent-foreground: rgb(var(--accent-foreground) / <alpha-value>);
+  --color-primary-dark: rgb(var(--primary-dark) / <alpha-value>);
+  --font-sans: var(--font-body-sans);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+}
+
+.dark {
+  /* Comentario: Tokens semánticos del tema oscuro (fondo morado profundo, texto bone). */
+  --background: 28 18 45; /* plum/eggplant suavizado */
+  --foreground: 249 246 238; /* #f9f6ee */
+  --muted: 201 184 218; /* lavanda clara */
+  --muted-foreground: 226 214 236; /* bone-lavender */
+  --surface: 38 25 60; /* superficie */
+  --surface-2: 48 32 75;
+  --border: 68 45 105;
+  --accent: 229 154 196;
+  --accent-foreground: 28 18 45;
+  --ambient-1: 54 28 84;
+  --ambient-2: 24 14 40;
+}
+
+body {
+  background-color: rgb(var(--background) / 1);
+  color: rgb(var(--foreground) / 1);
+  font-family: var(--font-body-sans), system-ui, -apple-system, BlinkMacSystemFont,
+    "SF Pro Text", "Segoe UI", sans-serif;
+  transition:
+    background-color 220ms ease-out,
+    color 220ms ease-out;
+}
+
+@media (min-width: 768px) {
+  * {
+    cursor: none !important;
+  }
+}
+
+
+/* Oculta scrollbar visualmente pero mantiene scroll funcional */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Estado active para elementos interactivos */
+.btn-ghost {
+  @apply active:scale-95 active:bg-accent/20 active:border-accent/80 active:text-accent transition-all;
+}
+.btn-icon {
+  @apply active:scale-90 active:text-accent/70 transition-all;
+}
+.nav-link {
+  @apply active:text-accent/60 active:scale-95 transition-all;
+}
