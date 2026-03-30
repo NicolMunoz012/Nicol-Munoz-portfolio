@@ -51,18 +51,18 @@ export function AboutSection() {
   };
 
   return (
-    <section id="about" className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10 py-16">
+    <section id="about" className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10 pt-6 pb-16">
       <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
 
       <Reveal direction="up">
         <div className="mb-12 flex flex-col items-center gap-4 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-surface/50 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/70 backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            <span>{t("sections.about.title")}</span>
+          <div className="flex items-center gap-5 w-full max-w-4xl mx-auto">
+            <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#6D0B31]/35" />
+            <h2 className="shrink-0 font-display text-[40px] font-bold tracking-tight text-[#6D0B31]">
+              {t("sections.about.title")}
+            </h2>
+            <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#6D0B31]/35" />
           </div>
-          <p className="mx-auto max-w-2xl text-base text-foreground/70">
-            {t("sections.about.subtitle")}
-          </p>
         </div>
       </Reveal>
 

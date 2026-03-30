@@ -23,7 +23,7 @@ export function HeroSection() {
             <span className="block text-[clamp(1.3rem,3vw,2rem)] text-accent">
               {t("hero.greeting")}
             </span>
-            <span className="block text-[clamp(2.6rem,6vw,4.6rem)] text-foreground">
+            <span className="block text-[clamp(2.6rem,6vw,4.6rem)]" style={{ color: "#6D0B31" }}>
               {t("hero.name")}
             </span>
           </motion.h1>
@@ -96,23 +96,30 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Columna derecha: Imagen simple */}
+        {/* Columna derecha: Imagen limpia con sombra */}
         <motion.div
-          className="mx-auto w-full max-w-[220px] lg:max-w-[260px]"
+          className="mx-auto flex items-center justify-center"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem]">
-            <Image
-              src="/profile.jpg"
-              alt="Nicol Muñoz"
-              fill
-              sizes="(min-width: 1024px) 260px, 220px"
-              priority
-              className="object-cover object-center"
-            />
-          </div>
+          <Image
+            src="/photo.jpg"
+            alt="Nicol Muñoz"
+            width={340}
+            height={420}
+            priority
+            style={{
+              width: "clamp(260px, 28vw, 340px)",
+              height: "auto",
+              objectFit: "cover",
+              objectPosition: "center top",
+              display: "block",
+              borderRadius: "1.5rem",
+              boxShadow:
+                "0 4px 24px rgba(109,11,49,0.10), 0 12px 48px rgba(109,11,49,0.08), 0 1px 4px rgba(0,0,0,0.06)",
+            }}
+          />
         </motion.div>
       </div>
     </section>

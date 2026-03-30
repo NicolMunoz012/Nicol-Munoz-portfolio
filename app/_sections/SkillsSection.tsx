@@ -200,9 +200,13 @@ export function SkillsSection() {
       <div className="relative flex flex-col gap-10">
         <Reveal direction="up">
           <div className="flex flex-col items-center gap-3 text-center">
-            <h2 className="font-display text-[clamp(2rem,4vw,3.5rem)] font-bold tracking-tight text-foreground">
-              {t("sections.skills.title")}
-            </h2>
+            <div className="flex items-center gap-5 w-full max-w-4xl mx-auto">
+              <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#6D0B31]/35" />
+              <h2 className="shrink-0 font-display text-[40px] font-bold tracking-tight text-[#6D0B31]">
+                {t("sections.skills.title")}
+              </h2>
+              <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#6D0B31]/35" />
+            </div>
             <p className="max-w-2xl text-base text-foreground/70">
               {t("sections.skills.subtitle")}
             </p>
