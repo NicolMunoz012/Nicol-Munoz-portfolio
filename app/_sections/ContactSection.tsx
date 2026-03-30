@@ -23,13 +23,16 @@ export function ContactSection() {
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
         <Reveal direction="left">
           <div className="rounded-3xl border border-border bg-surface p-6 shadow-2xl">
-            <div className="flex flex-col gap-3">
-              <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-bold tracking-tight text-foreground">
-                {t("sections.contact.title")}
-              </h2>
-              <p className="max-w-xl text-base text-foreground/70">
-                {t("sections.contact.subtitle")}
-              </p>
+            <div className="flex flex-col items-center gap-4 text-center mb-6">
+              {/* Líneas decorativas */}
+              <div className="relative w-full max-w-4xl">
+                <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-[#6D0B31]/30 to-transparent" />
+                
+                {/* Título */}
+                <h2 className="relative z-10 mx-auto inline-block bg-surface px-8 font-display text-[40px] font-bold tracking-tight text-[#6D0B31]">
+                  {t("sections.contact.title")}
+                </h2>
+              </div>
             </div>
 
             <div className="mt-8 grid grid-cols-1 gap-3">
@@ -226,7 +229,6 @@ export function ContactSection() {
                     />
                   </label>
                 </div>
-
                 <label className="flex flex-col gap-2">
                   <span className="text-xs font-semibold text-foreground/70">
                     {t("sections.contact.form.message")}

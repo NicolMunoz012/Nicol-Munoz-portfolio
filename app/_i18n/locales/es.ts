@@ -11,7 +11,7 @@ export const esTranslations = {
   },
   hero: {
     eyebrow: "Portafolio",
-    greeting: "¡Hola! soy",
+    greeting: "¡Hola! Soy",
     name: "Nicol Muñoz",
     subtitle:
       "Estudiante de Ingeniería de Software con curiosidad constante por aprender y crear. Disfruto explorar diferentes áreas del desarrollo y construir soluciones tecnológicas que puedan generar un impacto positivo en las personas y en la sociedad.",

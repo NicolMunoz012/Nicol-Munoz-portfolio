@@ -67,7 +67,7 @@ export function AppShell({ children }: AppShellProps) {
     return () => observer.disconnect();
   }, []);
 
-  // Comentario: Estructura general de la aplicación con la barra de navegación y el contenido principal.
+  // Estructura general de la aplicación con la barra de navegación y el contenido principal.
   // El contenido principal se desliza hacia la derecha cuando el menú está abierto.
   return (
     <div className="relative min-h-screen overflow-hidden text-foreground transition-colors duration-300">

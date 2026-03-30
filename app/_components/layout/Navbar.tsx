@@ -3,8 +3,9 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../../_context/LanguageContext";
+import { useTheme } from "../../_context/ThemeContext";
 import { useScrollDirection } from "../../_hooks/useScrollDirection";
-import { Menu } from "lucide-react";
+import { Menu, Sun, Moon } from "lucide-react";
 
 interface NavbarProps {
   onMenuToggle: () => void;
@@ -12,7 +13,8 @@ interface NavbarProps {
 }
 
 export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
-  const { t } = useLanguage();
+  const { t, locale, setLocale } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const scrollDirection = useScrollDirection({ threshold: 10 });
 
   const isHidden = scrollDirection === "down" && !isMenuOpen;
@@ -36,13 +38,40 @@ export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
       <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:h-18 sm:px-6 lg:h-20 lg:px-10">
         {/* Logo izquierdo */}
         <div className="flex items-center">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground shadow-lg">
-            NM
+          <div className="relative h-14 w-14 overflow-hidden rounded-full">
+            <img
+              src="/logo.jpg"
+              alt="Nicol Muñoz"
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
 
-        {/* Menu Toggle */}
-        <div className="flex items-center gap-4">
+        {/* Menu Toggle + Theme + Language */}
+        <div className="flex items-center gap-3">
+          {/* Botón de Tema */}
+          <motion.button
+            onClick={toggleTheme}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-surface-2/80 text-foreground backdrop-blur-md transition-all hover:bg-accent/10 hover:text-accent border border-accent/25"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </motion.button>
+
+          {/* Botón de Idioma */}
+          <motion.button
+            onClick={() => setLocale(locale === "es" ? "en" : "es")}
+            className="flex h-10 items-center justify-center rounded-full bg-surface-2/80 px-4 text-xs font-bold uppercase tracking-widest text-foreground backdrop-blur-md transition-all hover:bg-accent/10 hover:text-accent border border-accent/25"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Toggle language"
+          >
+            {locale === "es" ? "ES" : "EN"}
+          </motion.button>
+
+          {/* Botón de Menú */}
           <button
             onClick={onMenuToggle}
             className={`group flex items-center gap-3 rounded-full bg-surface-2/80 py-2 pl-4 pr-2 text-xs font-bold uppercase tracking-widest text-foreground backdrop-blur-md transition-all hover:bg-accent/10 hover:text-accent border ${

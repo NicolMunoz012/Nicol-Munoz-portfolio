@@ -85,16 +85,18 @@ export function ProjectsSection() {
 
       {/* Encabezado */}
       <Reveal direction="up">
-        <div className="flex flex-col gap-3 text-center">
-          <h2 className="font-display text-[clamp(2rem,4vw,3.5rem)] font-bold tracking-tight text-foreground">
-            {t("sections.projects.title")}
-          </h2>
-          <p className="mx-auto max-w-2xl text-base text-foreground/70">
-            {t("sections.projects.subtitle")}
-          </p>
+        <div className="flex flex-col items-center gap-4 text-center">
+          {/* Líneas decorativas */}
+          <div className="relative w-full max-w-4xl">
+            <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-[#6D0B31]/30 to-transparent" />
+            
+            {/* Título */}
+            <h2 className="relative z-10 mx-auto inline-block bg-background px-8 font-display text-[40px] font-bold tracking-tight text-[#6D0B31]">
+              {t("sections.projects.title")}
+            </h2>
+          </div>
         </div>
       </Reveal>
-
       <Reveal direction="up" delay={0.15}>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.6fr_1fr]">
           <div className="overflow-hidden rounded-3xl border border-border bg-surface/50 shadow-lg backdrop-blur">

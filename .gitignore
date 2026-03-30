@@ -1,16 +1,49 @@
+# Dependencies
+
 node_modules/
+
+# Next.js build outputs
+
 .next/
 out/
 dist/
 .turbo/
 
+# Environment variables
+
 .env
+.env.local
 .env.*.local
+
+# Logs
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# OS files
+
 .DS_Store
 Thumbs.db
+
+# Editor / IDE (VS Code, etc.)
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# TypeScript
+
+*.tsbuildinfo
+
+# Testing
+
+coverage/
+
+# Misc
+
+.cache/
+.eslintcache
+
