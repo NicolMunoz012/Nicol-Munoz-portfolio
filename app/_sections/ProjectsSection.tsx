@@ -98,8 +98,8 @@ export function ProjectsSection() {
       </Reveal>
       <Reveal direction="up" delay={0.15}>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.6fr_1fr]">
-          <div className="overflow-hidden rounded-3xl bg-surface/30 shadow-lg backdrop-blur-sm">
-            <div className="flex items-center justify-between gap-4 border-b border-[#6D0B31]/15 px-6 py-5">
+          <div className="overflow-hidden rounded-3xl border-2 border-[#6D0B31]/40 bg-surface/50 shadow-lg backdrop-blur-sm">
+            <div className="flex items-center justify-between gap-4 border-b-2 border-[#6D0B31]/35 px-6 py-5">
               <div className="flex flex-col gap-1">
                 <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
                   {t("projects.githubFeatured")}
@@ -108,14 +108,6 @@ export function ProjectsSection() {
                   {t("projects.mainProjects")}
                 </span>
               </div>
-              <a
-                href="https://github.com/NicolMunoz012"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-[#6D0B31]/20 px-4 py-2 text-xs font-semibold text-accent shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/30 active:scale-95"
-              >
-                {t("projects.visitGithub")}
-              </a>
             </div>
 
             <div className="p-6">
@@ -124,12 +116,12 @@ export function ProjectsSection() {
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div
                       key={i}
-                      className="h-[140px] rounded-2xl bg-surface-2/30"
+                      className="h-[140px] rounded-2xl border-2 border-[#6D0B31]/35 bg-surface-2/50"
                     />
                   ))}
                 </div>
               ) : status === "error" ? (
-                <div className="rounded-2xl bg-surface/30 p-6 text-sm text-foreground/75">
+                <div className="rounded-2xl border-2 border-[#6D0B31]/35 bg-surface/50 p-6 text-sm text-foreground/75">
                   {t("projects.githubError")}
                 </div>
               ) : (
@@ -140,7 +132,7 @@ export function ProjectsSection() {
                       href={repo.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group relative overflow-hidden rounded-2xl bg-surface/30 p-5 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40"
+                      className="group relative overflow-hidden rounded-2xl border-2 border-[#6D0B31]/40 bg-surface/50 p-5 shadow-md backdrop-blur-sm transition-all hover:border-[#8F1242]/60 hover:bg-surface-2/60 hover:shadow-lg"
                       whileHover={{ y: -3 }}
                       transition={{ duration: 0.2 }}
                     >
@@ -178,8 +170,8 @@ export function ProjectsSection() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-3xl bg-surface/30 shadow-lg backdrop-blur-sm">
-            <div className="border-b border-[#6D0B31]/15 px-6 py-5">
+          <div className="overflow-hidden rounded-3xl border-2 border-[#6D0B31]/40 bg-surface/50 shadow-lg backdrop-blur-sm">
+            <div className="border-b-2 border-[#6D0B31]/35 px-6 py-5">
               <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
                 {t("projects.githubActivity")}
               </span>
@@ -194,16 +186,16 @@ export function ProjectsSection() {
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div
                       key={i}
-                      className="h-[56px] rounded-2xl bg-surface-2/30"
+                      className="h-[56px] rounded-2xl border-2 border-[#6D0B31]/35 bg-surface-2/50"
                     />
                   ))}
                 </div>
               ) : status === "error" ? (
-                <div className="rounded-2xl bg-surface/30 p-6 text-sm text-foreground/75">
+                <div className="rounded-2xl border-2 border-[#6D0B31]/35 bg-surface/50 p-6 text-sm text-foreground/75">
                   {t("projects.githubError")}
                 </div>
               ) : recentCommits.length === 0 ? (
-                <div className="rounded-2xl bg-surface/30 p-6 text-sm text-foreground/75">
+                <div className="rounded-2xl border-2 border-[#6D0B31]/35 bg-surface/50 p-6 text-sm text-foreground/75">
                   {t("projects.noCommits")}
                 </div>
               ) : (
@@ -214,7 +206,7 @@ export function ProjectsSection() {
                       href={c.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex flex-col gap-1 rounded-2xl bg-surface/30 px-4 py-3 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40"
+                      className="group flex flex-col gap-1 rounded-2xl border-2 border-[#6D0B31]/40 bg-surface/50 px-4 py-3 shadow-md backdrop-blur-sm transition-all hover:border-[#8F1242]/60 hover:bg-surface-2/60"
                     >
                       <div className="flex items-center justify-between gap-3">
                         <span className="truncate text-xs font-bold uppercase tracking-widest text-foreground/60">
@@ -233,22 +225,6 @@ export function ProjectsSection() {
               )}
             </div>
           </div>
-        </div>
-      </Reveal>
-
-      {/* Botón GitHub */}
-      <Reveal direction="up" delay={0.3}>
-        <div>
-          <motion.a
-            href="https://github.com/NicolMunoz012"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/20 px-6 py-2.5 text-sm font-semibold text-accent shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/30 active:scale-95"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {t("projects.visitGithub")}
-          </motion.a>
         </div>
       </Reveal>
     </section>

@@ -180,14 +180,16 @@ export function AboutSection() {
                     key={key}
                     type="button"
                     onClick={() => setActiveBio(key)}
-                    className={`relative rounded-2xl px-3 py-3 text-center text-[11px] font-bold uppercase tracking-widest transition-colors ${
-                      activeBio === key ? "text-accent-foreground" : "text-foreground/70 hover:text-foreground"
+                    className={`relative rounded-2xl px-3 py-3 text-center text-[11px] font-bold uppercase tracking-widest transition-all ${
+                      activeBio === key 
+                        ? "text-white" 
+                        : "text-foreground/70 hover:text-foreground"
                     }`}
                   >
                     {activeBio === key ? (
                       <motion.span
                         layoutId="about-tab"
-                        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-dark to-accent"
+                        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#8F1242] to-[#6D0B31]"
                         transition={{ type: "spring", stiffness: 350, damping: 30 }}
                       />
                     ) : null}
