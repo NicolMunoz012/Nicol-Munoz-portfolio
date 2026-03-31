@@ -66,6 +66,12 @@ body {
 }
 
 
+/* ── Accordion skeleton pulse ─────────────────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
 /* Oculta scrollbar visualmente pero mantiene scroll funcional */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
