@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../_context/LanguageContext";
 import { Reveal } from "../_components/ui/Reveal";
+import { GitHubCalendar } from 'react-github-calendar';
 
 type GithubRepo = {
   id: number;
@@ -89,7 +90,7 @@ export function ProjectsSection() {
           {/* Líneas decorativas */}
             <div className="flex items-center gap-5 w-full max-w-4xl mx-auto">
               <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#6D0B31]/35" />
-              <h2 className="shrink-0 font-display text-[40px] font-bold tracking-tight text-[#6D0B31]">
+              <h2 className="shrink-0 font-display text-[40px] font-bold tracking-tight text-[#6D0B31] dark:text-[#b31955]">
                 {t("sections.projects.title")}
               </h2>
               <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#6D0B31]/35" />
@@ -177,6 +178,23 @@ export function ProjectsSection() {
               </span>
               <div className="mt-1 font-display text-xl font-bold text-foreground">
                 {t("projects.recentCommits")}
+              </div>
+            </div>
+
+            {/* Calendario de GitHub */}
+            <div className="border-b-2 border-[#6D0B31]/35 px-6 py-5">
+              <div className="flex items-center justify-center overflow-x-auto">
+                <GitHubCalendar
+                  username="NicolMunoz012"
+                  blockSize={12}
+                  blockMargin={4}
+                  fontSize={14}
+                  colorScheme="dark"
+                  theme={{
+                    light: ['#ebedf0', '#ffc9e0', '#ff85c0', '#d6006b', '#8f1242'],
+                    dark: ['#161b22', '#3d1f2e', '#6d0b31', '#a01550', '#e59ac4'],
+                  }}
+                />
               </div>
             </div>
 

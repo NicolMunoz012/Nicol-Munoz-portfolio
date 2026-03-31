@@ -3,11 +3,13 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useLanguage } from "../_context/LanguageContext";
+import { useTheme } from "../_context/ThemeContext";
 import { ArrowDownRight, Download, ExternalLink } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export function HeroSection() {
   const { t } = useLanguage();
+  const { theme } = useTheme();
 
   return (
     <section className="relative w-full min-h-[75vh] flex items-center justify-center py-6 sm:py-10">
@@ -23,7 +25,7 @@ export function HeroSection() {
             <span className="block text-[clamp(1.3rem,3vw,2rem)] text-accent">
               {t("hero.greeting")}
             </span>
-            <span className="block text-[clamp(2.6rem,6vw,4.6rem)]" style={{ color: "#6D0B31" }}>
+            <span className="block text-[clamp(2.6rem,6vw,4.6rem)]" style={{ color: theme === "dark" ? "#b31955" : "#6D0B31" }}>
               {t("hero.name")}
             </span>
           </motion.h1>
