@@ -163,7 +163,7 @@ export function ContactSection() {
         <Reveal direction="right" delay={0.1}>
           <div className="flex flex-col gap-6">
             <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start justify-between gap-4 mb-4">
                 <div className="flex flex-col gap-1">
                   <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
                     Note
@@ -176,10 +176,19 @@ export function ContactSection() {
                   16:3
                 </div>
               </div>
-              <p className="mt-4 text-sm leading-relaxed text-foreground/80">
+              
+              <div className="flex justify-center mb-6">
+                <img 
+                  src="/sheep.png" 
+                  alt="Sheep" 
+                  className="w-32 h-32 object-contain"
+                />
+              </div>
+              
+              <p className="text-center text-sm leading-relaxed text-foreground/80">
                 &quot;Pon en manos del Señor todas tus obras, y tus proyectos se cumplirán.&quot;
               </p>
-              <p className="mt-2 text-xs font-semibold text-accent">Proverbios 16:3</p>
+              <p className="mt-2 text-center text-xs font-semibold text-accent">Proverbios 16:3</p>
             </div>
           </div>
         </Reveal>
