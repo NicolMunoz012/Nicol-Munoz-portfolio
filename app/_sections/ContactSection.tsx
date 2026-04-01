@@ -10,14 +10,10 @@ import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 export function ContactSection() {
   const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
-  const [submitState, setSubmitState] = useState<"idle" | "sending" | "sent" | "error">(
-    "idle",
-  );
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
   const email = "nicol@email.com";
 
   return (
-    <section id="contact" className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-10">
+    <section id="contact" className="relative mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-10">
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
@@ -25,7 +21,7 @@ export function ContactSection() {
           <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
             <div className="flex flex-col items-center gap-4 text-center mb-6">
               <div className="flex items-center gap-5 w-full max-w-4xl mx-auto">
-                <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#6D0B31]/35" />
+                <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#6D0B31]/15" />
                 <h2 className="shrink-0 font-display text-[40px] font-bold tracking-tight text-[#6D0B31] dark:text-[#b31955]">
                   {t("sections.contact.title")}
                 </h2>
@@ -167,97 +163,6 @@ export function ContactSection() {
         <Reveal direction="right" delay={0.1}>
           <div className="flex flex-col gap-6">
             <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
-              <div className="mb-5 flex items-start justify-between gap-4">
-                <div className="flex flex-col gap-1">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
-                    {t("sections.contact.form.label")}
-                  </span>
-                  <span className="font-display text-xl font-bold text-foreground">
-                    {t("sections.contact.form.title")}
-                  </span>
-                </div>
-                <div className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
-                  {submitState === "sent"
-                    ? t("sections.contact.form.sent")
-                    : submitState === "error"
-                      ? t("sections.contact.form.error")
-                      : t("sections.contact.form.ready")}
-                </div>
-              </div>
-
-              <form
-                className="grid grid-cols-1 gap-4"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSubmitState("sending");
-
-                  const subject = `${t("sections.contact.form.subject")} — ${form.name || "Portfolio"}`;
-                  const body = `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`;
-                  const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-                  setSubmitState("sent");
-                  window.location.href = url;
-                  window.setTimeout(() => setSubmitState("idle"), 1600);
-                }}
-              >
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <label className="flex flex-col gap-2">
-                    <span className="text-xs font-semibold text-foreground/70">
-                      {t("sections.contact.form.name")}
-                    </span>
-                    <input
-                      value={form.name}
-                      onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                      className="h-11 rounded-2xl bg-surface-2/40 px-4 text-sm text-foreground outline-none transition-colors focus:bg-surface-2/60 focus:ring-2 focus:ring-accent/30"
-                      placeholder={t("sections.contact.form.namePlaceholder")}
-                      required
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2">
-                    <span className="text-xs font-semibold text-foreground/70">
-                      {t("sections.contact.form.email")}
-                    </span>
-                    <input
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                      className="h-11 rounded-2xl bg-surface-2/40 px-4 text-sm text-foreground outline-none transition-colors focus:bg-surface-2/60 focus:ring-2 focus:ring-accent/30"
-                      placeholder={t("sections.contact.form.emailPlaceholder")}
-                      required
-                    />
-                  </label>
-                </div>
-                <label className="flex flex-col gap-2">
-                  <span className="text-xs font-semibold text-foreground/70">
-                    {t("sections.contact.form.message")}
-                  </span>
-                  <textarea
-                    value={form.message}
-                    onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-                    className="min-h-[140px] resize-none rounded-2xl bg-surface-2/40 px-4 py-3 text-sm text-foreground outline-none transition-colors focus:bg-surface-2/60 focus:ring-2 focus:ring-accent/30"
-                    placeholder={t("sections.contact.form.messagePlaceholder")}
-                    required
-                  />
-                </label>
-
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <span className="text-xs text-foreground/60">
-                    {t("sections.contact.form.note")}
-                  </span>
-                  <motion.button
-                    type="submit"
-                    disabled={submitState === "sending"}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary-dark to-accent px-8 py-3 text-xs font-bold uppercase tracking-widest text-accent-foreground shadow-lg ring-1 ring-accent/25 transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60 active:scale-95"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {t("sections.contact.form.send")}
-                  </motion.button>
-                </div>
-              </form>
-            </div>
-
-            <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex flex-col gap-1">
                   <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
@@ -275,23 +180,6 @@ export function ContactSection() {
                 &quot;Pon en manos del Señor todas tus obras, y tus proyectos se cumplirán.&quot;
               </p>
               <p className="mt-2 text-xs font-semibold text-accent">Proverbios 16:3</p>
-            </div>
-
-            <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
-                  {t("hero.animationPlaceholderTitle")}
-                </span>
-                <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
-                  {t("hero.animationLabel")}
-                </span>
-              </div>
-              <div className="flex h-48 items-center justify-center rounded-2xl bg-surface-2/30 text-sm text-foreground/60">
-                🐑 Lottie
-              </div>
-              <p className="mt-4 text-sm text-foreground/70">
-                {t("hero.animationPlaceholderBody")}
-              </p>
             </div>
           </div>
         </Reveal>
