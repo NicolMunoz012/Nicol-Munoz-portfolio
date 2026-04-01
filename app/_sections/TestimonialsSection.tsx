@@ -56,7 +56,6 @@ function TestimonialCard({ item }: { item: Testimonial }) {
           '0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)';
       }}
     >
-      {/* Opening quote */}
       <span
         aria-hidden
         style={{
@@ -72,7 +71,6 @@ function TestimonialCard({ item }: { item: Testimonial }) {
         &ldquo;
       </span>
 
-      {/* Quote text */}
       <p
         style={{
           margin: 0,
@@ -85,7 +83,6 @@ function TestimonialCard({ item }: { item: Testimonial }) {
         {item.quote}
       </p>
 
-      {/* Divider */}
       <div
         style={{
           height: '1px',
@@ -94,16 +91,13 @@ function TestimonialCard({ item }: { item: Testimonial }) {
         }}
       />
 
-      {/* Author row */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        {/* Avatar */}
         <div
           style={{
             width: '36px',
             height: '36px',
             borderRadius: '50%',
-            background:
-              'linear-gradient(135deg, #8F1242 0%, #6D0B31 100%)',
+            background: 'linear-gradient(135deg, #8F1242 0%, #6D0B31 100%)',
             border: '1.5px solid rgba(244,192,209,0.28)',
             display: 'flex',
             alignItems: 'center',
@@ -138,8 +132,6 @@ function TestimonialCard({ item }: { item: Testimonial }) {
             {item.role}
           </span>
         </div>
-
-        {/* Stars */}
         <span
           aria-hidden
           style={{
@@ -157,6 +149,10 @@ function TestimonialCard({ item }: { item: Testimonial }) {
   );
 }
 
+/* ── Constants ── */
+const COPIES = 4;   // enough copies to fill any viewport without gaps
+const SPEED = 0.55; // px per frame (auto-scroll speed)
+
 /* ── Main section ── */
 export function TestimonialsSection() {
   const { locale, t } = useLanguage();
@@ -165,122 +161,98 @@ export function TestimonialsSection() {
     'testimonials.items',
   ) as Testimonial[];
 
-  const trackRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null); // the overflow:hidden container
+  const trackRef  = useRef<HTMLDivElement>(null);  // the moving flex row
+  const rafRef    = useRef<number | null>(null);
+  const offsetRef = useRef(0);                     // current translateX offset (px)
   const [isGrabbing, setIsGrabbing] = useState(false);
-  const dragRef = useRef({
-    active: false,
-    lastX: 0,
-    offset: 0, // accumulated drag offset in px
-  });
 
-  // Duration — longer list = slower (more natural)
-  const DURATION = Math.max(testimonials.length * 5, 20);
+  // Drag state — kept in a ref so RAF closure always sees the latest value
+  const drag = useRef({ active: false, lastX: 0 });
 
-  // One "set" width = 25% of total track (we have 4 copies)
-  function getOneSetWidth() {
-    return (trackRef.current?.scrollWidth ?? 0) / 4;
-  }
+  /* ──────────────────────────────────────────────────────────────
+     RAF loop — runs forever; when dragging, the loop still runs
+     but drag's onMove updates offsetRef directly, so it stays in
+     sync and resumes seamlessly when drag ends.
+  ────────────────────────────────────────────────────────────── */
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || testimonials.length === 0) return;
 
-  // Read the current translateX the CSS animation is rendering
-  function getComputedOffsetPx(): number {
-    const el = trackRef.current;
-    if (!el) return 0;
-    const m = window.getComputedStyle(el).transform.match(/matrix\(([^)]+)\)/);
-    if (!m) return 0;
-    return -parseFloat(m[1].split(',')[4]); // tx value is negative → return positive
-  }
-
-  // Resume animation from a given pixel offset (seamless, no snap)
-  function resumeFromOffset(offsetPx: number) {
-    const el = trackRef.current;
-    if (!el) return;
-    const W = getOneSetWidth();
-    const fraction = W > 0 ? ((offsetPx % W) + W) % W / W : 0;
-    el.style.transform = '';
-    el.style.animationDelay = `-${fraction * DURATION}s`;
-    el.style.animationPlayState = 'running';
-    dragRef.current.offset = 0;
-  }
-
-  /* ── Mouse drag (desktop) ── */
-  function onMouseDown(e: React.MouseEvent) {
-    const currentOffset = getComputedOffsetPx();
-    dragRef.current.active = true;
-    dragRef.current.lastX = e.clientX;
-    dragRef.current.offset = currentOffset;
-    setIsGrabbing(true);
-    if (trackRef.current) {
-      trackRef.current.style.animationPlayState = 'paused';
-      trackRef.current.style.transform = `translateX(-${currentOffset}px)`;
+    function tick() {
+      // Auto-advance only when not dragging
+      if (!drag.current.active) {
+        const W = track!.scrollWidth / COPIES;
+        if (W > 0) {
+          offsetRef.current = (offsetRef.current + SPEED) % W;
+        }
+      }
+      track!.style.transform = `translateX(-${offsetRef.current}px)`;
+      rafRef.current = requestAnimationFrame(tick);
     }
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [testimonials.length]);
+
+  /* ──────────────────────────────────────────────────────────────
+     Non-passive touchmove — MUST be registered imperatively so
+     e.preventDefault() can block the browser's page scroll while
+     the user swipes horizontally. React synthetic events are
+     passive by default and cannot call preventDefault().
+  ────────────────────────────────────────────────────────────── */
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    const track   = trackRef.current;
+    if (!wrapper || !track) return;
+
+    function handleTouchMove(e: TouchEvent) {
+      if (!drag.current.active) return;
+      e.preventDefault(); // stop page from scrolling vertically
+      const dx = drag.current.lastX - e.touches[0].clientX;
+      drag.current.lastX = e.touches[0].clientX;
+      const W = track!.scrollWidth / COPIES;
+      if (W > 0) {
+        offsetRef.current = ((offsetRef.current + dx) % W + W) % W;
+      }
+    }
+
+    wrapper.addEventListener('touchmove', handleTouchMove, { passive: false });
+    return () => wrapper.removeEventListener('touchmove', handleTouchMove);
+  }, []);
+
+  /* ── Mouse drag ── */
+  function onMouseDown(e: React.MouseEvent) {
+    drag.current.active = true;
+    drag.current.lastX  = e.clientX;
+    setIsGrabbing(true);
   }
   function onMouseMove(e: React.MouseEvent) {
-    if (!dragRef.current.active || !trackRef.current) return;
-    const dx = dragRef.current.lastX - e.clientX;
-    dragRef.current.lastX = e.clientX;
-    const W = getOneSetWidth();
-    dragRef.current.offset = W > 0
-      ? ((dragRef.current.offset + dx) % W + W) % W
-      : 0;
-    trackRef.current.style.transform = `translateX(-${dragRef.current.offset}px)`;
+    if (!drag.current.active || !trackRef.current) return;
+    const dx = drag.current.lastX - e.clientX;
+    drag.current.lastX = e.clientX;
+    const W = trackRef.current.scrollWidth / COPIES;
+    if (W > 0) {
+      offsetRef.current = ((offsetRef.current + dx) % W + W) % W;
+    }
   }
-  function onMouseUp() {
-    if (!dragRef.current.active) return;
-    dragRef.current.active = false;
+  function stopDrag() {
+    drag.current.active = false;
     setIsGrabbing(false);
-    resumeFromOffset(dragRef.current.offset);
-  }
-  // Also release if mouse leaves while dragging
-  function onMouseLeave() {
-    if (dragRef.current.active) {
-      dragRef.current.active = false;
-      setIsGrabbing(false);
-      resumeFromOffset(dragRef.current.offset);
-    }
   }
 
-  /* ── Touch (mobile swipe) ── */
+  /* ── Touch start / end (move handled imperatively above) ── */
   function onTouchStart(e: React.TouchEvent) {
-    const currentOffset = getComputedOffsetPx();
-    dragRef.current.active = true;
-    dragRef.current.lastX = e.touches[0].clientX;
-    dragRef.current.offset = currentOffset;
-    if (trackRef.current) {
-      trackRef.current.style.animationPlayState = 'paused';
-      trackRef.current.style.transform = `translateX(-${currentOffset}px)`;
-    }
+    drag.current.active = true;
+    drag.current.lastX  = e.touches[0].clientX;
   }
-  function onTouchMove(e: React.TouchEvent) {
-    if (!dragRef.current.active || !trackRef.current) return;
-    const dx = dragRef.current.lastX - e.touches[0].clientX;
-    dragRef.current.lastX = e.touches[0].clientX;
-    const W = getOneSetWidth();
-    dragRef.current.offset = W > 0
-      ? ((dragRef.current.offset + dx) % W + W) % W
-      : 0;
-    trackRef.current.style.transform = `translateX(-${dragRef.current.offset}px)`;
-  }
-  function onTouchEnd() {
-    if (!dragRef.current.active) return;
-    dragRef.current.active = false;
-    resumeFromOffset(dragRef.current.offset);
-  }
-
 
   if (testimonials.length === 0) return null;
 
-  /*
-   * CIRCULAR LIST — 4 copies so the track is always wider than any viewport.
-   * [A,B,C, A,B,C, A,B,C, A,B,C]  (4×)
-   * Animate translateX(0) → translateX(-25%)  = exactly one set width.
-   * When it resets to 0 it looks identical → seamless, gap-free loop.
-   */
-  const doubled = [
-    ...testimonials,
-    ...testimonials,
-    ...testimonials,
-    ...testimonials,
-  ];
+  // 4 copies → track is always wider than any screen → no empty gaps
+  const looped = Array.from({ length: COPIES }, () => testimonials).flat();
 
   return (
     <section
@@ -294,17 +266,6 @@ export function TestimonialsSection() {
         overflow: 'hidden',
       }}
     >
-      {/* 4× track → animate -25% = one set → seamless circular loop */}
-      <style>{`
-        @keyframes tm-scroll {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-25%); }
-        }
-        .tm-track {
-          animation: tm-scroll ${DURATION}s linear infinite;
-        }
-      `}</style>
-
       {/* Subtle radial glows */}
       <div
         style={{
@@ -326,7 +287,7 @@ export function TestimonialsSection() {
       />
 
       <div style={{ position: 'relative', zIndex: 1 }}>
-        {/* ── Heading: same pattern as other sections, adapted for dark bg ── */}
+        {/* Heading */}
         <Reveal direction="up">
           <div
             style={{
@@ -376,20 +337,20 @@ export function TestimonialsSection() {
           </p>
         </Reveal>
 
-        {/* ── Circular carousel ── */}
+        {/* ── Infinite circular carousel ── */}
         <div
+          ref={wrapperRef}
           style={{
             overflow: 'hidden',
             width: '100%',
             cursor: isGrabbing ? 'grabbing' : 'grab',
           }}
-          onMouseLeave={onMouseLeave}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
+          onMouseUp={stopDrag}
+          onMouseLeave={stopDrag}
           onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
+          onTouchEnd={stopDrag}
         >
           {/* Side fade masks */}
           <div
@@ -402,22 +363,19 @@ export function TestimonialsSection() {
               userSelect: 'none',
             }}
           >
-            {/*
-              Track: width = max-content (= 2 × one-set-width because doubled).
-              CSS animation moves it -50% → seamless circular loop.
-            */}
+            {/* Track — RAF moves this via translateX */}
             <div
               ref={trackRef}
-              className="tm-track"
               style={{
                 display: 'flex',
                 gap: '18px',
                 width: 'max-content',
                 padding: '8px 0 12px',
                 pointerEvents: 'none',
+                willChange: 'transform',
               }}
             >
-              {doubled.map((item, i) => (
+              {looped.map((item, i) => (
                 <TestimonialCard key={i} item={item} />
               ))}
             </div>
