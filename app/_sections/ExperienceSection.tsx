@@ -48,7 +48,7 @@ export function ExperienceSection() {
 
         <Reveal direction="up" delay={0.15}>
           <div className="mx-auto w-full max-w-3xl">
-            <div className="rounded-3xl bg-surface/30 p-2 shadow-lg backdrop-blur-sm">
+            <div className="rounded-3xl bg-surface/30 p-2 shadow-xl backdrop-blur-sm border-1 border-[#6D0B31]/15">
               <div className="grid grid-cols-2 gap-2">
                 {([
                   { key: "academic", label: t("sections.experience.academic") },
@@ -61,16 +61,15 @@ export function ExperienceSection() {
                       setTrack(key);
                       setSelectedIndex(null);
                     }}
-                    className={`relative rounded-2xl px-4 py-3 text-center text-[11px] font-bold uppercase tracking-widest transition-colors ${
-                      track === key
-                        ? "text-accent-foreground"
-                        : "text-foreground/70 hover:text-foreground"
-                    }`}
+                    className={`relative rounded-2xl px-4 py-3 text-center text-[11px] font-bold uppercase tracking-widest transition-all duration-300 ${track === key
+                      ? "text-white"
+                      : "text-foreground/70 hover:text-foreground"
+                      }`}
                   >
                     {track === key ? (
                       <motion.span
                         layoutId="experience-track"
-                        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-dark to-accent"
+                        className="absolute inset-0 rounded-2xl bg-[#6D0B31]"
                         transition={{ type: "spring", stiffness: 350, damping: 30 }}
                       />
                     ) : null}
@@ -85,39 +84,14 @@ export function ExperienceSection() {
         <Reveal direction="up" delay={0.25}>
           <div className="relative mx-auto w-full max-w-5xl">
             <div className="relative overflow-x-auto">
-              <div className="min-w-[640px] px-6 py-8">
-                <div className="relative h-[68px]">
-                  <div className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-border/70" />
-                  {selectedIndex !== null ? (
-                    <motion.div
-                      className="absolute top-1/2 -translate-y-1/2"
-                      style={{
-                        left:
-                          items.length > 1
-                            ? `${(selectedIndex / (items.length - 1)) * 100}%`
-                            : "0%",
-                      }}
-                    >
-                      <motion.div
-                        layoutId="exp-active"
-                        className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-primary-dark to-accent shadow-lg"
-                        animate={{ scale: 1.18 }}
-                        transition={{ type: "spring", stiffness: 380, damping: 26 }}
-                      >
-                        {track === "academic" ? (
-                          <GraduationCap size={18} className="text-accent-foreground" />
-                        ) : (
-                          <Briefcase size={18} className="text-accent-foreground" />
-                        )}
-                      </motion.div>
-                    </motion.div>
-                  ) : (
-                    <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface/80 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-md">
-                      {t("sections.experience.selectHint")}
-                    </div>
-                  )}
+              <div className="min-w-[640px] px-6 py-4">
 
-                  <div className="relative flex items-center justify-between">
+                <div className="relative">
+                  {/* Línea horizontal */}
+                  <div className="absolute left-0 right-0 top-5 h-px bg-border/70" />
+
+                  {/* Botones de la timeline */}
+                  <div className="relative flex items-start justify-between">
                     {items.map((it, idx) => {
                       const isActive = idx === selectedIndex;
                       return (
@@ -128,18 +102,24 @@ export function ExperienceSection() {
                           className="group relative flex flex-col items-center gap-2"
                           aria-label={`${it.title} ${it.period}`}
                         >
+                          {/* Ícono del punto en la línea */}
                           <motion.div
-                            className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/20 shadow-sm backdrop-blur-sm"
-                            animate={{ scale: isActive ? 1.12 : 1 }}
+                            className={`flex h-10 w-10 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-colors ${isActive
+                              ? "bg-[#6D0B31]"
+                              : "bg-[#6D0B31]/20"
+                              }`}
+                            animate={{ scale: isActive ? 1.18 : 1 }}
                             transition={{ type: "spring", stiffness: 300, damping: 22 }}
                           >
                             {track === "academic" ? (
-                              <GraduationCap size={16} className="text-accent-foreground" />
+                              <GraduationCap size={16} className={isActive ? "text-white" : "text-accent-foreground"} />
                             ) : (
-                              <Briefcase size={16} className="text-accent-foreground" />
+                              <Briefcase size={16} className={isActive ? "text-white" : "text-accent-foreground"} />
                             )}
                           </motion.div>
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
+                          {/* Período debajo del ícono */}
+                          <span className={`text-[10px] font-bold uppercase tracking-widest ${isActive ? "text-[#6D0B31]" : "text-foreground/60"
+                            }`}>
                             {it.period}
                           </span>
                         </button>

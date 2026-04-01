@@ -519,10 +519,10 @@ export function ProjectsSection() {
 
       {/* Main panel */}
       <Reveal direction="up" delay={0.15}>
-        <div className="overflow-hidden rounded-3xl border-2 border-[#6D0B31]/40 bg-surface/50 shadow-lg backdrop-blur-sm">
+        <div className="overflow-hidden rounded-3xl border-1 border-[#6D0B31]/15 bg-surface/50 shadow-lg backdrop-blur-sm">
 
           {/* Panel header */}
-          <div className="border-b-2 border-[#6D0B31]/35 px-8 py-5">
+          <div className="border-b-1 border-[#6D0B31]/15 px-8 py-5">
             <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
               {t('projects.githubFeatured')}
             </span>
@@ -541,7 +541,7 @@ export function ProjectsSection() {
             )}
 
             {status === 'error' && (
-              <div className="rounded-2xl border-2 border-[#6D0B31]/35 bg-surface/50 p-6 text-sm text-foreground/75">
+              <div className="rounded-2xl border-1 border-[#6D0B31]/15 bg-surface/50 p-6 text-sm text-foreground/75">
                 {t('projects.githubError')}
               </div>
             )}
@@ -581,7 +581,7 @@ export function ProjectsSection() {
           </div>
 
           {/* GitHub Calendar */}
-          <div className="border-t-2 border-[#6D0B31]/35 px-8 py-6">
+          <div className="border-t-1 border-[#6D0B31]/15 px-8 py-6">
             {/* Calendar header */}
             <div className="mb-5">
               <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
