@@ -77,10 +77,8 @@ export const enTranslations = {
   },
   skills: {
     description: "Tools and technologies I feel most comfortable with in my current projects.",
-    toyLabel: "Companion",
     pickTech: "Pick a technology",
     clickHint: "Select",
-    toy: "(^_^)/",
     showEditor: "Show editor",
     hideEditor: "Hide editor",
     editorTitle: "Mini editor",
@@ -88,8 +86,15 @@ export const enTranslations = {
     editorEmpty: "No projects found for this technology yet.",
     editorUpdated: "ago",
     loading: "Loading",
-    ready: "Ready",
-    offline: "Offline",
+    reposSubtitle: "Related repositories",
+    skillDescriptions: {
+      Java: "I use Java mainly in academic courses and backend projects focused on object-oriented design. It has helped me build solid programming fundamentals like inheritance, encapsulation, and API design.",
+      Python: "Python is my exploration language: I use it for task automation, data analysis, and small scripts that save time or let me quickly test ideas.",
+      Spring: "I apply Spring Boot to build clean REST APIs. I like how it structures projects and simplifies backend configuration.",
+      Tailwind: "Tailwind is my go-to tool for styling interfaces. It lets me iterate quickly without leaving the markup and keeps visual consistency through a token system.",
+      "Next.js": "Next.js is the framework I used to build this portfolio. I use it for projects that need dynamic routing, great performance, and multilingual support.",
+      React: "React is my foundation for building reusable components. I feel comfortable working with hooks, state, and animations to create interactive interfaces.",
+    },
   },
   experience: {
     academic: [

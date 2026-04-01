@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "../_context/LanguageContext";
 import { Reveal } from "../_components/ui/Reveal";
+import { enTranslations } from "../_i18n/locales/en";
+import { esTranslations } from "../_i18n/locales/es";
 import {
   SiPython,
   SiSpringboot,
@@ -122,7 +124,7 @@ function formatRelative(iso: string) {
 }
 
 export function SkillsSection() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [selected, setSelected] = useState(SKILLS[0]?.name ?? "Java");
   const [overview, setOverview] = useState<GithubOverview | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -218,19 +220,9 @@ export function SkillsSection() {
             <div className="rounded-3xl bg-surface/30 p-4 shadow-lg backdrop-blur-sm">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex flex-col gap-1">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
-                    {t("skills.toyLabel")}
-                  </span>
                   <span className="font-display text-xl font-bold text-foreground">
                     {t("skills.pickTech")}
                   </span>
-                </div>
-                <div className="rounded-full bg-[#6D0B31]/15 px-4 py-2 text-xs font-semibold text-foreground/60 shadow-sm">
-                  {status === "loading"
-                    ? t("skills.loading")
-                    : status === "error"
-                      ? t("skills.offline")
-                      : t("skills.ready")}
                 </div>
               </div>
 
@@ -246,50 +238,23 @@ export function SkillsSection() {
                       }}
                       className={`relative flex items-center gap-3 rounded-2xl px-4 py-3 text-left shadow-sm backdrop-blur-sm transition-all ${
                         isSelected
-                          ? "bg-surface-2/50"
+                          ? "bg-[#6D0B31] dark:bg-[#8F1242]"
                           : "bg-surface/30 hover:bg-surface-2/40"
                       }`}
                     >
-                      {isSelected ? (
-                        <motion.div
-                          layoutId="skill-toy"
-                          className="absolute -left-6 top-1/2 -translate-y-1/2 rounded-full bg-[#6D0B31]/20 px-3 py-1 text-xs font-bold text-accent shadow-sm backdrop-blur-md"
-                          transition={{ type: "spring", stiffness: 450, damping: 34 }}
-                        >
-                          {t("skills.toy")}
-                        </motion.div>
-                      ) : null}
-
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#6D0B31]/15">
-                        <Icon style={{ color }} size={20} />
+                      <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${
+                        isSelected ? "bg-white/20" : "bg-[#6D0B31]/15"
+                      }`}>
+                        <Icon style={{ color: isSelected ? "#ffffff" : color }} size={20} />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-sm font-bold text-foreground">{name}</span>
-                        <span className="text-xs text-foreground/60">{t("skills.clickHint")}</span>
+                        <span className={`text-sm font-bold ${
+                          isSelected ? "text-white" : "text-foreground"
+                        }`}>{name}</span>
+                        <span className={`text-xs ${
+                          isSelected ? "text-white/70" : "text-foreground/60"
+                        }`}>{t("skills.clickHint")}</span>
                       </div>
-
-                      {isSelected && projectsForSkill.length > 0 ? (
-                        <motion.div
-                          initial={{ opacity: 0, x: -8 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute -right-3 top-1/2 hidden -translate-y-1/2 rounded-2xl bg-surface/80 px-4 py-3 text-left shadow-lg backdrop-blur-md lg:block"
-                        >
-                          <div className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
-                            {t("skills.projectsFor")}
-                          </div>
-                          <div className="mt-2 flex flex-col gap-2">
-                            {projectsForSkill.map((p) => (
-                              <div key={p.name} className="flex flex-col">
-                                <span className="text-xs font-bold text-foreground">{p.name}</span>
-                                <span className="max-w-[220px] text-[11px] leading-snug text-foreground/65 line-clamp-2">
-                                  {p.description}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        </motion.div>
-                      ) : null}
                     </button>
                   );
                 })}
@@ -317,6 +282,24 @@ export function SkillsSection() {
               </div>
 
               <div className="p-6">
+                {/* Descripción del uso de la tecnología */}
+                {(() => {
+                  const translations = locale === "es" ? esTranslations : enTranslations;
+                  const desc = translations.skills.skillDescriptions[selectedSkill?.name as keyof typeof translations.skills.skillDescriptions];
+                  return desc ? (
+                    <div className="mb-6 rounded-2xl bg-[#6D0B31]/8 px-5 py-4">
+                      <p className="text-sm leading-relaxed text-foreground/80">{desc}</p>
+                    </div>
+                  ) : null;
+                })()}
+
+                {/* Subtítulo de repos */}
+                {projectsForSkill.length > 0 && (
+                  <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-foreground/50">
+                    {t("skills.reposSubtitle")}
+                  </p>
+                )}
+
                 {projectsForSkill.length === 0 ? (
                   <div className="rounded-2xl bg-surface-2/30 p-5 text-sm text-foreground/75">
                     {t("skills.editorEmpty")}
