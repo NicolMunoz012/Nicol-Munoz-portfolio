@@ -6,6 +6,7 @@ import { Navbar } from "./Navbar";
 import { NavigationMenu } from "./NavigationMenu";
 import { CustomCursor } from "../ui/CustomCursor";
 import { CinematicBackground } from "../ui/CinematicBackground";
+import { MiniPlayer } from "../ui/MiniPlayer";
 
 type AppShellProps = {
   children: ReactNode;
@@ -73,6 +74,7 @@ export function AppShell({ children }: AppShellProps) {
     <div className="relative min-h-screen overflow-hidden text-foreground transition-colors duration-300">
       <CinematicBackground isMenuOpen={isMenuOpen} />
       <CustomCursor />
+      <MiniPlayer />
       {/* Menu Overlay/Sidebar */}
       <NavigationMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 

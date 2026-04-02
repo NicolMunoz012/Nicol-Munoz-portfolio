@@ -1,53 +1,51 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../_context/LanguageContext";
 import { Reveal } from "../_components/ui/Reveal";
+import { useYouTubePlayer } from "../_hooks/useYouTubePlayer";
 
-const ABOUT_IMAGES = [
-  "/about-1.jpg",
-  "/about-2.jpg",
-  "/about-3.jpg",
-  "/about-4.jpg",
-];
+// ── Inline marquee ──────────────────────────────────────────────────────────
+const aboutMarqueeStyle = `
+@keyframes about-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.about-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: about-marquee 14s linear infinite;
+}
+`;
+
+function AboutMarquee({ text, className = '' }: { text: string; className?: string }) {
+  const long = text.length > 26;
+  return (
+    <span style={{ display: 'block', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '100%' }}>
+      {long ? (
+        <span className="about-marquee-track">
+          <span className={className} style={{ paddingRight: '3rem' }}>{text}</span>
+          <span className={className} style={{ paddingRight: '3rem' }} aria-hidden>{text}</span>
+        </span>
+      ) : (
+        <span className={className}>{text}</span>
+      )}
+    </span>
+  );
+}
 
 export function AboutSection() {
   const { t } = useLanguage();
-  const [currentImage, setCurrentImage] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const [isPaused, setIsPaused] = useState(false);
   const [activeBio, setActiveBio] = useState<"bio1" | "bio2" | "bio3">("bio1");
   const [activeRecommendation, setActiveRecommendation] = useState<
     "playlist" | "books" | "podcast" | null
   >(null);
-
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setDirection(1);
-      setCurrentImage((prev) => (prev + 1) % ABOUT_IMAGES.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isPaused]);
-
-  const paginateImage = (nextDirection: 1 | -1) => {
-    setDirection(nextDirection);
-    setCurrentImage((prev) => {
-      const next = prev + nextDirection;
-      const len = ABOUT_IMAGES.length;
-      return ((next % len) + len) % len;
-    });
-  };
+  const { isReady, isPlaying, currentTitle, currentChannel, progress, toggle, next, prev } =
+    useYouTubePlayer();
 
   const toggleRecommendation = (key: "playlist" | "books" | "podcast") => {
     setActiveRecommendation((current) => (current === key ? null : key));
-  };
-
-  const imageVariants = {
-    enter: (d: number) => ({ opacity: 0, x: d > 0 ? 28 : -28, scale: 1.01 }),
-    center: { opacity: 1, x: 0, scale: 1 },
-    exit: (d: number) => ({ opacity: 0, x: d > 0 ? -28 : 28, scale: 0.99 }),
   };
 
   return (
@@ -68,101 +66,18 @@ export function AboutSection() {
 
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-14">
         <Reveal direction="left">
-          <div
-            className="rounded-3xl bg-surface/30 p-4 shadow-xl"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
-            <div className="relative overflow-hidden rounded-2xl bg-surface-2/40 backdrop-blur-sm">
-              <motion.div
-                className="relative aspect-square cursor-grab active:cursor-grabbing"
-                drag="x"
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.12}
-                onDragStart={() => setIsPaused(true)}
-                onDragEnd={(_, info) => {
-                  const swipe = Math.abs(info.offset.x) * info.velocity.x;
-                  if (swipe < -8000) paginateImage(1);
-                  else if (swipe > 8000) paginateImage(-1);
-                }}
-                whileTap={{ scale: 0.995 }}
-              >
-                <AnimatePresence initial={false} custom={direction} mode="wait">
-                  <motion.img
-                    key={currentImage}
-                    src={ABOUT_IMAGES[currentImage]}
-                    alt={`About ${currentImage + 1}`}
-                    className="absolute inset-0 h-full w-full object-cover"
-                    custom={direction}
-                    variants={imageVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                    draggable={false}
+          <div className="flex justify-center">
+            <div className="w-full max-w-md rounded-3xl bg-surface/30 p-4 shadow-xl">
+              <div className="relative overflow-hidden rounded-2xl bg-surface-2/40 backdrop-blur-sm shadow-2xl">
+                <div className="relative aspect-square">
+                  <img
+                    src="/about-2.jpg"
+                    alt="About"
+                    className="h-full w-full object-cover"
                   />
-                </AnimatePresence>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.22),transparent_55%)]" />
-                <div className="absolute left-4 right-4 top-4 flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-foreground/70 backdrop-blur-md">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    {t("about.galleryLabel")}
-                  </span>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-foreground/70 backdrop-blur-md">
-                    <button
-                      type="button"
-                      aria-label="Previous image"
-                      onClick={() => paginateImage(-1)}
-                      className="rounded-full px-2 py-1 transition-colors hover:text-accent"
-                    >
-                      ←
-                    </button>
-                    <span className="text-foreground/40">/</span>
-                    <button
-                      type="button"
-                      aria-label="Next image"
-                      onClick={() => paginateImage(1)}
-                      className="rounded-full px-2 py-1 transition-colors hover:text-accent"
-                    >
-                      →
-                    </button>
-                  </div>
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.22),transparent_55%)]" />
                 </div>
-              </motion.div>
-            </div>
-
-            <div className="mt-3 overflow-hidden rounded-full bg-surface/30 backdrop-blur-sm">
-              <motion.div
-                key={`${currentImage}-${isPaused ? "paused" : "play"}`}
-                className="h-1.5 origin-left bg-gradient-to-r from-primary-dark to-accent"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: isPaused ? 0 : 1 }}
-                transition={{ duration: isPaused ? 0 : 5, ease: "linear" }}
-              />
-            </div>
-
-            <div className="mt-4 flex items-center justify-center gap-2">
-              {ABOUT_IMAGES.map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => {
-                    setDirection(i > currentImage ? 1 : -1);
-                    setCurrentImage(i);
-                  }}
-                  aria-label={`About image ${i + 1}`}
-                  className={`h-10 w-10 overflow-hidden rounded-xl transition-all ${
-                    i === currentImage
-                      ? "ring-2 ring-accent/40"
-                      : "opacity-60 hover:opacity-90"
-                  }`}
-                >
-                  <span
-                    className="block h-full w-full bg-cover bg-center"
-                    style={{ backgroundImage: `url(${src})` }}
-                  />
-                </button>
-              ))}
+              </div>
             </div>
           </div>
         </Reveal>
@@ -282,13 +197,112 @@ export function AboutSection() {
                       ✕
                     </button>
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-foreground/75">
-                    {activeRecommendation === "playlist"
-                      ? t("about.recommendationsDetail.playlist")
-                      : activeRecommendation === "books"
+                  {activeRecommendation === "playlist" ? (
+                    <div className="mt-4">
+                      <style>{aboutMarqueeStyle}</style>
+                      {/* Track info */}
+                      <div className="mb-3 overflow-hidden">
+                        <AboutMarquee
+                          text={currentTitle || (isReady ? 'Cargando…' : 'Playlist de YouTube')}
+                          className="text-[13px] font-semibold text-foreground"
+                        />
+                        {currentChannel && (
+                          <AboutMarquee
+                            text={currentChannel}
+                            className="text-[11px] text-foreground/60 mt-0.5"
+                          />
+                        )}
+                      </div>
+
+                      {/* Controls */}
+                      <div className="flex items-center justify-center gap-3">
+                        <motion.button
+                          type="button"
+                          aria-label="Anterior"
+                          onClick={prev}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="flex h-9 w-9 items-center justify-center rounded-full bg-[#6D0B31]/15 text-[#8F1242] transition-colors hover:bg-[#6D0B31]/25"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" />
+                          </svg>
+                        </motion.button>
+
+                        <motion.button
+                          type="button"
+                          aria-label={isPlaying ? 'Pausar' : 'Reproducir'}
+                          onClick={toggle}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg"
+                          style={{ background: 'linear-gradient(135deg, #8F1242, #6D0B31)', boxShadow: '0 2px 14px rgba(143,18,66,0.38)' }}
+                        >
+                          <AnimatePresence mode="wait" initial={false}>
+                            {isPlaying ? (
+                              <motion.svg
+                                key="pause"
+                                initial={{ opacity: 0, scale: 0.6 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.6 }}
+                                transition={{ duration: 0.15 }}
+                                width="18" height="18" viewBox="0 0 24 24" fill="currentColor"
+                              >
+                                <path d="M6 19h4V5H6zm8-14v14h4V5z" />
+                              </motion.svg>
+                            ) : (
+                              <motion.svg
+                                key="play"
+                                initial={{ opacity: 0, scale: 0.6 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.6 }}
+                                transition={{ duration: 0.15 }}
+                                width="18" height="18" viewBox="0 0 24 24" fill="currentColor"
+                              >
+                                <path d="M8 5v14l11-7z" />
+                              </motion.svg>
+                            )}
+                          </AnimatePresence>
+                        </motion.button>
+
+                        <motion.button
+                          type="button"
+                          aria-label="Siguiente"
+                          onClick={next}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="flex h-9 w-9 items-center justify-center rounded-full bg-[#6D0B31]/15 text-[#8F1242] transition-colors hover:bg-[#6D0B31]/25"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z" />
+                          </svg>
+                        </motion.button>
+                      </div>
+
+                      {/* Progress bar */}
+                      <div
+                        className="mt-3 h-1 w-full overflow-hidden rounded-full"
+                        style={{ background: 'rgba(143,18,66,0.15)' }}
+                      >
+                        <motion.div
+                          className="h-full rounded-full"
+                          style={{
+                            background: 'linear-gradient(90deg, #8F1242, #b31955)',
+                            originX: 0,
+                            scaleX: progress,
+                          }}
+                          animate={{ scaleX: progress }}
+                          transition={{ duration: 0.4, ease: 'linear' }}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="mt-3 text-sm leading-relaxed text-foreground/75">
+                      {activeRecommendation === "books"
                         ? t("about.recommendationsDetail.books")
                         : t("about.recommendationsDetail.podcast")}
-                  </p>
+                    </p>
+                  )}
                 </motion.div>
               ) : null}
             </AnimatePresence>
