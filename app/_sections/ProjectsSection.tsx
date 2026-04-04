@@ -477,6 +477,11 @@ export function ProjectsSection() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [activeIndexA, setActiveIndexA] = useState(-1);
   const [activeIndexB, setActiveIndexB] = useState(-1);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -592,23 +597,25 @@ export function ProjectsSection() {
               </div>
             </div>
 
-            <div className="flex items-center justify-center overflow-x-auto">
-              <GitHubCalendar
-                username="NicolMunoz012"
-                blockSize={14}
-                blockMargin={4}
-                fontSize={13}
-                colorScheme={isDark ? 'dark' : 'light'}
-                theme={{
-                  light: ['#ebedf0', '#ffc9e0', '#ff85c0', '#d6006b', '#8f1242'],
-                  dark: ['#161b22', '#3d1f2e', '#6d0b31', '#a01550', '#e59ac4'],
-                }}
-                transformData={(data) => {
-                  const sixMonthsAgo = new Date();
-                  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 8);
-                  return data.filter((activity) => new Date(activity.date) >= sixMonthsAgo);
-                }}
-              />
+            <div className="flex items-center justify-center overflow-x-auto min-h-[120px]">
+              {mounted && (
+                <GitHubCalendar
+                  username="NicolMunoz012"
+                  blockSize={14}
+                  blockMargin={4}
+                  fontSize={13}
+                  colorScheme={isDark ? 'dark' : 'light'}
+                  theme={{
+                    light: ['#ebedf0', '#ffc9e0', '#ff85c0', '#d6006b', '#8f1242'],
+                    dark: ['#161b22', '#3d1f2e', '#6d0b31', '#a01550', '#e59ac4'],
+                  }}
+                  transformData={(data) => {
+                    const sixMonthsAgo = new Date();
+                    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 8);
+                    return data.filter((activity) => new Date(activity.date) >= sixMonthsAgo);
+                  }}
+                />
+              )}
             </div>
           </div>
 

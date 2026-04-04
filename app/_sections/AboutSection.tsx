@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../_context/LanguageContext";
+import { getTranslationArray } from "../_i18n";
 import { Reveal } from "../_components/ui/Reveal";
 import { useYouTubePlayer } from "../_hooks/useYouTubePlayer";
+import { BookCard, bookCardStyles } from "../_components/ui/BookCard";
 
 // ── Inline marquee ──────────────────────────────────────────────────────────
 const aboutMarqueeStyle = `
@@ -35,8 +37,25 @@ function AboutMarquee({ text, className = '' }: { text: string; className?: stri
   );
 }
 
+// ISBNs verified — Open Library cover API
+const BOOK_COVERS = [
+  "https://covers.openlibrary.org/b/isbn/9788408004097-L.jpg",  // Buenos días, princesa
+  "https://covers.openlibrary.org/b/isbn/9788408066378-L.jpg",  // Veronika decide morir
+  "https://covers.openlibrary.org/b/isbn/9789584239419-L.jpg",  // Satanás
+  "https://covers.openlibrary.org/b/isbn/9788467053302-L.jpg",  // Cómo hacer…
+  "https://covers.openlibrary.org/b/isbn/9788483655931-L.jpg",  // Yo antes de ti
+];
+
+const BOOK_COLORS = [
+  "#e8b4c8",
+  "#c4678a",
+  "#6b1a3a",
+  "#d4a0b5",
+  "#8f3a5a",
+];
+
 export function AboutSection() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [activeBio, setActiveBio] = useState<"bio1" | "bio2" | "bio3">("bio1");
   const [activeRecommendation, setActiveRecommendation] = useState<
     "playlist" | "books" | "podcast" | null
@@ -296,11 +315,37 @@ export function AboutSection() {
                         />
                       </div>
                     </div>
+                  ) : activeRecommendation === "books" ? (
+                    <div className="mt-4">
+                      <style>{bookCardStyles}</style>
+                      <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-foreground/50">
+                        {t("about.booksLabel")}
+                      </p>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '10px',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {(getTranslationArray(locale, "about.books") as Array<{ title: string; author: string; review: string }>).map(
+                          (book, i) => (
+                            <BookCard
+                              key={i}
+                              title={book.title}
+                              author={book.author}
+                              cover={BOOK_COVERS[i]}
+                              review={book.review}
+                              color={BOOK_COLORS[i]}
+                            />
+                          )
+                        )}
+                      </div>
+                    </div>
                   ) : (
                     <p className="mt-3 text-sm leading-relaxed text-foreground/75">
-                      {activeRecommendation === "books"
-                        ? t("about.recommendationsDetail.books")
-                        : t("about.recommendationsDetail.podcast")}
+                      {t("about.recommendationsDetail.podcast")}
                     </p>
                   )}
                 </motion.div>

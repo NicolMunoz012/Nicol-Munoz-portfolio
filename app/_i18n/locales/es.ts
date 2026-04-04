@@ -74,6 +74,34 @@ export const esTranslations = {
       books: "Libros que alimentan mi creatividad, curiosidad y la forma en la que pienso productos.",
       podcast: "Episodios que disfruto para aprender, reflexionar y mantenerme motivada.",
     },
+    booksLabel: "Mis lecturas favoritas",
+    books: [
+      {
+        title: "Buenos días, princesa",
+        author: "Blue Jeans",
+        review: "Una saga que me atrapó completamente. Romanticona sí, pero me encantó cada libro.",
+      },
+      {
+        title: "Veronika decide morir",
+        author: "Paulo Coelho",
+        review: "Me hizo pensar mucho en el valor de la vida y en qué significa realmente estar 'loca'.",
+      },
+      {
+        title: "Satanás",
+        author: "Mario Mendoza",
+        review: "Oscuro e incómodo, pero brillante. Mendoza escribe Colombia de una forma que duele.",
+      },
+      {
+        title: "Cómo hacer que te pasen cosas buenas",
+        author: "Marian Rojas Estapé",
+        review: "Cambió cómo entiendo mis emociones. Lo recomiendo a todo el mundo sin excepción.",
+      },
+      {
+        title: "Yo antes de ti",
+        author: "Jojo Moyes",
+        review: "Me rompió el corazón de la mejor manera posible. Lloré muchísimo.",
+      },
+    ],
   },
   skills: {
     description: "Herramientas y tecnologías con las que me siento más cómoda en mis proyectos actuales.",

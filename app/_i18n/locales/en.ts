@@ -74,6 +74,34 @@ export const enTranslations = {
       books: "Books that inspire my creativity, curiosity, and the way I think about building products.",
       podcast: "Episodes I enjoy for learning, reflection, and staying motivated.",
     },
+    booksLabel: "My favorite reads",
+    books: [
+      {
+        title: "Good morning, princess",
+        author: "Blue Jeans",
+        review: "A saga that completely hooked me. Romantic, yes, but I loved every single book.",
+      },
+      {
+        title: "Veronika Decides to Die",
+        author: "Paulo Coelho",
+        review: "Made me think deeply about the value of life and what it truly means to be 'crazy'.",
+      },
+      {
+        title: "Satanás",
+        author: "Mario Mendoza",
+        review: "Dark and uncomfortable, but brilliant. Mendoza writes Colombia in a way that stings.",
+      },
+      {
+        title: "Find Serenity in the Age of Anxiety",
+        author: "Marian Rojas Estapé",
+        review: "Changed the way I understand my emotions. I recommend it to absolutely everyone.",
+      },
+      {
+        title: "Me Before You",
+        author: "Jojo Moyes",
+        review: "It broke my heart in the best possible way. I cried so much.",
+      },
+    ],
   },
   skills: {
     description: "Tools and technologies I feel most comfortable with in my current projects.",
