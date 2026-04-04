@@ -40,7 +40,7 @@ function AboutMarquee({ text, className = '' }: { text: string; className?: stri
 // ISBNs verified — Open Library cover API
 const BOOK_COVERS = [
   "https://covers.openlibrary.org/b/isbn/9788408004097-L.jpg",  // Buenos días, princesa
-  "https://covers.openlibrary.org/b/isbn/9788408066378-L.jpg",  // Veronika decide morir
+  "https://covers.openlibrary.org/b/isbn/0060528265-L.jpg",  // Veronika decide morir (edición alternativa)
   "https://covers.openlibrary.org/b/isbn/9789584239419-L.jpg",  // Satanás
   "https://covers.openlibrary.org/b/isbn/9788467053302-L.jpg",  // Cómo hacer…
   "https://covers.openlibrary.org/b/isbn/9788483655931-L.jpg",  // Yo antes de ti
@@ -90,7 +90,7 @@ export function AboutSection() {
               <div className="relative overflow-hidden rounded-2xl bg-surface-2/95 dark:bg-[#302149]/65 backdrop-blur-sm shadow-2xl">
                 <div className="relative aspect-square">
                   <img
-                    src="/about-2.jpg"
+                    src="/aboutme.jpg"
                     alt="About"
                     className="h-full w-full object-cover"
                   />

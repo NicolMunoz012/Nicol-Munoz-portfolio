@@ -106,13 +106,13 @@ export function HeroSection() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <Image
-            src="/photo.jpg"
+            src="/me.jpg"
             alt="Nicol Muñoz"
-            width={340}
-            height={420}
+            width={450}
+            height={550}
             priority
             style={{
-              width: "clamp(260px, 28vw, 340px)",
+              width: "clamp(320px, 35vw, 450px)",
               height: "auto",
               objectFit: "cover",
               objectPosition: "center top",
