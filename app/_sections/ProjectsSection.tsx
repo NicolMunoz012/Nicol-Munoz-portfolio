@@ -523,10 +523,11 @@ export function ProjectsSection() {
 
       {/* Main panel */}
       <Reveal direction="up" delay={0.15}>
-        <div className="overflow-hidden rounded-3xl border-1 border-[#6D0B31]/15 bg-surface/90 dark:bg-[#302149]/70 shadow-lg backdrop-blur-sm">
+        <div className="relative overflow-hidden rounded-3xl border-1 border-[#6D0B31]/15 bg-surface/90 dark:bg-[#302149]/70 shadow-lg backdrop-blur-sm">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.16),transparent_60%)]" />
 
           {/* Panel header */}
-          <div className="border-b-1 border-[#6D0B31]/15 px-8 py-5">
+          <div className="relative border-b-1 border-[#6D0B31]/15 px-8 py-5">
             <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
               {t('projects.githubFeatured')}
             </span>
@@ -536,7 +537,7 @@ export function ProjectsSection() {
           </div>
 
           {/* Accordion grid */}
-          <div className="p-7">
+          <div className="relative p-7">
             {status === 'loading' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <SkeletonColumn isDark={isDark} />
@@ -585,7 +586,7 @@ export function ProjectsSection() {
           </div>
 
           {/* GitHub Calendar */}
-          <div className="border-t-1 border-[#6D0B31]/15 px-8 py-6">
+          <div className="relative border-t-1 border-[#6D0B31]/15 px-8 py-6">
             {/* Calendar header */}
             <div className="mb-5">
               <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
@@ -623,6 +624,8 @@ export function ProjectsSection() {
     </section>
   );
 }
+
+
 
 
 

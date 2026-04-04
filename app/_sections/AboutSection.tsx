@@ -86,8 +86,8 @@ export function AboutSection() {
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-14">
         <Reveal direction="left">
           <div className="flex justify-center">
-            <div className="w-full max-w-md rounded-3xl bg-surface/90 dark:bg-[#302149] dark:bg-[#5e448a] p-4 shadow-xl">
-              <div className="relative overflow-hidden rounded-2xl bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90 backdrop-blur-sm shadow-2xl">
+            <div className="w-full max-w-md rounded-3xl bg-surface/90 dark:bg-[#302149]/70 p-4 shadow-xl">
+              <div className="relative overflow-hidden rounded-2xl bg-surface-2/95 dark:bg-[#302149]/65 backdrop-blur-sm shadow-2xl">
                 <div className="relative aspect-square">
                   <img
                     src="/about-2.jpg"
@@ -133,7 +133,7 @@ export function AboutSection() {
               </div>
             </div>
 
-            <div className="relative overflow-hidden rounded-3xl bg-surface/90 dark:bg-[#302149] dark:bg-[#5e448a] p-6 shadow-2xl backdrop-blur-sm">
+            <div className="relative overflow-hidden rounded-3xl bg-surface/90 dark:bg-[#302149]/70 p-6 shadow-2xl backdrop-blur-sm">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.16),transparent_60%)]" />
               <AnimatePresence mode="wait">
                 <motion.div
@@ -192,7 +192,7 @@ export function AboutSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 12 }}
                   transition={{ duration: 0.25 }}
-                  className="rounded-3xl bg-surface/90 dark:bg-[#302149] dark:bg-[#5e448a] p-5 shadow-lg backdrop-blur-sm"
+                  className="rounded-3xl bg-surface/90 dark:bg-[#302149]/70 p-5 shadow-lg backdrop-blur-sm"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex flex-col gap-1">
@@ -357,6 +357,8 @@ export function AboutSection() {
     </section>
   );
 }
+
+
 
 
 

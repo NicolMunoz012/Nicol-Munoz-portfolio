@@ -48,7 +48,7 @@ export function ExperienceSection() {
 
         <Reveal direction="up" delay={0.15}>
           <div className="mx-auto w-full max-w-3xl">
-            <div className="rounded-3xl bg-surface/90 dark:bg-[#302149] dark:bg-[#5e448a] p-2 shadow-xl backdrop-blur-sm border-1 border-[#6D0B31]/15">
+            <div className="rounded-3xl bg-surface/90 dark:bg-[#302149]/70 p-2 shadow-xl backdrop-blur-sm border-1 border-[#6D0B31]/15">
               <div className="grid grid-cols-2 gap-2">
                 {([
                   { key: "academic", label: t("sections.experience.academic") },
@@ -140,7 +140,7 @@ export function ExperienceSection() {
                   transition={{ duration: 0.25 }}
                   className="mx-auto mt-4 max-w-4xl"
                 >
-                  <div className="relative overflow-hidden rounded-3xl bg-surface/90 dark:bg-[#302149] dark:bg-[#5e448a] p-6 shadow-lg backdrop-blur-sm">
+                  <div className="relative overflow-hidden rounded-3xl bg-surface/90 dark:bg-[#302149]/70 p-6 shadow-lg backdrop-blur-sm">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.16),transparent_60%)]" />
                     <div className="relative mb-3 flex items-start justify-between gap-3">
                       <div className="flex items-start gap-3">
@@ -180,14 +180,14 @@ export function ExperienceSection() {
                           )
                         }
                         disabled={selectedIndex === 0}
-                        className="rounded-full bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/20 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
+                        className="rounded-full bg-surface-2/95 dark:bg-[#302149]/65 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/20 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         ←
                       </button>
                       <button
                         type="button"
                         onClick={() => setSelectedIndex(null)}
-                        className="rounded-full bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/20 hover:text-accent"
+                        className="rounded-full bg-surface-2/95 dark:bg-[#302149]/65 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/20 hover:text-accent"
                       >
                         ✕
                       </button>
@@ -199,7 +199,7 @@ export function ExperienceSection() {
                           )
                         }
                         disabled={selectedIndex >= items.length - 1}
-                        className="rounded-full bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/20 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
+                        className="rounded-full bg-surface-2/95 dark:bg-[#302149]/65 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/20 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         →
                       </button>
@@ -214,6 +214,8 @@ export function ExperienceSection() {
     </section>
   );
 }
+
+
 
 
 

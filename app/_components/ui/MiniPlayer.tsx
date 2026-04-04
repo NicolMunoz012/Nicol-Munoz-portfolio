@@ -127,7 +127,7 @@ export function MiniPlayer() {
                 boxShadow:
                   '0 8px 32px rgba(143,18,66,0.18), 0 2px 8px rgba(0,0,0,0.22)',
                 backdropFilter: 'blur(12px)',
-                background: 'rgba(var(--color-surface-rgb, 20,8,14),0.88)',
+                background: 'rgb(var(--surface) / 0.9)',
               }}
             >
               {/* Track info */}
