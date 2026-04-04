@@ -35,13 +35,13 @@ const COLLAPSED_FR = 1;
 const COLUMN_HEIGHT = 250; // px — compact cards
 
 /* ─────────────────────── Theme helpers ─────────────── */
-// Light-mode card: soft warm gradient tinted with a repo-specific accent hue
-function cardBgLight(hue: number) {
-  return `linear-gradient(145deg, hsl(${hue} 28% 88% / 1) 0%, hsl(${(hue + 30) % 360} 20% 80% / 1) 100%)`;
+// Light-mode card: soft consistent color
+function cardBgLight() {
+  return 'linear-gradient(145deg, hsl(330 25% 90% / 1) 0%, hsl(340 20% 85% / 1) 100%)';
 }
-// Dark-mode card: richer, more saturated gradient with better hue contrast
-function cardBgDark(hue: number) {
-  return `linear-gradient(145deg, hsl(${hue} 55% 18% / 1) 0%, hsl(${(hue + 50) % 360} 38% 11% / 1) 100%)`;
+// Dark-mode card: deep purple tones with better contrast
+function cardBgDark() {
+  return 'linear-gradient(145deg, hsl(255 40% 22% / 1) 0%, hsl(265 35% 18% / 1) 100%)';
 }
 
 /* ─────────────────────── Icons ─────────────────────── */
@@ -155,8 +155,7 @@ interface AccordionItemProps {
 }
 
 function AccordionItem({ repo, index, isActive, onActivate, isDark }: AccordionItemProps) {
-  const hue = (repo.id * 37 + 300) % 360;
-  const bgGradient = isDark ? cardBgDark(hue) : cardBgLight(hue);
+  const bgGradient = isDark ? cardBgDark() : cardBgLight();
   const hasHomepage = !!repo.homepage;
 
   // Theme-dependent text/overlay colors
@@ -524,7 +523,7 @@ export function ProjectsSection() {
 
       {/* Main panel */}
       <Reveal direction="up" delay={0.15}>
-        <div className="overflow-hidden rounded-3xl border-1 border-[#6D0B31]/15 bg-surface/50 shadow-lg backdrop-blur-sm">
+        <div className="overflow-hidden rounded-3xl border-1 border-[#6D0B31]/15 bg-surface/90 dark:bg-[#302149]/70 shadow-lg backdrop-blur-sm">
 
           {/* Panel header */}
           <div className="border-b-1 border-[#6D0B31]/15 px-8 py-5">
@@ -546,7 +545,7 @@ export function ProjectsSection() {
             )}
 
             {status === 'error' && (
-              <div className="rounded-2xl border-1 border-[#6D0B31]/15 bg-surface/50 p-6 text-sm text-foreground/75">
+              <div className="rounded-2xl border-1 border-[#6D0B31]/15 bg-surface/90 dark:bg-[#302149]/70 p-6 text-sm text-foreground/75">
                 {t('projects.githubError')}
               </div>
             )}
@@ -624,3 +623,9 @@ export function ProjectsSection() {
     </section>
   );
 }
+
+
+
+
+
+

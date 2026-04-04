@@ -18,7 +18,7 @@ export function ContactSection() {
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
         <Reveal direction="left">
-          <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
+          <div className="rounded-3xl bg-surface/90 dark:bg-[#302149] dark:bg-[#5e448a] p-6 shadow-2xl backdrop-blur-sm">
             <div className="flex flex-col items-center gap-4 text-center mb-6">
               <div className="flex items-center gap-5 w-full max-w-4xl mx-auto">
                 <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#6D0B31]/15" />
@@ -32,7 +32,7 @@ export function ContactSection() {
             <div className="mt-8 grid grid-cols-1 gap-3">
               <motion.a
                 href={`mailto:${email}`}
-                className="group flex items-center justify-between gap-4 rounded-2xl bg-surface-2/30 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40"
+                className="group flex items-center justify-between gap-4 rounded-2xl bg-surface-2/90 dark:bg-##302149]/80 dark:bg-[#5e448a]/80 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -61,7 +61,7 @@ export function ContactSection() {
                     setCopied(false);
                   }
                 }}
-                className="flex items-center justify-between gap-4 rounded-2xl bg-surface-2/30 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40 active:scale-[0.99]"
+                className="flex items-center justify-between gap-4 rounded-2xl bg-surface-2/90 dark:bg-##302149]/80 dark:bg-[#5e448a]/80 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90 active:scale-[0.99]"
               >
                 <div className="flex items-center gap-4">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#6D0B31]/15">
@@ -88,7 +88,7 @@ export function ContactSection() {
                   href="https://github.com/NicolMunoz012"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 rounded-2xl bg-surface-2/30 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40"
+                  className="group flex items-center gap-4 rounded-2xl bg-surface-2/90 dark:bg-##302149]/80 dark:bg-[#5e448a]/80 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90"
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -105,7 +105,7 @@ export function ContactSection() {
                   href="https://linkedin.com/in/nicol-munoz"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 rounded-2xl bg-surface-2/30 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40"
+                  className="group flex items-center gap-4 rounded-2xl bg-surface-2/90 dark:bg-##302149]/80 dark:bg-[#5e448a]/80 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90"
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -122,7 +122,7 @@ export function ContactSection() {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 rounded-2xl bg-surface-2/30 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/40 sm:col-span-2"
+                  className="group flex items-center gap-4 rounded-2xl bg-surface-2/90 dark:bg-##302149]/80 dark:bg-[#5e448a]/80 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90 sm:col-span-2"
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -162,7 +162,7 @@ export function ContactSection() {
 
         <Reveal direction="right" delay={0.1}>
           <div className="flex flex-col gap-6">
-            <div className="rounded-3xl bg-surface/30 p-6 shadow-2xl backdrop-blur-sm">
+            <div className="rounded-3xl bg-surface/90 dark:bg-[#302149] dark:bg-[#5e448a] p-6 shadow-2xl backdrop-blur-sm">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div className="flex flex-col gap-1">
                   <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
@@ -196,3 +196,10 @@ export function ContactSection() {
     </section>
   );
 }
+
+
+
+
+
+
+

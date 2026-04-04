@@ -217,7 +217,7 @@ export function SkillsSection() {
 
         <Reveal direction="up" delay={0.2}>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px_1fr]">
-            <div className="rounded-3xl bg-surface/30 p-4 shadow-lg backdrop-blur-sm">
+            <div className="rounded-3xl bg-surface/90 dark:bg-[#302149] dark:bg-[#5e448a] p-4 shadow-lg backdrop-blur-sm">
               <div className="flex items-center justify-between gap-4">
                 <div className="flex flex-col gap-1">
                   <span className="font-display text-xl font-bold text-foreground">
@@ -239,7 +239,7 @@ export function SkillsSection() {
                       className={`relative flex items-center gap-3 rounded-2xl px-4 py-3 text-left shadow-sm backdrop-blur-sm transition-all ${
                         isSelected
                           ? "bg-[#6D0B31] dark:bg-[#8F1242]"
-                          : "bg-surface/30 hover:bg-surface-2/40"
+                          : "bg-surface/90 dark:bg-[#302149] dark:bg-[#5e448a] hover:bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90"
                       }`}
                     >
                       <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${
@@ -261,7 +261,7 @@ export function SkillsSection() {
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-3xl bg-surface/30 shadow-lg backdrop-blur-sm">
+            <div className="overflow-hidden rounded-3xl bg-surface/90 dark:bg-[#302149] dark:bg-[#5e448a] shadow-lg backdrop-blur-sm">
               <div className="flex items-center justify-between gap-4 border-b border-[#6D0B31]/15 px-6 py-5">
                 <div className="flex flex-col gap-1">
                   <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
@@ -293,7 +293,7 @@ export function SkillsSection() {
                 )}
 
                 {projectsForSkill.length === 0 ? (
-                  <div className="rounded-2xl bg-surface-2/30 p-5 text-sm text-foreground/75">
+                  <div className="rounded-2xl bg-surface-2/90 dark:bg-##302149]/80 dark:bg-[#5e448a]/80 p-5 text-sm text-foreground/75">
                     {t("skills.editorEmpty")}
                   </div>
                 ) : (
@@ -301,7 +301,7 @@ export function SkillsSection() {
                     {projectsForSkill.map((p, i) => (
                       <div
                         key={`${p.name}-${i}`}
-                        className="group flex flex-col rounded-2xl bg-surface-2/30 p-5 shadow-sm backdrop-blur-sm transition-colors hover:bg-surface-2/40"
+                        className="group flex flex-col rounded-2xl bg-surface-2/90 dark:bg-##302149]/80 dark:bg-[#5e448a]/80 p-5 shadow-sm backdrop-blur-sm transition-colors hover:bg-surface-2/95 dark:bg-[#302149]/90 dark:bg-[#5e448a]/90"
                       >
                         <div className="mb-3 flex flex-col gap-2">
                           <div className="flex items-start justify-between gap-3">
@@ -347,3 +347,10 @@ export function SkillsSection() {
     </section>
   );
 }
+
+
+
+
+
+
+

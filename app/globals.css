@@ -40,8 +40,8 @@
   --foreground: 249 246 238; /* #f9f6ee */
   --muted: 201 184 218; /* lavanda clara */
   --muted-foreground: 226 214 236; /* bone-lavender */
-  --surface: 38 25 60; /* superficie */
-  --surface-2: 48 32 75;
+  --surface: 70 50 104; /* #463268 - morado medio con buen contraste */
+  --surface-2: 94 68 138; /* #5e448a - morado más claro */
   --border: 130 50 75; /* vino oscuro — visible y temático en dark mode */
   --accent: 229 154 196;
   --accent-foreground: 28 18 45;
