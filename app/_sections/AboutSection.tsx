@@ -174,15 +174,6 @@ export function AboutSection() {
               >
                 📚 {t("about.recommendations.books")}
               </motion.button>
-              <motion.button
-                type="button"
-                onClick={() => toggleRecommendation("podcast")}
-                className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/15 px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-95"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                🎙️ {t("about.recommendations.podcast")}
-              </motion.button>
             </div>
 
             <AnimatePresence>
