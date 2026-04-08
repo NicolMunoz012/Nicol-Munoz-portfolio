@@ -35,13 +35,13 @@ const COLLAPSED_FR = 1;
 const COLUMN_HEIGHT = 250; // px — compact cards
 
 /* ─────────────────────── Theme helpers ─────────────── */
-// Light-mode card: soft consistent color
+// Light-mode card: color del fondo con movimiento #f9f6ee
 function cardBgLight() {
-  return 'linear-gradient(145deg, hsl(330 25% 90% / 1) 0%, hsl(340 20% 85% / 1) 100%)';
+  return 'linear-gradient(135deg, #fdf8f0 0%, #f9f0f3 100%)';
 }
-// Dark-mode card: deep purple tones with better contrast
+// Dark-mode card: completamente transparente
 function cardBgDark() {
-  return 'linear-gradient(145deg, hsl(255 40% 22% / 1) 0%, hsl(265 35% 18% / 1) 100%)';
+  return 'transparent';
 }
 
 /* ─────────────────────── Icons ─────────────────────── */
@@ -159,12 +159,12 @@ function AccordionItem({ repo, index, isActive, onActivate, isDark }: AccordionI
   const hasHomepage = !!repo.homepage;
 
   // Theme-dependent text/overlay colors
-  const overlayActive = isDark
-    ? 'linear-gradient(180deg, rgba(6,1,12,0.50) 0%, rgba(12,3,22,0.80) 100%)'
-    : 'linear-gradient(180deg, rgba(109,11,49,0.08) 0%, rgba(109,11,49,0.22) 100%)';
-  const overlayCollapsed = isDark
-    ? 'linear-gradient(180deg, rgba(6,1,12,0.62) 0%, rgba(12,3,22,0.88) 100%)'
-    : 'linear-gradient(180deg, rgba(109,11,49,0.14) 0%, rgba(109,11,49,0.30) 100%)';
+const overlayActive = isDark
+  ? 'linear-gradient(180deg, rgba(6,1,12,0.50) 0%, rgba(12,3,22,0.80) 100%)'
+  : 'none';
+const overlayCollapsed = isDark
+  ? 'linear-gradient(180deg, rgba(6,1,12,0.62) 0%, rgba(12,3,22,0.88) 100%)'
+  : 'none';
 
   const titleColor = isDark ? '#ffffff' : '#3d0a1c';
   const collapsedNameColor = isDark ? 'rgba(244,192,209,0.90)' : 'rgba(109,11,49,0.75)';
@@ -172,7 +172,7 @@ function AccordionItem({ repo, index, isActive, onActivate, isDark }: AccordionI
 
   // Tag/pill styles (same palette, just opacity-adapted)
   const tagStyle = {
-    background: isDark ? 'rgba(109,11,49,0.55)' : 'rgba(109,11,49,0.12)',
+    background: isDark ? 'rgba(109,11,49,0.55)' : 'rgba(109,11,49,0.07)',
     color: isDark ? '#f4c0d1' : '#6D0B31',
   };
 
@@ -185,11 +185,13 @@ function AccordionItem({ repo, index, isActive, onActivate, isDark }: AccordionI
         overflow: 'hidden',
         borderRadius: '14px',
         border: isActive
-          ? '2px solid rgba(143,18,66,0.70)'
-          : '2px solid rgba(109,11,49,0.40)',
+          ? '2px solid #6d0b31'
+          : '1px solid rgba(109, 11, 49, 0.22)',
         cursor: 'pointer',
-        transition: `border-color 0.3s ease`,
-        background: bgGradient,
+        transition: `border-color 0.3s ease, background 0.3s ease`,
+        background: isActive
+          ? (isDark ? cardBgDark() : 'linear-gradient(135deg, #fdf4f7 0%, #f5e8ed 100%)')
+          : bgGradient,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
