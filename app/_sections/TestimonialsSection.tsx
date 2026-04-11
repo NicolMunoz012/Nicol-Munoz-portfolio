@@ -74,7 +74,7 @@ function TestimonialCard({ item }: { item: Testimonial }) {
       <p
         style={{
           margin: 0,
-          fontSize: '13.5px',
+          fontSize: '15px',
           lineHeight: 1.7,
           color: 'rgba(244,213,228,0.88)',
           flexGrow: 1,
@@ -114,7 +114,7 @@ function TestimonialCard({ item }: { item: Testimonial }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
           <span
             style={{
-              fontSize: '13px',
+              fontSize: '14px',
               fontWeight: 700,
               color: '#f4d5e4',
               lineHeight: 1.2,
@@ -124,7 +124,7 @@ function TestimonialCard({ item }: { item: Testimonial }) {
           </span>
           <span
             style={{
-              fontSize: '11px',
+              fontSize: '12px',
               color: 'rgba(244,213,228,0.55)',
               lineHeight: 1.2,
             }}
@@ -328,7 +328,7 @@ export function TestimonialsSection() {
             style={{
               textAlign: 'center',
               color: 'rgba(244,213,228,0.55)',
-              fontSize: '14.5px',
+              fontSize: '15.5px',
               marginBottom: '40px',
               padding: '0 24px',
             }}

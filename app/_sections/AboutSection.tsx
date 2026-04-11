@@ -144,7 +144,7 @@ export function AboutSection() {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.25 }}
                 >
-                  <p className="text-[15px] leading-relaxed text-foreground/85">
+                  <p className="text-[17px] leading-relaxed text-foreground/85">
                     {activeBio === "bio1"
                       ? t("about.bio1")
                       : activeBio === "bio2"
@@ -159,7 +159,7 @@ export function AboutSection() {
               <motion.button
                 type="button"
                 onClick={() => toggleRecommendation("playlist")}
-                className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/15 px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-95"
+                className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/15 px-6 py-3 text-base font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-95"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -168,7 +168,7 @@ export function AboutSection() {
               <motion.button
                 type="button"
                 onClick={() => toggleRecommendation("books")}
-                className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/15 px-5 py-2.5 text-sm font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-95"
+                className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/15 px-6 py-3 text-base font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-95"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

@@ -40,7 +40,7 @@ export function ExperienceSection() {
               </h2>
               <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#6D0B31]/35" />
             </div>
-            <p className="max-w-2xl text-base text-foreground/70">
+            <p className="max-w-2xl text-lg text-foreground/70">
               {t("sections.experience.subtitle")}
             </p>
           </div>
@@ -166,7 +166,7 @@ export function ExperienceSection() {
                     </div>
 
                     {items[selectedIndex]?.description ? (
-                      <p className="relative text-sm leading-relaxed text-foreground/80">
+                      <p className="relative text-base leading-relaxed text-foreground/80">
                         {items[selectedIndex]?.description}
                       </p>
                     ) : null}

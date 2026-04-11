@@ -209,7 +209,7 @@ export function SkillsSection() {
               </h2>
               <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#6D0B31]/35" />
             </div>
-            <p className="max-w-2xl text-base text-foreground/70">
+            <p className="max-w-2xl text-lg text-foreground/70">
               {t("sections.skills.subtitle")}
             </p>
           </div>
@@ -249,10 +249,10 @@ export function SkillsSection() {
                         <Icon style={{ color: isSelected ? "#ffffff" : color }} size={20} />
                       </div>
                       <div className="flex flex-col">
-                        <span className={`text-sm font-bold ${
+                        <span className={`text-base font-bold ${
                           isSelected ? "text-white" : "text-foreground"
                         }`}>{name}</span>
-                        <span className={`text-xs ${
+                        <span className={`text-sm ${
                           isSelected ? "text-white/70" : "text-foreground/60"
                         }`}>{t("skills.clickHint")}</span>
                       </div>
@@ -282,7 +282,7 @@ export function SkillsSection() {
                   const desc = translations.skills.skillDescriptions[selectedSkill?.name as keyof typeof translations.skills.skillDescriptions];
                   return desc ? (
                     <div className="mb-6 rounded-2xl bg-[#6D0B31]/8 px-5 py-4">
-                      <p className="text-sm leading-relaxed text-foreground/80">{desc}</p>
+                      <p className="text-base leading-relaxed text-foreground/80">{desc}</p>
                     </div>
                   ) : null;
                 })()}
@@ -295,7 +295,7 @@ export function SkillsSection() {
                 )}
 
                 {projectsForSkill.length === 0 ? (
-                  <div className="rounded-2xl bg-surface-2/90 dark:bg-[#302149]/60 p-5 text-sm text-foreground/75">
+                  <div className="rounded-2xl bg-surface-2/90 dark:bg-[#302149]/60 p-5 text-base text-foreground/75">
                     {t("skills.editorEmpty")}
                   </div>
                 ) : (
@@ -322,7 +322,7 @@ export function SkillsSection() {
                             )}
                           </div>
                         </div>
-                        <p className="mb-3 text-sm leading-relaxed text-foreground/80 flex-grow">
+                        <p className="mb-3 text-base leading-relaxed text-foreground/80 flex-grow">
                           {p.description}
                         </p>
                         {p.tags && p.tags.length > 0 && (

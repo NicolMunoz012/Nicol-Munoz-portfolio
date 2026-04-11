@@ -59,8 +59,8 @@ function ParticleField({ theme }: { theme: 'light' | 'dark' }) {
     
     const t = state.clock.getElapsedTime();
     
-    mouseState.x += (mouseState.targetX - mouseState.x) * 0.05;
-    mouseState.y += (mouseState.targetY - mouseState.y) * 0.05;
+    mouseState.x += (mouseState.targetX - mouseState.x) * 0.2;
+    mouseState.y += (mouseState.targetY - mouseState.y) * 0.2;
 
     ref.current.rotation.x = t * 0.02;
     ref.current.rotation.y = t * 0.01;

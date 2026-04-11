@@ -42,8 +42,8 @@ export function ContactSection() {
                     <Mail size={18} className="text-accent" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold text-foreground">Email</span>
-                    <span className="text-xs text-foreground/60">{email}</span>
+                    <span className="text-base font-bold text-foreground">Email</span>
+                    <span className="text-sm text-foreground/60">{email}</span>
                   </div>
                 </div>
                 <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60 group-hover:bg-[#6D0B31]/25 group-hover:text-accent">
@@ -73,10 +73,10 @@ export function ContactSection() {
                     )}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold text-foreground">
+                    <span className="text-base font-bold text-foreground">
                       {copied ? t("sections.contact.form.copied") : t("sections.contact.form.copyEmail")}
                     </span>
-                    <span className="text-xs text-foreground/60">{email}</span>
+                    <span className="text-sm text-foreground/60">{email}</span>
                   </div>
                 </div>
                 <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
@@ -97,8 +97,8 @@ export function ContactSection() {
                     <FaGithub size={18} className="text-foreground" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold text-foreground">GitHub</span>
-                    <span className="text-xs text-foreground/60">@NicolMunoz012</span>
+                    <span className="text-base font-bold text-foreground">GitHub</span>
+                    <span className="text-sm text-foreground/60">@NicolMunoz012</span>
                   </div>
                 </motion.a>
 
@@ -114,8 +114,8 @@ export function ContactSection() {
                     <FaLinkedin size={18} className="text-[#0077b5]" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold text-foreground">LinkedIn</span>
-                    <span className="text-xs text-foreground/60">Profile</span>
+                    <span className="text-base font-bold text-foreground">LinkedIn</span>
+                    <span className="text-sm text-foreground/60">Profile</span>
                   </div>
                 </motion.a>
 
@@ -131,8 +131,8 @@ export function ContactSection() {
                     <FaInstagram size={18} className="text-accent" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold text-foreground">Instagram</span>
-                    <span className="text-xs text-foreground/60">Social</span>
+                    <span className="text-base font-bold text-foreground">Instagram</span>
+                    <span className="text-sm text-foreground/60">Social</span>
                   </div>
                 </motion.a>
               </div>
@@ -141,7 +141,7 @@ export function ContactSection() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <motion.a
                 href="#"
-                className="inline-flex flex-1 items-center justify-center gap-3 rounded-full bg-gradient-to-r from-primary-dark to-accent px-8 py-4 text-sm font-semibold uppercase tracking-wider text-accent-foreground shadow-lg ring-1 ring-accent/25 transition-all hover:brightness-110 active:scale-95"
+                className="inline-flex flex-1 items-center justify-center gap-3 rounded-full bg-gradient-to-r from-primary-dark to-accent px-8 py-4 text-base font-semibold uppercase tracking-wider text-accent-foreground shadow-lg ring-1 ring-accent/25 transition-all hover:brightness-110 active:scale-95"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -151,7 +151,7 @@ export function ContactSection() {
               </motion.a>
               <motion.a
                 href="#projects"
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#6D0B31]/15 px-8 py-4 text-sm font-semibold uppercase tracking-wider text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 active:scale-95"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#6D0B31]/15 px-8 py-4 text-base font-semibold uppercase tracking-wider text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 active:scale-95"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -187,10 +187,10 @@ export function ContactSection() {
                 />
               </div>
               
-              <p className="text-center text-sm leading-relaxed text-foreground/80">
+              <p className="text-center text-base leading-relaxed text-foreground/80">
                 &quot;Pon en manos del Señor todas tus obras, y tus proyectos se cumplirán.&quot;
               </p>
-              <p className="mt-2 text-center text-xs font-semibold text-accent">Proverbios 16:3</p>
+              <p className="mt-2 text-center text-sm font-semibold text-accent">Proverbios 16:3</p>
             </div>
           </div>
         </Reveal>
