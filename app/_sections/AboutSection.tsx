@@ -118,7 +118,7 @@ export function AboutSection() {
                       setActiveBio(key);
                       setActiveRecommendation(null);
                     }}
-                    className={`relative rounded-2xl px-3 py-3 text-center text-[10px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
+                    className={`relative rounded-2xl px-3 py-3 text-center text-[10.5px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
                       activeBio === key 
                         ? "text-white" 
                         : "text-foreground/70 hover:text-foreground"
@@ -138,7 +138,7 @@ export function AboutSection() {
                 <motion.button
                   type="button"
                   onClick={() => toggleRecommendation("playlist")}
-                  className={`relative rounded-2xl px-3 py-3 text-center text-[10px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
+                  className={`relative rounded-2xl px-3 py-3 text-center text-[10.5px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
                     activeBio === "playlist"
                       ? "text-white"
                       : "text-foreground/70 hover:text-foreground"
@@ -159,7 +159,7 @@ export function AboutSection() {
                 <motion.button
                   type="button"
                   onClick={() => toggleRecommendation("books")}
-                  className={`relative rounded-2xl px-3 py-3 text-center text-[10px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
+                  className={`relative rounded-2xl px-3 py-3 text-center text-[10.5px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
                     activeBio === "books"
                       ? "text-white"
                       : "text-foreground/70 hover:text-foreground"
