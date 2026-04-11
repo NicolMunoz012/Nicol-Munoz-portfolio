@@ -1,11 +1,9 @@
 'use client';
 
-import { useEffect } from "react";
-import { motion } from "framer-motion";
 import { useLanguage } from "../../_context/LanguageContext";
 import { useTheme } from "../../_context/ThemeContext";
-import { useScrollDirection } from "../../_hooks/useScrollDirection";
 import { Menu, Sun, Moon } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface NavbarProps {
   onMenuToggle: () => void;
@@ -15,26 +13,9 @@ interface NavbarProps {
 export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
   const { t, locale, setLocale } = useLanguage();
   const { theme, toggleTheme } = useTheme();
-  const scrollDirection = useScrollDirection({ threshold: 10 });
-
-  const isHidden = scrollDirection === "down" && !isMenuOpen;
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.dispatchEvent(
-      new CustomEvent("portfolio:navbar-visibility", {
-        detail: { hidden: isHidden },
-      }),
-    );
-  }, [isHidden]);
 
   return (
-    <motion.header
-      className="fixed inset-x-0 top-0 z-30 will-change-transform"
-      initial={false}
-      animate={{ y: isHidden ? -120 : 0, opacity: isHidden ? 0.98 : 1 }}
-      transition={{ type: "spring", stiffness: 320, damping: 34, mass: 0.8 }}
-    >
+    <header className="fixed inset-x-0 top-0 z-30">
       <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:h-18 sm:px-6 lg:h-20 lg:px-10">
         {/* Logo izquierdo */}
         <div className="flex items-center">
@@ -85,6 +66,6 @@ export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
           </button>
         </div>
       </nav>
-    </motion.header>
+    </header>
   );
 }
