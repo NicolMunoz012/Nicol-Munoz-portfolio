@@ -515,11 +515,11 @@ export function ProjectsSection() {
       {/* Section heading */}
       <Reveal direction="up">
         <div className="flex items-center gap-5 w-full max-w-5xl mx-auto">
-          <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#6D0B31]/35" />
+          <div className="flex-1 h-[1px] dark:h-[3px] bg-gradient-to-r from-transparent to-[#6D0B31]/35" />
           <h2 className="shrink-0 font-display text-[40px] font-bold tracking-tight text-[#6D0B31] dark:text-[#b31955]">
             {t('sections.projects.title')}
           </h2>
-          <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#6D0B31]/35" />
+          <div className="flex-1 h-[1px] dark:h-[3px] bg-gradient-to-l from-transparent to-[#6D0B31]/35" />
         </div>
       </Reveal>
 
