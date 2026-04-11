@@ -15,7 +15,7 @@ export const enTranslations = {
     name: "Nicol Muñoz",
     subtitle:
       "Software Engineering student with a constant curiosity to learn and create. I enjoy exploring different areas of development and building technological solutions that can have a positive impact on people and society.",
-    cvButton: "Download CV",
+    cvButton: "CV",
     animationLabel: "Animation area",
     animationPlaceholderTitle: "Reserved",
     animationPlaceholderBody:

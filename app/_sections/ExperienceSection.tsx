@@ -124,7 +124,7 @@ export function ExperienceSection() {
                           {/* Período debajo del ícono */}
                           <span className={`text-[10px] font-bold uppercase tracking-widest ${
                             isActive 
-                              ? isDark ? "text-[#b31955]" : "text-[#6D0B31]"
+                              ? isDark ? "text-[#a91852]" : "text-[#6D0B31]"
                               : "text-foreground/60"
                           }`}>
                             {it.period}
@@ -168,7 +168,7 @@ export function ExperienceSection() {
                         </div>
                       </div>
                       <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-widest ${
-                        isDark ? 'bg-[#b31955]/20' : 'bg-[#6D0B31]/20'
+                        isDark ? 'bg-[#a91852]/20' : 'bg-[#6D0B31]/20'
                       } text-accent`}>
                         {items[selectedIndex]?.period}
                       </span>
@@ -188,7 +188,7 @@ export function ExperienceSection() {
                         }
                         disabled={selectedIndex === 0}
                         className={`rounded-full bg-surface-2/95 dark:bg-[#302149]/65 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
-                          isDark ? 'hover:bg-[#b31955]/20' : 'hover:bg-[#6D0B31]/20'
+                          isDark ? 'hover:bg-[#a91852]/20' : 'hover:bg-[#6D0B31]/20'
                         } hover:text-accent`}
                       >
                         ←
@@ -200,7 +200,7 @@ export function ExperienceSection() {
                         }
                         disabled={selectedIndex >= items.length - 1}
                         className={`rounded-full bg-surface-2/95 dark:bg-[#302149]/65 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
-                          isDark ? 'hover:bg-[#b31955]/20' : 'hover:bg-[#6D0B31]/20'
+                          isDark ? 'hover:bg-[#a91852]/20' : 'hover:bg-[#6D0B31]/20'
                         } hover:text-accent`}
                       >
                         →

@@ -7,10 +7,22 @@ import { Reveal } from "../_components/ui/Reveal";
 import { Download, ExternalLink, Mail, Copy, Check } from "lucide-react";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 
+const cvLinks = {
+  es: {
+    preview: 'https://drive.google.com/file/d/1di72M4u4w54WpQVbkvN1NZcRhhGOG-As/view',
+    download: 'https://drive.google.com/uc?export=download&id=1di72M4u4w54WpQVbkvN1NZcRhhGOG-As',
+  },
+  en: {
+    preview: 'https://drive.google.com/file/d/1Ni-VZyIy31vNN8g1cyWQUcxNHCQT1cXp/view',
+    download: 'https://drive.google.com/uc?export=download&id=1Ni-VZyIy31vNN8g1cyWQUcxNHCQT1cXp',
+  },
+};
+
 export function ContactSection() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [copied, setCopied] = useState(false);
   const email = "nicol@email.com";
+  const currentLang = locale as 'es' | 'en';
 
   return (
     <>
@@ -143,24 +155,34 @@ export function ContactSection() {
               </div>
 
               <div className="relative mt-8 flex flex-col gap-3 sm:flex-row">
-                <motion.a
-                  href="#"
-                  className="inline-flex flex-1 items-center justify-center gap-3 rounded-full bg-gradient-to-r from-primary-dark to-accent px-8 py-4 text-base font-semibold uppercase tracking-wider text-accent-foreground shadow-lg ring-1 ring-accent/25 transition-all hover:brightness-110 active:scale-95"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <span>{t("hero.cvButton")}</span>
-                  <Download size={18} />
-                  <ExternalLink size={18} />
-                </motion.a>
-                <motion.a
-                  href="#projects"
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[#6D0B31]/15 px-8 py-4 text-base font-semibold uppercase tracking-wider text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 active:scale-95"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  {t("sections.projects.title")}
-                </motion.a>
+                <div className="inline-flex flex-1 items-center justify-center gap-1 rounded-full bg-gradient-to-r from-primary-dark to-accent px-8 py-4 shadow-lg ring-1 ring-accent/25">
+                  <span className="text-base font-semibold uppercase tracking-wider text-accent-foreground mr-2">CV</span>
+                  
+                  {/* Ícono previsualizar */}
+                  <a 
+                    href={cvLinks[currentLang].preview} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center rounded-full p-1.5 hover:bg-white/20 transition-colors"
+                    title="Previsualizar CV"
+                  >
+                    <ExternalLink size={16} className="text-accent-foreground" />
+                  </a>
+                  
+                  {/* Separador vertical */}
+                  <span className="h-4 w-px bg-accent-foreground/30" />
+                  
+                  {/* Ícono descargar */}
+                  <a 
+                    href={cvLinks[currentLang].download} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center rounded-full p-1.5 hover:bg-white/20 transition-colors"
+                    title="Descargar CV"
+                  >
+                    <Download size={16} className="text-accent-foreground" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>

@@ -7,9 +7,21 @@ import { useTheme } from "../_context/ThemeContext";
 import { ArrowDownRight, Download, ExternalLink } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
+const cvLinks = {
+  es: {
+    preview: 'https://drive.google.com/file/d/1di72M4u4w54WpQVbkvN1NZcRhhGOG-As/view',
+    download: 'https://drive.google.com/uc?export=download&id=1di72M4u4w54WpQVbkvN1NZcRhhGOG-As',
+  },
+  en: {
+    preview: 'https://drive.google.com/file/d/1Ni-VZyIy31vNN8g1cyWQUcxNHCQT1cXp/view',
+    download: 'https://drive.google.com/uc?export=download&id=1Ni-VZyIy31vNN8g1cyWQUcxNHCQT1cXp',
+  },
+};
+
 export function HeroSection() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { theme } = useTheme();
+  const currentLang = locale as 'es' | 'en';
 
   const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -56,16 +68,34 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.28 }}
           >
-            <motion.a
-              href="#"
-              className="inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-primary-dark to-accent px-7 py-3.5 text-base font-semibold uppercase tracking-wider text-accent-foreground shadow-lg ring-1 ring-accent/25 transition-all hover:brightness-110 active:scale-95"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span>{t("hero.cvButton")}</span>
-              <Download size={18} />
-              <ExternalLink size={18} />
-            </motion.a>
+            <div className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-primary-dark to-accent px-7 py-3.5 shadow-lg ring-1 ring-accent/25">
+              <span className="text-base font-semibold uppercase tracking-wider text-accent-foreground mr-2">CV</span>
+              
+              {/* Ícono previsualizar */}
+              <a 
+                href={cvLinks[currentLang].preview} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-center rounded-full p-1.5 hover:bg-white/20 transition-colors"
+                title="Previsualizar CV"
+              >
+                <ExternalLink size={16} className="text-accent-foreground" />
+              </a>
+              
+              {/* Separador vertical */}
+              <span className="h-4 w-px bg-accent-foreground/30" />
+              
+              {/* Ícono descargar */}
+              <a 
+                href={cvLinks[currentLang].download} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-center rounded-full p-1.5 hover:bg-white/20 transition-colors"
+                title="Descargar CV"
+              >
+                <Download size={16} className="text-accent-foreground" />
+              </a>
+            </div>
 
             <motion.a
               href="#contact"
@@ -83,7 +113,7 @@ export function HeroSection() {
             className="mt-5 flex items-center gap-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.55, delay: 0.38 }}
+            transition={{ duration: 0.55, delay: 0.48 }}
           >
             <motion.a
               href="https://github.com/NicolMunoz012"
