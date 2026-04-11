@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../_context/LanguageContext';
+import { useTheme } from '../_context/ThemeContext';
 import { getTranslationArray } from '../_i18n';
 import { Reveal } from '../_components/ui/Reveal';
 
@@ -156,6 +157,8 @@ const SPEED = 0.55; // px per frame (auto-scroll speed)
 /* ── Main section ── */
 export function TestimonialsSection() {
   const { locale, t } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const testimonials = getTranslationArray(
     locale,
     'testimonials.items',
@@ -260,8 +263,9 @@ export function TestimonialsSection() {
       style={{
         position: 'relative',
         width: '100%',
-        background:
-          'linear-gradient(160deg, #4a0520 0%, #6D0B31 50%, #3d0a1c 100%)',
+        background: isDark
+          ? 'linear-gradient(160deg, #41041a 0%, #41041a 50%, #41041a 100%)'
+          : 'linear-gradient(160deg, #4a0520 0%, #6D0B31 50%, #3d0a1c 100%)',
         padding: '56px 0 52px',
         overflow: 'hidden',
       }}
