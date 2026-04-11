@@ -65,8 +65,8 @@ export const esTranslations = {
     },
     recommendationsTitle: "Recomendaciones",
     recommendations: {
-      playlist: "Playlist fav",
-      books: "Libros fav",
+      playlist: "Playlist",
+      books: "Libros",
       podcast: "Podcast fav",
     },
     recommendationsDetail: {

@@ -56,15 +56,16 @@ const BOOK_COLORS = [
 
 export function AboutSection() {
   const { t, locale } = useLanguage();
-  const [activeBio, setActiveBio] = useState<"bio1" | "bio2" | "bio3">("bio1");
+  const [activeBio, setActiveBio] = useState<"bio1" | "bio2" | "bio3" | "playlist" | "books">("bio1");
   const [activeRecommendation, setActiveRecommendation] = useState<
     "playlist" | "books" | "podcast" | null
   >(null);
   const { isReady, isPlaying, currentTitle, currentChannel, progress, toggle, next, prev } =
     useYouTubePlayer();
 
-  const toggleRecommendation = (key: "playlist" | "books" | "podcast") => {
-    setActiveRecommendation((current) => (current === key ? null : key));
+  const toggleRecommendation = (key: "playlist" | "books") => {
+    setActiveBio(key);
+    setActiveRecommendation(key);
   };
 
   return (
@@ -103,8 +104,8 @@ export function AboutSection() {
 
         <Reveal direction="right">
           <div className="flex flex-col gap-5">
-            <div className="rounded-3xl bg-[#6D0B31]/10 p-3 shadow-lg backdrop-blur-sm">
-              <div className="grid grid-cols-3 gap-2">
+            <div className="rounded-3xl bg-[#6D0B31]/10 p-4 shadow-lg backdrop-blur-sm overflow-hidden">
+              <div className="grid grid-cols-5 gap-2">
                 {([
                   { key: "bio1", label: t("about.tabs.profile") },
                   { key: "bio2", label: t("about.tabs.interests") },
@@ -113,8 +114,11 @@ export function AboutSection() {
                   <button
                     key={key}
                     type="button"
-                    onClick={() => setActiveBio(key)}
-                    className={`relative rounded-2xl px-3 py-3 text-center text-[11px] font-bold uppercase tracking-widest transition-all ${
+                    onClick={() => {
+                      setActiveBio(key);
+                      setActiveRecommendation(null);
+                    }}
+                    className={`relative rounded-2xl px-3 py-3 text-center text-[10px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
                       activeBio === key 
                         ? "text-white" 
                         : "text-foreground/70 hover:text-foreground"
@@ -127,88 +131,94 @@ export function AboutSection() {
                         transition={{ type: "spring", stiffness: 350, damping: 30 }}
                       />
                     ) : null}
-                    <span className="relative">{label}</span>
+                    <span className="relative block whitespace-nowrap">{label}</span>
                   </button>
                 ))}
+                
+                <motion.button
+                  type="button"
+                  onClick={() => toggleRecommendation("playlist")}
+                  className={`relative rounded-2xl px-3 py-3 text-center text-[10px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
+                    activeBio === "playlist"
+                      ? "text-white"
+                      : "text-foreground/70 hover:text-foreground"
+                  }`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {activeBio === "playlist" ? (
+                    <motion.span
+                      layoutId="about-tab"
+                      className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#8F1242] to-[#6D0B31]"
+                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    />
+                  ) : null}
+                  <span className="relative block whitespace-nowrap">{t("about.recommendations.playlist")}</span>
+                </motion.button>
+                
+                <motion.button
+                  type="button"
+                  onClick={() => toggleRecommendation("books")}
+                  className={`relative rounded-2xl px-3 py-3 text-center text-[10px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
+                    activeBio === "books"
+                      ? "text-white"
+                      : "text-foreground/70 hover:text-foreground"
+                  }`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {activeBio === "books" ? (
+                    <motion.span
+                      layoutId="about-tab"
+                      className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#8F1242] to-[#6D0B31]"
+                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                    />
+                  ) : null}
+                  <span className="relative block whitespace-nowrap">{t("about.recommendations.books")}</span>
+                </motion.button>
               </div>
             </div>
 
             <div className="relative overflow-hidden rounded-3xl bg-surface/90 dark:bg-[#302149]/70 p-6 shadow-2xl backdrop-blur-sm">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.16),transparent_60%)]" />
               <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeBio}
-                  className="relative"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.25 }}
-                >
-                  <p className="text-[17px] leading-relaxed text-foreground/85">
-                    {activeBio === "bio1"
-                      ? t("about.bio1")
-                      : activeBio === "bio2"
-                        ? t("about.bio2")
-                        : t("about.bio3")}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            <div className="mt-2 flex flex-wrap gap-3">
-              <motion.button
-                type="button"
-                onClick={() => toggleRecommendation("playlist")}
-                className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/15 px-6 py-3 text-base font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-95"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                🎵 {t("about.recommendations.playlist")}
-              </motion.button>
-              <motion.button
-                type="button"
-                onClick={() => toggleRecommendation("books")}
-                className="inline-flex items-center gap-2 rounded-full bg-[#6D0B31]/15 px-6 py-3 text-base font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-[#6D0B31]/25 hover:text-accent active:scale-95"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                📚 {t("about.recommendations.books")}
-              </motion.button>
-            </div>
-
-            <AnimatePresence>
-              {activeRecommendation ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 12 }}
-                  transition={{ duration: 0.25 }}
-                  className="rounded-3xl bg-surface/90 dark:bg-[#302149]/70 p-5 shadow-lg backdrop-blur-sm"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[11px] font-bold uppercase tracking-widest text-foreground/60">
-                        {t("about.recommendationsTitle")}
-                      </span>
-                      <span className="font-display text-lg font-bold text-foreground">
-                        {activeRecommendation === "playlist"
-                          ? t("about.recommendations.playlist")
-                          : activeRecommendation === "books"
-                            ? t("about.recommendations.books")
-                            : t("about.recommendations.podcast")}
-                      </span>
+                {activeBio === "bio1" || activeBio === "bio2" || activeBio === "bio3" ? (
+                  <motion.div
+                    key={activeBio}
+                    className="relative"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <p className="text-[17px] leading-relaxed text-foreground/85">
+                      {activeBio === "bio1"
+                        ? t("about.bio1")
+                        : activeBio === "bio2"
+                          ? t("about.bio2")
+                          : t("about.bio3")}
+                    </p>
+                  </motion.div>
+                ) : activeBio === "playlist" ? (
+                  <motion.div
+                    key="playlist"
+                    className="relative"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
+                          {t("about.recommendationsTitle")}
+                        </span>
+                        <span className="font-display text-lg font-bold text-foreground">
+                          {t("about.recommendations.playlist")}
+                        </span>
+                      </div>
                     </div>
-                    <button
-                      type="button"
-                      aria-label="Close"
-                      onClick={() => setActiveRecommendation(null)}
-                      className="rounded-full bg-[#6D0B31]/20 px-3 py-1.5 text-xs font-semibold text-foreground/70 transition-colors hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  {activeRecommendation === "playlist" ? (
-                    <div className="mt-4">
+                    <div>
                       <style>{aboutMarqueeStyle}</style>
                       {/* Track info */}
                       <div className="mb-3 overflow-hidden">
@@ -306,8 +316,27 @@ export function AboutSection() {
                         />
                       </div>
                     </div>
-                  ) : activeRecommendation === "books" ? (
-                    <div className="mt-4">
+                  </motion.div>
+                ) : activeBio === "books" ? (
+                  <motion.div
+                    key="books"
+                    className="relative"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/60">
+                          {t("about.recommendationsTitle")}
+                        </span>
+                        <span className="font-display text-lg font-bold text-foreground">
+                          {t("about.recommendations.books")}
+                        </span>
+                      </div>
+                    </div>
+                    <div>
                       <style>{bookCardStyles}</style>
                       <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-foreground/50">
                         {t("about.booksLabel")}
@@ -334,13 +363,13 @@ export function AboutSection() {
                         )}
                       </div>
                     </div>
-                  ) : (
-                    <p className="mt-3 text-sm leading-relaxed text-foreground/75">
-                      {t("about.recommendationsDetail.podcast")}
-                    </p>
-                  )}
-                </motion.div>
-              ) : null}
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </div>
+
+            <AnimatePresence>
+              {activeRecommendation ? null : null}
             </AnimatePresence>
           </div>
         </Reveal>
