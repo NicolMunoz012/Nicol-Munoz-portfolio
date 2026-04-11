@@ -15,6 +15,7 @@ type GithubRepo = {
   updated_at: string;
   archived: boolean;
   fork: boolean;
+  homepage: string | null;
 };
 
 type GithubPushEvent = {
@@ -29,12 +30,20 @@ type GithubPushEvent = {
   };
 };
 
+function sanitizeUrl(url: string | null): string | null {
+  if (!url) return null;
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  return `https://${url}`;
+}
+
 function githubHeaders() {
   return {
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-    "User-Agent": "portfolio-nicol",
-    
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'User-Agent': 'portfolio-nicol',
+    ...(process.env.GITHUB_TOKEN && {
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+    }),
   };
 }
 
@@ -43,7 +52,7 @@ export async function GET() {
   const eventsUrl = `https://api.github.com/users/${USERNAME}/events/public?per_page=30`;
 
   const [reposRes, eventsRes] = await Promise.all([
-    fetch(reposUrl, { headers: githubHeaders(), next: { revalidate: 600 } }),
+    fetch(reposUrl, { headers: githubHeaders(), next: { revalidate: 0 } }),
     fetch(eventsUrl, { headers: githubHeaders(), next: { revalidate: 120 } }),
   ]);
 
@@ -72,6 +81,7 @@ export async function GET() {
     forks: r.forks_count,
     pushedAt: r.pushed_at,
     updatedAt: r.updated_at,
+    homepage: sanitizeUrl(r.homepage),
   });
 
   const allRepos = baseRepos
