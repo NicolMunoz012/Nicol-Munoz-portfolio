@@ -105,77 +105,79 @@ export function AboutSection() {
         <Reveal direction="right">
           <div className="flex flex-col gap-5">
             <div className="rounded-3xl bg-[#6D0B31]/10 p-4 shadow-lg backdrop-blur-sm overflow-hidden">
-              <div className="grid grid-cols-5 gap-2">
-                {([
-                  { key: "bio1", label: t("about.tabs.profile") },
-                  { key: "bio2", label: t("about.tabs.interests") },
-                  { key: "bio3", label: t("about.tabs.community") },
-                ] as const).map(({ key, label }) => (
-                  <button
-                    key={key}
+              <div className="overflow-x-auto scrollbar-hide -mx-1 px-1">
+                <div className="flex gap-2 min-w-max md:grid md:grid-cols-5">
+                  {([
+                    { key: "bio1", label: t("about.tabs.profile") },
+                    { key: "bio2", label: t("about.tabs.interests") },
+                    { key: "bio3", label: t("about.tabs.community") },
+                  ] as const).map(({ key, label }) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => {
+                        setActiveBio(key);
+                        setActiveRecommendation(null);
+                      }}
+                      className={`relative rounded-2xl px-4 py-3 text-center text-[10.5px] font-bold uppercase tracking-wide transition-all overflow-hidden whitespace-nowrap ${
+                        activeBio === key 
+                          ? "text-white" 
+                          : "text-foreground/70 hover:text-foreground"
+                      }`}
+                    >
+                      {activeBio === key ? (
+                        <motion.span
+                          layoutId="about-tab"
+                          className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#8F1242] to-[#6D0B31]"
+                          transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                        />
+                      ) : null}
+                      <span className="relative block whitespace-nowrap">{label}</span>
+                    </button>
+                  ))}
+                  
+                  <motion.button
                     type="button"
-                    onClick={() => {
-                      setActiveBio(key);
-                      setActiveRecommendation(null);
-                    }}
-                    className={`relative rounded-2xl px-3 py-3 text-center text-[10.5px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
-                      activeBio === key 
-                        ? "text-white" 
+                    onClick={() => toggleRecommendation("playlist")}
+                    className={`relative rounded-2xl px-4 py-3 text-center text-[10.5px] font-bold uppercase tracking-wide transition-all overflow-hidden whitespace-nowrap ${
+                      activeBio === "playlist"
+                        ? "text-white"
                         : "text-foreground/70 hover:text-foreground"
                     }`}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    {activeBio === key ? (
+                    {activeBio === "playlist" ? (
                       <motion.span
                         layoutId="about-tab"
                         className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#8F1242] to-[#6D0B31]"
                         transition={{ type: "spring", stiffness: 350, damping: 30 }}
                       />
                     ) : null}
-                    <span className="relative block whitespace-nowrap">{label}</span>
-                  </button>
-                ))}
-                
-                <motion.button
-                  type="button"
-                  onClick={() => toggleRecommendation("playlist")}
-                  className={`relative rounded-2xl px-3 py-3 text-center text-[10.5px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
-                    activeBio === "playlist"
-                      ? "text-white"
-                      : "text-foreground/70 hover:text-foreground"
-                  }`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {activeBio === "playlist" ? (
-                    <motion.span
-                      layoutId="about-tab"
-                      className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#8F1242] to-[#6D0B31]"
-                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                    />
-                  ) : null}
-                  <span className="relative block whitespace-nowrap">{t("about.recommendations.playlist")}</span>
-                </motion.button>
-                
-                <motion.button
-                  type="button"
-                  onClick={() => toggleRecommendation("books")}
-                  className={`relative rounded-2xl px-3 py-3 text-center text-[10.5px] font-bold uppercase tracking-wide transition-all overflow-hidden ${
-                    activeBio === "books"
-                      ? "text-white"
-                      : "text-foreground/70 hover:text-foreground"
-                  }`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {activeBio === "books" ? (
-                    <motion.span
-                      layoutId="about-tab"
-                      className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#8F1242] to-[#6D0B31]"
-                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                    />
-                  ) : null}
-                  <span className="relative block whitespace-nowrap">{t("about.recommendations.books")}</span>
-                </motion.button>
+                    <span className="relative block whitespace-nowrap">{t("about.recommendations.playlist")}</span>
+                  </motion.button>
+                  
+                  <motion.button
+                    type="button"
+                    onClick={() => toggleRecommendation("books")}
+                    className={`relative rounded-2xl px-4 py-3 text-center text-[10.5px] font-bold uppercase tracking-wide transition-all overflow-hidden whitespace-nowrap ${
+                      activeBio === "books"
+                        ? "text-white"
+                        : "text-foreground/70 hover:text-foreground"
+                    }`}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {activeBio === "books" ? (
+                      <motion.span
+                        layoutId="about-tab"
+                        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#8F1242] to-[#6D0B31]"
+                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                      />
+                    ) : null}
+                    <span className="relative block whitespace-nowrap">{t("about.recommendations.books")}</span>
+                  </motion.button>
+                </div>
               </div>
             </div>
 
