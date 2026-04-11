@@ -90,6 +90,39 @@ body {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Scrollbar personalizada visible */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(143, 18, 66, 0.3) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(143, 18, 66, 0.3);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(143, 18, 66, 0.5);
+}
+
+/* Ocultar scrollbar solo en pantallas grandes donde se usa grid */
+@media (min-width: 1024px) {
+  .custom-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .custom-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
 /* Estado active para elementos interactivos */
 .btn-ghost {
   @apply active:scale-95 active:bg-accent/20 active:border-accent/80 active:text-accent transition-all;

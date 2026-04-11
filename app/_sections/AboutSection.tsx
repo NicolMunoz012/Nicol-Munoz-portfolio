@@ -105,8 +105,8 @@ export function AboutSection() {
         <Reveal direction="right">
           <div className="flex flex-col gap-5">
             <div className="rounded-3xl bg-[#6D0B31]/10 p-4 shadow-lg backdrop-blur-sm overflow-hidden">
-              <div className="overflow-x-auto scrollbar-hide -mx-1 px-1">
-                <div className="flex gap-2 min-w-max md:grid md:grid-cols-5">
+              <div className="overflow-x-auto custom-scrollbar -mx-1 px-1 pb-2">
+                <div className="flex gap-2 min-w-max justify-center md:justify-between lg:min-w-0 lg:grid lg:grid-cols-5">
                   {([
                     { key: "bio1", label: t("about.tabs.profile") },
                     { key: "bio2", label: t("about.tabs.interests") },
