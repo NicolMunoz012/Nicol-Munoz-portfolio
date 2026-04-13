@@ -76,10 +76,16 @@ export function HeroSection() {
                 href={cvLinks[currentLang].preview} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center justify-center rounded-full p-1.5 hover:bg-white/20 transition-colors"
+                className="group flex items-center justify-center rounded-full p-1.5 hover:bg-white/30 transition-colors"
                 title="Previsualizar CV"
               >
-                <ExternalLink size={16} className="text-accent-foreground" />
+                <ExternalLink
+                  size={16}
+                  className="transition-all group-hover:scale-110"
+                  style={{ color: 'var(--cv-icon-color, currentColor)' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = theme === 'dark' ? 'rgba(255,255,255,0.9)' : 'rgba(109,11,49,0.6)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '')}
+                />
               </a>
               
               {/* Separador vertical */}
@@ -90,10 +96,15 @@ export function HeroSection() {
                 href={cvLinks[currentLang].download} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center justify-center rounded-full p-1.5 hover:bg-white/20 transition-colors"
+                className="group flex items-center justify-center rounded-full p-1.5 hover:bg-white/30 transition-colors"
                 title="Descargar CV"
               >
-                <Download size={16} className="text-accent-foreground" />
+                <Download
+                  size={16}
+                  className="transition-all group-hover:scale-110"
+                  onMouseEnter={e => (e.currentTarget.style.color = theme === 'dark' ? 'rgba(255,255,255,0.9)' : 'rgba(109,11,49,0.6)')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '')}
+                />
               </a>
             </div>
 
