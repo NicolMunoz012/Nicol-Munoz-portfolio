@@ -30,7 +30,7 @@ type GithubOverview = {
 const ACCORDION_EASING =
   'linear(0 0%,0.1538 4.09%,0.2926 8.29%,0.4173 12.63%,0.5282 17.12%,0.6255 21.77%,0.7099 26.61%,0.782 31.67%,0.8425 37%,0.8887 42.23%,0.9257 47.79%,0.9543 53.78%,0.9752 60.32%,0.9883 67.11%,0.9961 75%,1 100%)';
 const ACCORDION_DURATION = '0.55s';
-const EXPANDED_FR = 5;
+const EXPANDED_FR = 7;
 const COLLAPSED_FR = 1;
 
 type Breakpoint = 'mobile' | 'tablet' | 'desktop';
@@ -44,9 +44,9 @@ function getBreakpoint(): Breakpoint {
 }
 
 function getColumnHeight(breakpoint: Breakpoint): number {
-  if (breakpoint === 'mobile') return 480;
-  if (breakpoint === 'tablet') return 420;
-  return 250;
+  if (breakpoint === 'mobile') return 540;
+  if (breakpoint === 'tablet') return 500;
+  return 380;
 }
 
 /* ─────────────────────── Theme helpers ─────────────── */
@@ -296,64 +296,23 @@ const overlayCollapsed = isDark
           inset: 0,
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: isDesktop ? 'space-between' : 'flex-start',
+          justifyContent: 'flex-start',
+          alignItems: 'stretch',
           zIndex: 2,
           opacity: isActive ? 1 : 0,
           transition: `opacity 0.28s ease ${isActive ? '0.12s' : '0s'}`,
           pointerEvents: isActive ? 'auto' : 'none',
-          padding: '20px 20px 18px',
-          gap: isDesktop ? '0' : '12px',
+          padding: '14px 16px',
+          gap: '10px',
+          overflowY: 'auto',
         }}
       >
-        {/* Preview image - Desktop: absolute, Tablet/Mobile: relative */}
-        {isActive && previewUrl && isDesktop && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '16px',
-              right: '16px',
-              width: imgWidth,
-              height: imgHeight,
-              borderRadius: '10px',
-              border: '1.5px solid rgba(109,11,49,0.35)',
-              overflow: 'hidden',
-              zIndex: 3,
-              opacity: imgLoaded ? 1 : 0,
-              transition: 'opacity 0.3s ease 0.18s',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            }}
-          >
-            {!imgLoaded && (
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'rgba(109,11,49,0.12)',
-                  animation: 'shimmer 1.5s infinite',
-                }}
-              />
-            )}
-            <img
-              src={previewUrl}
-              alt={`Preview of ${repo.name}`}
-              onLoad={() => setImgLoaded(true)}
-              onError={() => setImgError(true)}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: imgError ? 'none' : 'block',
-              }}
-            />
-          </div>
-        )}
-
-        {/* Tablet/Mobile preview image */}
+        {/* Tablet/Mobile preview image at top */}
         {isActive && previewUrl && !isDesktop && (
           <div
             style={{
               position: 'relative',
-              width: imgWidth,
+              width: '100%',
               height: imgHeight,
               borderRadius: '8px',
               border: '1.5px solid rgba(109,11,49,0.35)',
@@ -388,42 +347,172 @@ const overlayCollapsed = isDark
           </div>
         )}
 
-        {/* Top: repo name */}
-        <div
-          style={{
-            opacity: isActive ? 1 : 0,
-            transform: isActive ? 'translateY(0)' : 'translateY(-10px)',
-            transition: `opacity 0.30s ease ${isActive ? '0.16s' : '0s'}, transform 0.30s ease ${isActive ? '0.16s' : '0s'}`,
-          }}
-        >
-          <span
+        {/* Desktop: Top row - Title + Tags + Image */}
+        {isDesktop ? (
+          <div
             style={{
-              fontWeight: 800,
-              fontSize: titleFontSize,
-              color: titleColor,
-              letterSpacing: '-0.02em',
-              display: 'block',
-              lineHeight: 1.2,
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              gap: '14px',
+              opacity: isActive ? 1 : 0,
+              transform: isActive ? 'translateY(0)' : 'translateY(-10px)',
+              transition: `opacity 0.30s ease ${isActive ? '0.16s' : '0s'}, transform 0.30s ease ${isActive ? '0.16s' : '0s'}`,
             }}
           >
-            {repo.name.replace(/-/g, ' ')}
-          </span>
-        </div>
+            {/* Left: Title + Tags */}
+            <div
+              style={{
+                flex: 1,
+                minWidth: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+              }}
+            >
+              {/* Repo name */}
+              <span
+                style={{
+                  fontWeight: 800,
+                  fontSize: titleFontSize,
+                  color: titleColor,
+                  letterSpacing: '-0.02em',
+                  display: 'block',
+                  lineHeight: 1.2,
+                }}
+              >
+                {repo.name.replace(/-/g, ' ')}
+              </span>
 
-        {/* Bottom: tags + description + buttons */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px',
-            opacity: isActive ? 1 : 0,
-            transform: isActive ? 'translateY(0)' : 'translateY(12px)',
-            transition: `opacity 0.30s ease ${isActive ? '0.20s' : '0s'}, transform 0.30s ease ${isActive ? '0.20s' : '0s'}`,
-          }}
-        >
-          {/* Tags */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
-            {repo.language && (
+              {/* Tags */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                {repo.language && (
+                  <span
+                    style={{
+                      ...tagStyle,
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      padding: '3px 10px',
+                      borderRadius: '99px',
+                      letterSpacing: '0.04em',
+                    }}
+                  >
+                    {repo.language}
+                  </span>
+                )}
+                <span
+                  style={{
+                    ...tagStyle,
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    padding: '3px 10px',
+                    borderRadius: '99px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '3px',
+                  }}
+                >
+                  <IconStar /> {repo.stars}
+                </span>
+                <span
+                  style={{
+                    ...tagStyle,
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    padding: '3px 10px',
+                    borderRadius: '99px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '3px',
+                  }}
+                >
+                  <IconFork /> {repo.forks}
+                </span>
+              </div>
+            </div>
+
+            {/* Right: Preview image */}
+            {isActive && previewUrl && (
+              <div
+                style={{
+                  flexShrink: 0,
+                  width: '180px',
+                  height: '120px',
+                  borderRadius: '10px',
+                  border: '1.5px solid rgba(109,11,49,0.35)',
+                  overflow: 'hidden',
+                  opacity: imgLoaded ? 1 : 0,
+                  transition: 'opacity 0.3s ease 0.18s',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                }}
+              >
+                {!imgLoaded && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'rgba(109,11,49,0.12)',
+                      animation: 'shimmer 1.5s infinite',
+                    }}
+                  />
+                )}
+                <img
+                  src={previewUrl}
+                  alt={`Preview of ${repo.name}`}
+                  onLoad={() => setImgLoaded(true)}
+                  onError={() => setImgError(true)}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: imgError ? 'none' : 'block',
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Mobile/Tablet: Just Title + Tags */
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+              opacity: isActive ? 1 : 0,
+              transform: isActive ? 'translateY(0)' : 'translateY(-10px)',
+              transition: `opacity 0.30s ease ${isActive ? '0.16s' : '0s'}, transform 0.30s ease ${isActive ? '0.16s' : '0s'}`,
+            }}
+          >
+            {/* Repo name */}
+            <span
+              style={{
+                fontWeight: 800,
+                fontSize: titleFontSize,
+                color: titleColor,
+                letterSpacing: '-0.02em',
+                display: 'block',
+                lineHeight: 1.2,
+              }}
+            >
+              {repo.name.replace(/-/g, ' ')}
+            </span>
+
+            {/* Tags */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+              {repo.language && (
+                <span
+                  style={{
+                    ...tagStyle,
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    padding: '3px 10px',
+                    borderRadius: '99px',
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  {repo.language}
+                </span>
+              )}
               <span
                 style={{
                   ...tagStyle,
@@ -431,42 +520,42 @@ const overlayCollapsed = isDark
                   fontWeight: 600,
                   padding: '3px 10px',
                   borderRadius: '99px',
-                  letterSpacing: '0.04em',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '3px',
                 }}
               >
-                {repo.language}
+                <IconStar /> {repo.stars}
               </span>
-            )}
-            <span
-              style={{
-                ...tagStyle,
-                fontSize: '11px',
-                fontWeight: 600,
-                padding: '3px 10px',
-                borderRadius: '99px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '3px',
-              }}
-            >
-              <IconStar /> {repo.stars}
-            </span>
-            <span
-              style={{
-                ...tagStyle,
-                fontSize: '11px',
-                fontWeight: 600,
-                padding: '3px 10px',
-                borderRadius: '99px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '3px',
-              }}
-            >
-              <IconFork /> {repo.forks}
-            </span>
+              <span
+                style={{
+                  ...tagStyle,
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  padding: '3px 10px',
+                  borderRadius: '99px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '3px',
+                }}
+              >
+                <IconFork /> {repo.forks}
+              </span>
+            </div>
           </div>
+        )}
 
+        {/* Bottom row: Description + Buttons (full width) */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '7px',
+            opacity: isActive ? 1 : 0,
+            transform: isActive ? 'translateY(0)' : 'translateY(12px)',
+            transition: `opacity 0.30s ease ${isActive ? '0.20s' : '0s'}, transform 0.30s ease ${isActive ? '0.20s' : '0s'}`,
+          }}
+        >
           {/* Description */}
           <p
             style={{
@@ -474,10 +563,6 @@ const overlayCollapsed = isDark
               fontSize: '14.5px',
               lineHeight: 1.55,
               color: descColor,
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
             }}
           >
             {repo.description ?? 'Sin descripción.'}
