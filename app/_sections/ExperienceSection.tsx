@@ -86,15 +86,15 @@ export function ExperienceSection() {
 
         <Reveal direction="up" delay={0.25}>
           <div className="relative mx-auto w-full max-w-5xl">
-            <div className="relative overflow-x-auto">
-              <div className="min-w-[640px] px-6 py-4">
+            <div className="relative overflow-x-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(109,11,49,0.35) transparent' }}>
+              <div className="min-w-max px-6 py-4">
 
                 <div className="relative">
                   {/* Línea horizontal */}
                   <div className="absolute left-0 right-0 top-5 h-px bg-border/70" />
 
                   {/* Botones de la timeline */}
-                  <div className="relative flex items-start justify-between">
+                  <div className="relative flex items-start justify-start gap-24">
                     {items.map((it, idx) => {
                       const isActive = idx === selectedIndex;
                       return (
