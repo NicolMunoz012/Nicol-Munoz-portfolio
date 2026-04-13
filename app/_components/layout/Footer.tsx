@@ -2,7 +2,7 @@
 
 import { useLanguage } from "../../_context/LanguageContext";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { Mail } from "lucide-react";
+import { Mail, ArrowUp } from "lucide-react";
 
 export function Footer() {
   const { t } = useLanguage();
@@ -52,7 +52,7 @@ export function Footer() {
             <FaGithub size={18} />
           </a>
           <a
-            href="https://linkedin.com/in/nicol-munoz"
+            href="https://www.linkedin.com/in/nicol-mu%C3%B1oz-7b4b14307/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/15 text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
@@ -61,7 +61,7 @@ export function Footer() {
             <FaLinkedin size={18} />
           </a>
           <a
-            href="mailto:nicol@email.com"
+            href="mailto:nicolmunoz004@gmail.com"
             className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/15 text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
             aria-label="Email"
           >
@@ -70,9 +70,11 @@ export function Footer() {
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="rounded-full bg-[#6D0B31]/15 px-4 py-2 text-xs font-semibold text-muted-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/15 text-foreground shadow-sm backdrop-blur-sm transition-colors hover:bg-[#6D0B31]/30 hover:text-accent active:scale-95"
+            aria-label={t("footer.backToTop")}
+            title={t("footer.backToTop")}
           >
-            {t("footer.backToTop")}
+            <ArrowUp size={18} />
           </button>
         </div>
       </div>

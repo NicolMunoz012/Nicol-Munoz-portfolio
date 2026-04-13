@@ -110,7 +110,7 @@ export function ContactSection() {
                   </motion.a>
 
                   <motion.a
-                    href="https://linkedin.com/in/nicol-munoz"
+                    href="https://www.linkedin.com/in/nicol-mu%C3%B1oz-7b4b14307/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group flex items-center gap-4 rounded-2xl bg-surface-2/90 dark:bg-[#302149]/60 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/95 dark:bg-[#302149]/65"

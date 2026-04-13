@@ -10,8 +10,8 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const SOCIAL_LINKS = [
   { icon: <FaGithub size={18} />, href: "https://github.com/NicolMunoz012", label: "GitHub" },
-  { icon: <FaLinkedin size={18} />, href: "https://linkedin.com/in/nicol-munoz", label: "LinkedIn" },
-  { icon: <Mail size={18} />, href: "mailto:nicol@email.com", label: "Email" },
+  { icon: <FaLinkedin size={18} />, href: "https://www.linkedin.com/in/nicol-mu%C3%B1oz-7b4b14307/", label: "LinkedIn" },
+  { icon: <Mail size={18} />, href: "mailto:nicolmunoz004@gmail.com", label: "Email" },
 ];
 
 const NAV_ITEMS: {
