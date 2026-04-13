@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "../_context/LanguageContext";
 import { Reveal } from "../_components/ui/Reveal";
 import { Download, ExternalLink, Mail, Copy, Check } from "lucide-react";
-import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const cvLinks = {
   es: {
@@ -21,7 +21,7 @@ const cvLinks = {
 export function ContactSection() {
   const { t, locale } = useLanguage();
   const [copied, setCopied] = useState(false);
-  const email = "nicol@email.com";
+  const email = "nicolmunoz004@gmail.com";
   const currentLang = locale as 'es' | 'en';
 
   return (
@@ -47,12 +47,8 @@ export function ContactSection() {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.16),transparent_60%)]" />
               
               <div className="relative mt-8 grid grid-cols-1 gap-3">
-                <motion.a
-                  href={`mailto:${email}`}
-                  className="group flex items-center justify-between gap-4 rounded-2xl bg-surface-2/90 dark:bg-[#302149]/60 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/95 dark:bg-[#302149]/65"
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                >
+                {/* Email con botones de copiar y enviar */}
+                <div className="group flex items-center justify-between gap-4 rounded-2xl bg-surface-2/90 dark:bg-[#302149]/60 px-5 py-4 shadow-sm backdrop-blur-sm">
                   <div className="flex items-center gap-4">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#6D0B31]/15">
                       <Mail size={18} className="text-accent" />
@@ -62,43 +58,38 @@ export function ContactSection() {
                       <span className="text-sm text-foreground/60">{email}</span>
                     </div>
                   </div>
-                  <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60 group-hover:bg-[#6D0B31]/25 group-hover:text-accent">
-                    Mail
-                  </span>
-                </motion.a>
-
-                <motion.button
-                  type="button"
-                  onClick={async () => {
-                    try {
-                      await navigator.clipboard.writeText(email);
-                      setCopied(true);
-                      window.setTimeout(() => setCopied(false), 1400);
-                    } catch {
-                      setCopied(false);
-                    }
-                  }}
-                  className="flex items-center justify-between gap-4 rounded-2xl bg-surface-2/90 dark:bg-[#302149]/60 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/95 dark:bg-[#302149]/65 active:scale-[0.99]"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#6D0B31]/15">
-                      {copied ? (
-                        <Check size={18} className="text-accent" />
-                      ) : (
-                        <Copy size={18} className="text-accent" />
-                      )}
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-base font-bold text-foreground">
-                        {copied ? t("sections.contact.form.copied") : t("sections.contact.form.copyEmail")}
-                      </span>
-                      <span className="text-sm text-foreground/60">{email}</span>
-                    </div>
+                  <div className="flex gap-2">
+                    <motion.button
+                      type="button"
+                      onClick={async () => {
+                        try {
+                          await navigator.clipboard.writeText(email);
+                          setCopied(true);
+                          window.setTimeout(() => setCopied(false), 1400);
+                        } catch {
+                          setCopied(false);
+                        }
+                      }}
+                      className="rounded-full bg-[#6D0B31]/15 px-3 py-2 text-foreground/60 hover:bg-[#6D0B31]/25 hover:text-accent transition-all"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      title={copied ? t("sections.contact.form.copied") : t("sections.contact.form.copyEmail")}
+                    >
+                      {copied ? <Check size={16} /> : <Copy size={16} />}
+                    </motion.button>
+                    <motion.a
+                      href={`mailto:${email}?subject=${encodeURIComponent(t("sections.contact.form.subject"))}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full bg-[#6D0B31]/15 px-3 py-2 text-foreground/60 hover:bg-[#6D0B31]/25 hover:text-accent transition-all flex items-center"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      title={t("sections.contact.form.send")}
+                    >
+                      <Mail size={16} />
+                    </motion.a>
                   </div>
-                  <span className="rounded-full bg-[#6D0B31]/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-foreground/60">
-                    {copied ? "OK" : "Copy"}
-                  </span>
-                </motion.button>
+                </div>
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <motion.a
@@ -132,23 +123,6 @@ export function ContactSection() {
                     <div className="flex flex-col">
                       <span className="text-base font-bold text-foreground">LinkedIn</span>
                       <span className="text-sm text-foreground/60">Profile</span>
-                    </div>
-                  </motion.a>
-
-                  <motion.a
-                    href="https://instagram.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-4 rounded-2xl bg-surface-2/90 dark:bg-[#302149]/60 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-surface-2/95 dark:bg-[#302149]/65 sm:col-span-2"
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#6D0B31]/15">
-                      <FaInstagram size={18} className="text-accent" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-base font-bold text-foreground">Instagram</span>
-                      <span className="text-sm text-foreground/60">Social</span>
                     </div>
                   </motion.a>
                 </div>
