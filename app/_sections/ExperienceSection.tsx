@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../_context/LanguageContext";
 import { useTheme } from "../_context/ThemeContext";
@@ -20,11 +20,16 @@ type Track = "academic" | "work";
 export function ExperienceSection() {
   const { t, locale } = useLanguage();
   const { theme } = useTheme();
-  const isDark = theme === 'dark';
+  const [mounted, setMounted] = useState(false);
+  const isDark = mounted ? theme === 'dark' : false;
   const academic = getTranslationArray(locale, "experience.academic") as ExperienceItem[];
   const work = getTranslationArray(locale, "experience.work") as ExperienceItem[];
   const [track, setTrack] = useState<Track>("academic");
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const items = useMemo(
     () => (track === "academic" ? academic : work),

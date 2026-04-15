@@ -41,6 +41,11 @@ export function LoadingScreen() {
     };
   }, []);
 
+  // No renderizar partículas hasta que esté montado para evitar hidratación
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <AnimatePresence mode="wait">
       {isLoading && (

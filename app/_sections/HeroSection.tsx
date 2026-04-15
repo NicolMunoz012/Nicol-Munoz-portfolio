@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useLanguage } from "../_context/LanguageContext";
@@ -21,7 +22,15 @@ const cvLinks = {
 export function HeroSection() {
   const { t, locale } = useLanguage();
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const currentLang = locale as 'es' | 'en';
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const nameColor = mounted ? (theme === "dark" ? "#b31955" : "#6D0B31") : "#6D0B31";
+  const iconHoverColor = mounted ? (theme === 'dark' ? 'rgba(255,255,255,0.9)' : 'rgba(109,11,49,0.6)') : 'rgba(109,11,49,0.6)';
 
   const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -48,7 +57,7 @@ export function HeroSection() {
             <span className="block text-[clamp(1.3rem,3vw,2rem)] text-accent">
               {t("hero.greeting")}
             </span>
-            <span className="block text-[clamp(2.6rem,6vw,4.6rem)]" style={{ color: theme === "dark" ? "#b31955" : "#6D0B31" }}>
+            <span className="block text-[clamp(2.6rem,6vw,4.6rem)]" style={{ color: nameColor }}>
               {t("hero.name")}
             </span>
           </motion.h1>
@@ -83,7 +92,7 @@ export function HeroSection() {
                   size={16}
                   className="transition-all group-hover:scale-110"
                   style={{ color: 'var(--cv-icon-color, currentColor)' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = theme === 'dark' ? 'rgba(255,255,255,0.9)' : 'rgba(109,11,49,0.6)')}
+                  onMouseEnter={e => (e.currentTarget.style.color = iconHoverColor)}
                   onMouseLeave={e => (e.currentTarget.style.color = '')}
                 />
               </a>
@@ -102,7 +111,7 @@ export function HeroSection() {
                 <Download
                   size={16}
                   className="transition-all group-hover:scale-110"
-                  onMouseEnter={e => (e.currentTarget.style.color = theme === 'dark' ? 'rgba(255,255,255,0.9)' : 'rgba(109,11,49,0.6)')}
+                  onMouseEnter={e => (e.currentTarget.style.color = iconHoverColor)}
                   onMouseLeave={e => (e.currentTarget.style.color = '')}
                 />
               </a>
