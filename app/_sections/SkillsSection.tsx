@@ -12,8 +12,9 @@ import {
   SiNextdotjs,
   SiReact,
   SiTailwindcss,
+  SiTensorflow,
 } from "react-icons/si";
-import { FaJava } from "react-icons/fa";
+import { FaJava, FaBrain } from "react-icons/fa";
 import type { IconType } from "react-icons";
 
 type Skill = {
@@ -33,6 +34,7 @@ const SKILLS: Skill[] = [
   { name: "Tailwind",    Icon: SiTailwindcss, color: "#06b6d4", match: { languages: ["CSS", "TypeScript", "JavaScript"], keywords: ["tailwind"] } },
   { name: "Next.js",     Icon: SiNextdotjs,   color: "currentColor", match: { languages: ["TypeScript", "JavaScript"], keywords: ["next"] } },
   { name: "React",       Icon: SiReact,       color: "#61dafb", match: { languages: ["TypeScript", "JavaScript"], keywords: ["react"] } },
+  { name: "IA",          Icon: FaBrain,       color: "#ff6b6b", match: { languages: ["Python"], keywords: ["ai", "ml", "machine", "learning", "neural", "tensorflow", "keras"] } },
 ];
 
 type GithubRepo = {
@@ -62,14 +64,15 @@ type SkillProject = {
 const FALLBACK_PROJECTS: Record<string, SkillProject[]> = {
   Java: [
     {
+      name: "RoomieRent Backend",
+      description: "Backend API for a roommate finder platform with Spring Boot.",
+      url: "https://github.com/NicolMunoz012/roomierent-backend",
+      tags: ["Spring Boot", "REST API", "Java"],
+    },
+    {
       name: "Campus Scheduler",
       description: "A course planner with conflict detection and a clean, responsive UI.",
       tags: ["OOP", "Collections", "Testing"],
-    },
-    {
-      name: "Inventory Console",
-      description: "CLI inventory manager with validation, exports, and simple analytics.",
-      tags: ["CLI", "Data Structures"],
     },
   ],
   Python: [
@@ -86,9 +89,10 @@ const FALLBACK_PROJECTS: Record<string, SkillProject[]> = {
   ],
   Spring: [
     {
-      name: "API Starter",
-      description: "REST API starter with auth-ready structure and clean architecture.",
-      tags: ["REST", "Spring Boot"],
+      name: "RoomieRent Backend",
+      description: "Backend API for a roommate finder platform with Spring Boot.",
+      url: "https://github.com/NicolMunoz012/roomierent-backend",
+      tags: ["Spring Boot", "REST API"],
     },
   ],
   "Next.js": [
@@ -110,6 +114,13 @@ const FALLBACK_PROJECTS: Record<string, SkillProject[]> = {
       name: "Design System",
       description: "Token-based styling + reusable patterns for fast iteration.",
       tags: ["Tokens", "UI"],
+    },
+  ],
+  IA: [
+    {
+      name: "ML Projects",
+      description: "Machine learning experiments and AI model implementations.",
+      tags: ["Python", "TensorFlow", "ML"],
     },
   ],
 };

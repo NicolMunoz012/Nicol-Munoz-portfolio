@@ -123,6 +123,7 @@ export const enTranslations = {
       Tailwind: "Tailwind is my go-to tool for styling interfaces. It lets me iterate quickly without leaving the markup and keeps visual consistency through a token system.",
       "Next.js": "Next.js is the framework I used to build this portfolio. I use it for projects that need dynamic routing, great performance, and multilingual support.",
       React: "React is my foundation for building reusable components. I feel comfortable working with hooks, state, and animations to create interactive interfaces.",
+      IA: "I explore the field of Artificial Intelligence through machine learning and neural network projects. I'm interested in applying AI models to solve real-world problems and understanding how machine learning algorithms work.",
     },
   },
   experience: {
