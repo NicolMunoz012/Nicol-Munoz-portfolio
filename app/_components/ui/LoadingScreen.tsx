@@ -6,8 +6,15 @@ import { useTheme } from '../../_context/ThemeContext';
 
 export function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
-  const isDark = theme === 'dark';
+  
+  // Usar modo claro por defecto hasta que se monte
+  const isDark = mounted ? theme === 'dark' : false;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     // Simular carga mínima de 1.5 segundos
@@ -88,20 +95,20 @@ export function LoadingScreen() {
             >
               {/* Logo */}
               <motion.div
-                className="relative h-28 w-28 overflow-hidden rounded-full shadow-2xl"
+                className="relative h-28 w-28 overflow-hidden rounded-full shadow-2xl bg-transparent"
                 animate={{
-                  scale: [1, 1.05, 1],
+                  rotate: [0, 360],
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 3,
                   repeat: Infinity,
-                  ease: 'easeInOut',
+                  ease: 'linear',
                 }}
               >
                 <img
                   src="/logo.jpg"
                   alt="Loading"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover bg-transparent"
                 />
               </motion.div>
             </motion.div>
