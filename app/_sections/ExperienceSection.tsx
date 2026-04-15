@@ -38,7 +38,7 @@ export function ExperienceSection() {
           <div className="flex flex-col items-center gap-3 text-center">
             <div className="flex items-center gap-5 w-full max-w-4xl mx-auto">
               <div className="flex-1 h-[1px] dark:h-[3px] bg-gradient-to-r from-transparent to-[#6D0B31]/35" />
-              <h2 className="shrink-0 font-display text-[clamp(1.5rem,5vw,2.5rem)] font-bold tracking-tight text-[#6D0B31] dark:text-[#6d0b31]">
+              <h2 className="shrink-0 font-display text-[clamp(1.5rem,5vw,2.5rem)] font-bold tracking-tight text-[#6D0B31] dark:text-[#a91852]">
                 {t("sections.experience.title")}
               </h2>
               <div className="flex-1 h-[1px] dark:h-[3px] bg-gradient-to-l from-transparent to-[#6D0B31]/35" />
@@ -72,7 +72,7 @@ export function ExperienceSection() {
                     {track === key ? (
                       <motion.span
                         layoutId="experience-track"
-                        className={`absolute inset-0 rounded-2xl ${isDark ? 'bg-[#6d0b31]' : 'bg-[#6D0B31]'}`}
+                        className={`absolute inset-0 rounded-2xl ${isDark ? 'bg-[#a91852]' : 'bg-[#6D0B31]'}`}
                         transition={{ type: "spring", stiffness: 350, damping: 30 }}
                       />
                     ) : null}
@@ -109,8 +109,8 @@ export function ExperienceSection() {
                           <motion.div
                             className={`flex h-10 w-10 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-colors ${
                               isActive
-                                ? isDark ? "bg-[#6d0b31]" : "bg-[#6D0B31]"
-                                : isDark ? "bg-[#6d0b31]/20" : "bg-[#6D0B31]/20"
+                                ? isDark ? "bg-[#a91852]" : "bg-[#6D0B31]"
+                                : isDark ? "bg-[#a91852]/20" : "bg-[#6D0B31]/20"
                             }`}
                             animate={{ scale: isActive ? 1.18 : 1 }}
                             transition={{ type: "spring", stiffness: 300, damping: 22 }}
@@ -124,7 +124,7 @@ export function ExperienceSection() {
                           {/* Período debajo del ícono */}
                           <span className={`text-[10px] font-bold uppercase tracking-widest ${
                             isActive 
-                              ? isDark ? "text-[#6d0b31]" : "text-[#6D0B31]"
+                              ? isDark ? "text-[#a91852]" : "text-[#6D0B31]"
                               : "text-foreground/60"
                           }`}>
                             {it.period}
@@ -168,7 +168,7 @@ export function ExperienceSection() {
                         </div>
                       </div>
                       <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-widest ${
-                        isDark ? 'bg-[#6d0b31]/20' : 'bg-[#6D0B31]/20'
+                        isDark ? 'bg-[#a91852]/20' : 'bg-[#6D0B31]/20'
                       } text-accent whitespace-nowrap`}>
                         {items[selectedIndex]?.period}
                       </span>
@@ -188,7 +188,7 @@ export function ExperienceSection() {
                         }
                         disabled={selectedIndex === 0}
                         className={`rounded-full bg-surface-2/95 dark:bg-[#302149]/65 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
-                          isDark ? 'hover:bg-[#6d0b31]/20' : 'hover:bg-[#6D0B31]/20'
+                          isDark ? 'hover:bg-[#a91852]/20' : 'hover:bg-[#6D0B31]/20'
                         } hover:text-accent`}
                       >
                         ←
@@ -200,7 +200,7 @@ export function ExperienceSection() {
                         }
                         disabled={selectedIndex >= items.length - 1}
                         className={`rounded-full bg-surface-2/95 dark:bg-[#302149]/65 px-4 py-2 text-xs font-semibold text-foreground/70 shadow-sm backdrop-blur-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
-                          isDark ? 'hover:bg-[#6d0b31]/20' : 'hover:bg-[#6D0B31]/20'
+                          isDark ? 'hover:bg-[#a91852]/20' : 'hover:bg-[#6D0B31]/20'
                         } hover:text-accent`}
                       >
                         →
