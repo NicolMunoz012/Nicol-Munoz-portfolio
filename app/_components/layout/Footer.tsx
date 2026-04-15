@@ -10,9 +10,9 @@ export function Footer() {
   return (
     <footer
       id="footer"
-      className="relative mt-auto w-full border-t border-border/70 bg-surface py-10"
+      className="relative mt-auto w-full border-t border-[#6D0B31]/30 bg-surface py-10"
     >
-      <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+      <div className="absolute left-0 right-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#6D0B31]/40 to-transparent" />
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6 lg:px-10">
         <div className="flex flex-col items-center gap-2 sm:items-start">
           <p className="text-center text-xs text-muted sm:text-left">
