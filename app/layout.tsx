@@ -6,6 +6,7 @@ import {
 import "./globals.css";
 import { RootProviders } from "./_components/providers/RootProviders";
 import { AppShell } from "./_components/layout/AppShell";
+import { LoadingScreen } from "./_components/ui/LoadingScreen";
 
 const displayFont = Bricolage_Grotesque({
   variable: "--font-display",
@@ -34,6 +35,7 @@ export default function RootLayout({
         className={`${displayFont.variable} ${bodyFont.variable} antialiased`}
       >
         <RootProviders>
+          <LoadingScreen />
           <AppShell>{children}</AppShell>
         </RootProviders>
       </body>
