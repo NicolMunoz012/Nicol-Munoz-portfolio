@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import { useLanguage } from "../../_context/LanguageContext";
 import { useTheme } from "../../_context/ThemeContext";
 import { Menu, Sun, Moon } from "lucide-react";
@@ -13,6 +14,11 @@ interface NavbarProps {
 export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
   const { t, locale, setLocale } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <header className="fixed inset-x-0 top-0 z-30">
@@ -38,7 +44,11 @@ export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
             whileTap={{ scale: 0.95 }}
             aria-label="Toggle theme"
           >
-            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            {mounted ? (
+              theme === "dark" ? <Sun size={18} /> : <Moon size={18} />
+            ) : (
+              <Sun size={18} />
+            )}
           </motion.button>
 
           {/* Botón de Idioma */}

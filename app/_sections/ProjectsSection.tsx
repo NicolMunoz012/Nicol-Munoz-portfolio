@@ -43,8 +43,12 @@ function getBreakpoint(): Breakpoint {
   return 'desktop';
 }
 
-function getColumnHeight(breakpoint: Breakpoint): number {
-  if (breakpoint === 'mobile') return 540;
+function getColumnHeight(breakpoint: Breakpoint, isExpanded: boolean): number {
+  if (breakpoint === 'mobile') {
+    // Solo en mobile: altura dinámica
+    return isExpanded ? 540 : 280;
+  }
+  // Tablet y desktop: altura fija
   if (breakpoint === 'tablet') return 500;
   return 380;
 }
@@ -107,7 +111,8 @@ interface AccordionColumnProps {
 function AccordionColumn({ repos, activeIndex, onActivate, onDeactivate, isDark }: AccordionColumnProps) {
   const ulRef = useRef<HTMLUListElement>(null);
   const [breakpoint, setBreakpoint] = useState<Breakpoint>(getBreakpoint());
-  const columnHeight = getColumnHeight(breakpoint);
+  const isExpanded = activeIndex !== -1;
+  const columnHeight = getColumnHeight(breakpoint, isExpanded);
 
   useEffect(() => {
     const handleResize = () => {
@@ -148,7 +153,7 @@ function AccordionColumn({ repos, activeIndex, onActivate, onDeactivate, isDark 
       style={{
         display: 'grid',
         gridTemplateRows: gridRows,
-        transition: `grid-template-rows ${ACCORDION_DURATION} ${ACCORDION_EASING}`,
+        transition: `grid-template-rows ${ACCORDION_DURATION} ${ACCORDION_EASING}, height ${ACCORDION_DURATION} ${ACCORDION_EASING}`,
         height: `${columnHeight}px`,
         listStyle: 'none',
         margin: 0,
@@ -240,10 +245,11 @@ const overlayCollapsed = isDark
           ? '2px solid #6d0b31'
           : '1px solid rgba(109, 11, 49, 0.22)',
         cursor: 'pointer',
-        transition: `border-color 0.3s ease, background 0.3s ease`,
-        background: isActive
-          ? (isDark ? cardBgDark() : 'linear-gradient(135deg, #fdf4f7 0%, #f5e8ed 100%)')
-          : bgGradient,
+        transition: `border-color 0.3s ease, background-color 0.3s ease, background-image 0.3s ease`,
+        backgroundColor: 'transparent',
+        backgroundImage: isActive
+          ? (isDark ? 'none' : 'linear-gradient(135deg, #fdf4f7 0%, #f5e8ed 100%)')
+          : (isDark ? 'none' : bgGradient),
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
@@ -666,7 +672,7 @@ const overlayCollapsed = isDark
 /* ─────────────────────── Skeleton loader ─────────────── */
 function SkeletonColumn({ isDark }: { isDark: boolean }) {
   const [breakpoint, setBreakpoint] = useState<Breakpoint>(getBreakpoint());
-  const columnHeight = getColumnHeight(breakpoint);
+  const columnHeight = getColumnHeight(breakpoint, false);
 
   useEffect(() => {
     const handleResize = () => {

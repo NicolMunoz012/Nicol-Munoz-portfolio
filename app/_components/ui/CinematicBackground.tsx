@@ -110,9 +110,14 @@ type CinematicBackgroundProps = {
 
 export function CinematicBackground({ isMenuOpen = false }: CinematicBackgroundProps) {
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const bgColor = theme === 'dark' ? '#1c122d' : '#f9f6ee';
   const [navbarHidden, setNavbarHidden] = useState(false);
   const [scene, setScene] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -145,6 +150,16 @@ export function CinematicBackground({ isMenuOpen = false }: CinematicBackgroundP
   }, []);
 
   const backgroundTransform = `translate3d(${(isMenuOpen ? 64 : 0) + scene.x}px, ${(navbarHidden ? -24 : 0) + scene.y}px, 0) scale(1.03)`;
+
+  // Render con color neutral hasta que el componente esté montado
+  if (!mounted) {
+    return (
+      <div
+        className="fixed inset-0 -z-10"
+        style={{ backgroundColor: '#1c122d' }}
+      />
+    );
+  }
 
   return (
     <div
