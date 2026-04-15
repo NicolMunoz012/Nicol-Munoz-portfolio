@@ -55,11 +55,11 @@ export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
           {/* Botón de Menú */}
           <button
             onClick={onMenuToggle}
-            className={`group flex items-center gap-3 rounded-full bg-[#6D0B31]/60 py-2 pl-4 pr-2 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-md transition-all hover:bg-[#6D0B31]/80 active:scale-95 ${
+            className={`group flex items-center gap-3 rounded-full bg-[#6D0B31]/60 py-2 px-2 sm:pl-4 sm:pr-2 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-md transition-all hover:bg-[#6D0B31]/80 active:scale-95 ${
               isMenuOpen ? "bg-[#6D0B31]/75" : ""
             }`}
           >
-            <span>{t("nav.menu") || "Menu"}</span>
+            <span className="hidden sm:inline">{t("nav.menu") || "Menu"}</span>
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-accent-foreground group-hover:scale-110 transition-transform">
               <Menu size={16} />
             </div>

@@ -87,7 +87,7 @@ export function AppShell({ children }: AppShellProps) {
           stiffness: 400,
           damping: 40,
         }}
-        className="flex min-h-screen flex-col transition-shadow duration-500"
+        className="flex min-h-screen flex-col overflow-x-hidden transition-shadow duration-500"
       >
         <Navbar onMenuToggle={() => setIsMenuOpen(true)} isMenuOpen={isMenuOpen} />
         <main className="flex w-full flex-1 flex-col gap-16 pb-16 pt-24 sm:pt-24 lg:pt-28">

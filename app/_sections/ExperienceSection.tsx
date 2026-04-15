@@ -38,7 +38,7 @@ export function ExperienceSection() {
           <div className="flex flex-col items-center gap-3 text-center">
             <div className="flex items-center gap-5 w-full max-w-4xl mx-auto">
               <div className="flex-1 h-[1px] dark:h-[3px] bg-gradient-to-r from-transparent to-[#6D0B31]/35" />
-              <h2 className="shrink-0 font-display text-[40px] font-bold tracking-tight text-[#6D0B31] dark:text-[#a91852]">
+              <h2 className="shrink-0 font-display text-[clamp(1.5rem,5vw,2.5rem)] font-bold tracking-tight text-[#6D0B31] dark:text-[#a91852]">
                 {t("sections.experience.title")}
               </h2>
               <div className="flex-1 h-[1px] dark:h-[3px] bg-gradient-to-l from-transparent to-[#6D0B31]/35" />

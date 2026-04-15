@@ -258,18 +258,22 @@ export function TestimonialsSection() {
   const looped = Array.from({ length: COPIES }, () => testimonials).flat();
 
   return (
-    <section
-      id="testimonials"
-      style={{
-        position: 'relative',
-        width: '100%',
-        background: isDark
-          ? 'linear-gradient(160deg, #41041a 0%, #41041a 50%, #41041a 100%)'
-          : 'linear-gradient(160deg, #4a0520 0%, #6D0B31 50%, #3d0a1c 100%)',
-        padding: '56px 0 52px',
-        overflow: 'hidden',
-      }}
-    >
+    <div className="px-2 sm:px-3" style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
+      <section
+        id="testimonials"
+        style={{
+          position: 'relative',
+          width: '100%',
+          background: isDark
+            ? 'linear-gradient(160deg, #41041a 0%, #41041a 50%, #41041a 100%)'
+            : 'linear-gradient(160deg, #4a0520 0%, #6D0B31 50%, #3d0a1c 100%)',
+          padding: '56px 0 52px',
+          overflow: 'hidden',
+          overflowX: 'hidden',
+          boxSizing: 'border-box',
+          borderRadius: '24px',
+        }}
+      >
       {/* Subtle radial glows */}
       <div
         style={{
@@ -314,7 +318,7 @@ export function TestimonialsSection() {
               }}
             />
             <h2
-              className="shrink-0 font-display text-[40px] font-bold tracking-tight"
+              className="shrink-0 font-display text-[clamp(1.5rem,5vw,2.5rem)] font-bold tracking-tight"
               style={{ color: '#f4c0d1' }}
             >
               {t('sections.testimonials.title')}
@@ -346,6 +350,8 @@ export function TestimonialsSection() {
           ref={wrapperRef}
           style={{
             overflow: 'hidden',
+            overflowX: 'hidden',
+            maxWidth: '100%',
             width: '100%',
             cursor: isGrabbing ? 'grabbing' : 'grab',
           }}
@@ -360,6 +366,8 @@ export function TestimonialsSection() {
           <div
             style={{
               position: 'relative',
+              overflowX: 'hidden',
+              maxWidth: '100%',
               maskImage:
                 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
               WebkitMaskImage:
@@ -387,6 +395,7 @@ export function TestimonialsSection() {
         </div>
       </div>
     </section>
+    </div>
   );
 }
 

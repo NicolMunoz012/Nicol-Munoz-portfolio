@@ -193,14 +193,24 @@ export const esTranslations = {
   testimonials: {
     items: [
       {
-        quote: "Trabajar con Nicol fue una gran experiencia. Diseño limpio y atención al detalle.",
-        author: "— Nombre",
-        role: "Rol",
+        quote: "Nicol fue clave en mi tesis de maestría. Su nivel de compromiso y organización es impecable; cumplió con cada plazo y me dio mucha tranquilidad en un proceso complejo.",
+        author: "— Rafael Eduardo Oliva Muñoz",
+        role: "Licenciado en Lenguas Modernas",
       },
       {
-        quote: "Profesional, creativa y comprometida con el proyecto. La recomiendo mucho.",
-        author: "— Nombre",
-        role: "Rol",
+        quote: "Trabajar con Nicol en la landing page fue genial. Es muy creativa, tiene ideas frescas y una disposición increíble para colaborar. Hace que desarrollar sea mucho más sencillo.",
+        author: "— Maidy Liceth Lamilla",
+        role: "Tecnóloga en Análisis y Desarrollo de Software",
+      },
+      {
+        quote: "Nicol destaca por su capacidad técnica y su atención al detalle. Es una desarrolladora con mucha iniciativa, capaz de resolver problemas complejos de forma eficiente y limpia.",
+        author: "— Haider Enrique Cubillos",
+        role: "Ingeniero de Sistemas / Mentor",
+      },
+      {
+        quote: "Lo que más valoro de trabajar con Nicol es su responsabilidad. No solo entrega a tiempo, sino que se asegura de que la calidad del software supere lo esperado. Es una gran profesional.",
+        author: "— Lidda Maryory Rincon",
+        role: "Investigadora Académica",
       },
     ],
   },
