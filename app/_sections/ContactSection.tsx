@@ -48,17 +48,17 @@ export function ContactSection() {
               
               <div className="relative mt-8 grid grid-cols-1 gap-3">
                 {/* Email con botones de copiar y enviar */}
-                <div className="group flex items-center justify-between gap-4 rounded-2xl bg-surface-2/90 dark:bg-[#302149]/60 px-5 py-4 shadow-sm backdrop-blur-sm">
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#6D0B31]/15">
+                <div className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 rounded-2xl bg-surface-2/90 dark:bg-[#302149]/60 px-5 py-4 shadow-sm backdrop-blur-sm">
+                  <div className="flex items-center gap-4 min-w-0 flex-1 w-full sm:w-auto">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#6D0B31]/15">
                       <Mail size={18} className="text-accent" />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col min-w-0 flex-1">
                       <span className="text-base font-bold text-foreground">Email</span>
-                      <span className="text-sm text-foreground/60">{email}</span>
+                      <span className="text-sm text-foreground/60 break-all sm:break-normal">{email}</span>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 shrink-0 self-end sm:self-auto">
                     <motion.button
                       type="button"
                       onClick={async () => {
