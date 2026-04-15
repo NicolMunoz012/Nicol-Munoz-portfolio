@@ -590,24 +590,18 @@ const overlayCollapsed = isDark
                 gap: '6px',
                 padding: buttonPadding,
                 borderRadius: '99px',
-                border: '1.5px solid rgba(109,11,49,0.60)',
-                background: 'rgba(109,11,49,0.45)',
-                color: '#f4c0d1',
+                border: '1.5px solid #8F1242',
+                background: '#8F1242',
+                color: '#fff',
                 fontSize: buttonFontSize,
                 fontWeight: 600,
                 textDecoration: 'none',
-                transition: 'background 0.2s, border-color 0.2s',
+                transition: 'background 0.2s',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(109,11,49,0.72)';
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(143,18,66,0.85)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(109,11,49,0.45)';
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(109,11,49,0.60)';
-              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = '#6D0B31'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = '#8F1242'; }}
             >
               <IconGithub />
               Repositorio
