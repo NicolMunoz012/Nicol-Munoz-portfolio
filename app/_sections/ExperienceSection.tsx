@@ -149,16 +149,16 @@ export function ExperienceSection() {
                 >
                   <div className="relative overflow-hidden rounded-3xl bg-surface/90 dark:bg-[#302149]/70 p-6 shadow-lg backdrop-blur-sm">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(229,154,196,0.16),transparent_60%)]" />
-                    <div className="relative mb-3 flex items-start justify-between gap-3">
-                      <div className="flex items-start gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-primary-dark to-accent shadow-sm">
+                    <div className="relative mb-3 flex flex-col sm:flex-row items-start justify-between gap-3">
+                      <div className="flex items-start gap-3 min-w-0 flex-1">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-primary-dark to-accent shadow-sm">
                           {track === "academic" ? (
                             <GraduationCap size={18} className="text-accent-foreground" />
                           ) : (
                             <Briefcase size={18} className="text-accent-foreground" />
                           )}
                         </div>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col min-w-0 flex-1">
                           <span className="font-display text-lg font-bold text-foreground">
                             {items[selectedIndex]?.title}
                           </span>
@@ -169,7 +169,7 @@ export function ExperienceSection() {
                       </div>
                       <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-widest ${
                         isDark ? 'bg-[#a91852]/20' : 'bg-[#6D0B31]/20'
-                      } text-accent`}>
+                      } text-accent whitespace-nowrap`}>
                         {items[selectedIndex]?.period}
                       </span>
                     </div>
