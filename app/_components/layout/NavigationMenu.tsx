@@ -16,12 +16,13 @@ const SOCIAL_LINKS = [
 
 const NAV_ITEMS: {
   href: string;
-  key: "about" | "projects" | "testimonials" | "experience" | "contact";
+  key: "about" | "projects" | "testimonials" | "experience" | "skills" | "contact";
 }[] = [
   { href: "#about", key: "about" },
   { href: "#projects", key: "projects" },
   { href: "#testimonials", key: "testimonials" },
   { href: "#experience", key: "experience" },
+  { href: "#skills", key: "skills" },
   { href: "#contact", key: "contact" },
 ];
 
@@ -141,7 +142,7 @@ export function NavigationMenu({ isOpen, onClose }: NavigationMenuProps) {
             </div>
 
             {/* Navigation Links */}
-            <nav className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10 flex flex-1 flex-col justify-center gap-6">
+            <nav className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10 flex flex-1 flex-col justify-center gap-5 sm:gap-3 lg:gap-5">
               {NAV_ITEMS.map((item, index) => (
                 <motion.div
                   key={item.key}
@@ -152,12 +153,12 @@ export function NavigationMenu({ isOpen, onClose }: NavigationMenuProps) {
                   <Link
                     href={item.href}
                     onClick={onClose}
-                    className="flex items-center gap-6"
+                    className="flex items-center gap-5 sm:gap-3 lg:gap-6"
                   >
-                    <span className="font-display text-sm font-bold text-accent/50 group-hover:text-accent">
+                    <span className="font-display text-sm sm:text-[10px] lg:text-xs font-bold text-accent/50 group-hover:text-accent">
                       0{index + 1}
                     </span>
-                    <span className="font-display text-4xl font-bold tracking-tight text-foreground transition-colors group-hover:text-accent sm:text-5xl lg:text-6xl">
+                    <span className="font-display text-[2.5rem] sm:text-[clamp(1.5rem,4.5vw,3rem)] font-bold tracking-tight text-foreground transition-colors group-hover:text-accent leading-tight">
                       {t(`nav.${item.key}`)}
                     </span>
                   </Link>

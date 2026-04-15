@@ -5,6 +5,7 @@ export const esTranslations = {
     projects: "Proyectos",
     testimonials: "Testimonios",
     experience: "Experiencia",
+    skills: "Tecnologías",
     contact: "Contacto",
     settings: "Configuración",
     menu: "Menú",
