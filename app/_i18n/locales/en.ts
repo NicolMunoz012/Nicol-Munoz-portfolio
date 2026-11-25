@@ -108,16 +108,16 @@ export const enTranslations = {
   experience: {
     academic: [
       {
-        period: "2026 – Present",
-        title: "Ciberguardianas",
-        place: "Catalizador de Cambio Social – Nariño",
-        description: "Ongoing cybersecurity course focused on women in technology. It covers digital security fundamentals, personal data protection, identifying online threats, and best practices for safe browsing. An initiative that combines technical training with a gender perspective within the tech ecosystem.",
-      },
-      {
-        period: "Jan 2026 – Present",
+        period: "Jan – Aug 2026",
         title: "Samsung Innovation Campus – AI & Employability",
         place: "Samsung",
-        description: "Ongoing program structured in two complementary modules: Artificial Intelligence, exploring machine learning concepts, data processing, and practical AI applications; and Employability, focused on developing professional skills, building a personal brand, and preparing for the tech job market.",
+        description: "Completed program structured in two complementary modules: Artificial Intelligence, where I explored machine learning concepts, data processing, and practical AI applications; and Employability, focused on developing professional skills, building a personal brand, and preparing for the tech job market.",
+      },
+      {
+        period: "Mar – May 2026",
+        title: "Ciberguardianas",
+        place: "Catalizador de Cambio Social – Nariño",
+        description: "Completed cybersecurity course focused on women in technology. It covered digital security fundamentals, personal data protection, identifying online threats, and best practices for safe browsing. An initiative that combines technical training with a gender perspective within the tech ecosystem.",
       },
       {
         period: "Oct 2025",

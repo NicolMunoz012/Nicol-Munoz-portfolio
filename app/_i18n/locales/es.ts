@@ -108,16 +108,16 @@ export const esTranslations = {
   experience: {
     academic: [
       {
-        period: "2026 – Presente",
-        title: "Ciberguardianas",
-        place: "Catalizador de Cambio Social – Nariño",
-        description: "Curso de ciberseguridad en curso orientado a mujeres en tecnología. Aborda fundamentos de seguridad digital, protección de datos personales, identificación de amenazas en línea y buenas prácticas para navegar de forma segura. Una iniciativa que combina formación técnica con perspectiva de género en el ecosistema tecnológico.",
-      },
-      {
-        period: "Ene 2026 – Presente",
+        period: "Ene – Ago 2026",
         title: "Samsung Innovation Campus – IA & Empleabilidad",
         place: "Samsung",
-        description: "Programa en curso estructurado en dos módulos complementarios: Inteligencia Artificial, donde se exploran conceptos de machine learning, procesamiento de datos y aplicaciones prácticas de IA; y Empleabilidad, enfocado en el desarrollo de habilidades profesionales, construcción de marca personal y preparación para el mercado laboral tecnológico.",
+        description: "Programa completado, estructurado en dos módulos complementarios: Inteligencia Artificial, donde exploré conceptos de machine learning, procesamiento de datos y aplicaciones prácticas de IA; y Empleabilidad, enfocado en el desarrollo de habilidades profesionales, construcción de marca personal y preparación para el mercado laboral tecnológico.",
+      },
+      {
+        period: "Mar – May 2026",
+        title: "Ciberguardianas",
+        place: "Catalizador de Cambio Social – Nariño",
+        description: "Curso de ciberseguridad completado, orientado a mujeres en tecnología. Abordó fundamentos de seguridad digital, protección de datos personales, identificación de amenazas en línea y buenas prácticas para navegar de forma segura. Una iniciativa que combina formación técnica con perspectiva de género en el ecosistema tecnológico.",
       },
       {
         period: "Oct 2025",
