@@ -5,11 +5,10 @@ import { SkillsSection } from "./_sections/SkillsSection";
 import { ExperienceSection } from "./_sections/ExperienceSection";
 import { TestimonialsSection } from "./_sections/TestimonialsSection";
 import { ContactSection } from "./_sections/ContactSection";
-import { Footer } from "./_components/layout/Footer";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col gap-6 md:gap-8">
+    <>
       <HeroSection />
       <AboutSection />
       <ProjectsSection />
@@ -17,7 +16,6 @@ export default function Home() {
       <ExperienceSection />
       <SkillsSection />
       <ContactSection />
-      <Footer />
-    </div>
+    </>
   );
 }

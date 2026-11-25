@@ -9,11 +9,9 @@ type RootProvidersProps = {
 };
 
 export function RootProviders({ children }: RootProvidersProps) {
-  // Comentario: Proveedor raíz que agrupa tema e idioma.
   return (
     <ThemeProvider>
       <LanguageProvider>{children}</LanguageProvider>
     </ThemeProvider>
   );
 }
-
