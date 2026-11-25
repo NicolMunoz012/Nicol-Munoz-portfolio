@@ -108,6 +108,12 @@ export const esTranslations = {
   experience: {
     academic: [
       {
+        period: "Oct 2026",
+        title: "Cuarto Seminario Nacional de Ingeniería de Software",
+        place: "Pasto, Colombia",
+        description: "Seminario académico de 8 horas realizado el 27 de octubre de 2026 en Pasto. Reunió a estudiantes, docentes y profesionales en torno a la práctica actual de la ingeniería de software, con ponencias y espacios de diálogo que conectan lo que se aprende en el aula con los retos reales de la industria.",
+      },
+      {
         period: "Ene – Ago 2026",
         title: "Samsung Innovation Campus – IA & Empleabilidad",
         place: "Samsung",

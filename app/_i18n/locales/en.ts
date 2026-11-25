@@ -108,6 +108,12 @@ export const enTranslations = {
   experience: {
     academic: [
       {
+        period: "Oct 2026",
+        title: "Fourth National Software Engineering Seminar",
+        place: "Pasto, Colombia",
+        description: "8-hour academic seminar held on October 27, 2026 in Pasto. It brought together students, faculty, and professionals around the current practice of software engineering, with talks and open discussions that connect classroom learning with real industry challenges.",
+      },
+      {
         period: "Jan – Aug 2026",
         title: "Samsung Innovation Campus – AI & Employability",
         place: "Samsung",
