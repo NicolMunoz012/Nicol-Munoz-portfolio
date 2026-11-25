@@ -38,13 +38,13 @@ export const metadata: Metadata = {
     siteName: "Nicol Muñoz",
     locale: "es_CO",
     alternateLocale: ["en_US"],
-    images: [{ url: "/me.jpg", alt: "Retrato de Nicol Muñoz" }],
+    images: [{ url: "/nick.jpg", alt: "Retrato de Nicol Muñoz" }],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
-    images: ["/me.jpg"],
+    images: ["/nick.jpg"],
   },
 };
 
