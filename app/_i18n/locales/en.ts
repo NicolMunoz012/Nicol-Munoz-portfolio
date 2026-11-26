@@ -56,36 +56,7 @@ export const enTranslations = {
     recommendationsTitle: "Recommendations",
     recommendations: {
       playlist: "Playlist",
-      books: "Books",
     },
-    booksLabel: "My favorite reads",
-    books: [
-      {
-        title: "Good morning, princess",
-        author: "Blue Jeans",
-        review: "A saga that completely hooked me. Romantic, yes, but I loved every single book.",
-      },
-      {
-        title: "Veronika Decides to Die",
-        author: "Paulo Coelho",
-        review: "Made me think deeply about the value of life and what it truly means to be 'crazy'.",
-      },
-      {
-        title: "Satanás",
-        author: "Mario Mendoza",
-        review: "Dark and uncomfortable, but brilliant. Mendoza writes Colombia in a way that stings.",
-      },
-      {
-        title: "Find Serenity in the Age of Anxiety",
-        author: "Marian Rojas Estapé",
-        review: "Changed the way I understand my emotions. I recommend it to absolutely everyone.",
-      },
-      {
-        title: "Me Before You",
-        author: "Jojo Moyes",
-        review: "It broke my heart in the best possible way. I cried so much.",
-      },
-    ],
   },
   skills: {
     pickTech: "Pick a technology",
@@ -95,6 +66,7 @@ export const enTranslations = {
     editorUpdated: "ago",
     loading: "Loading",
     reposSubtitle: "Related repositories",
+    collaboration: "Collaboration",
     skillDescriptions: {
       Java: "I use Java mainly in academic courses and backend projects focused on object-oriented design. It has helped me build solid programming fundamentals like inheritance, encapsulation, and API design.",
       Python: "Python is my exploration language: I use it for task automation, data analysis, and small scripts that save time or let me quickly test ideas.",
@@ -108,16 +80,22 @@ export const enTranslations = {
   experience: {
     academic: [
       {
-        period: "2026 – Present",
-        title: "Ciberguardianas",
-        place: "Catalizador de Cambio Social – Nariño",
-        description: "Ongoing cybersecurity course focused on women in technology. It covers digital security fundamentals, personal data protection, identifying online threats, and best practices for safe browsing. An initiative that combines technical training with a gender perspective within the tech ecosystem.",
+        period: "Oct 2026",
+        title: "Fourth National Software Engineering Seminar",
+        place: "Pasto, Colombia",
+        description: "8-hour academic seminar held on October 27, 2026 in Pasto. It brought together students, faculty, and professionals around the current practice of software engineering, with talks and open discussions that connect classroom learning with real industry challenges.",
       },
       {
-        period: "Jan 2026 – Present",
+        period: "Jan – Aug 2026",
         title: "Samsung Innovation Campus – AI & Employability",
         place: "Samsung",
-        description: "Ongoing program structured in two complementary modules: Artificial Intelligence, exploring machine learning concepts, data processing, and practical AI applications; and Employability, focused on developing professional skills, building a personal brand, and preparing for the tech job market.",
+        description: "Completed program structured in two complementary modules: Artificial Intelligence, where I explored machine learning concepts, data processing, and practical AI applications; and Employability, focused on developing professional skills, building a personal brand, and preparing for the tech job market.",
+      },
+      {
+        period: "Mar – May 2026",
+        title: "Ciberguardianas",
+        place: "Catalizador de Cambio Social – Nariño",
+        description: "Completed cybersecurity course focused on women in technology. It covered digital security fundamentals, personal data protection, identifying online threats, and best practices for safe browsing. An initiative that combines technical training with a gender perspective within the tech ecosystem.",
       },
       {
         period: "Oct 2025",

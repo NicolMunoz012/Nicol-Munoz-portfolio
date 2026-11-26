@@ -82,7 +82,7 @@ export function HeroSection() {
           <div className="surface-card w-full max-w-md rounded-3xl p-4 shadow-xl">
             <div className="relative aspect-square overflow-hidden rounded-2xl bg-card-2 shadow-2xl">
               <Image
-                src="/me.jpg"
+                src="/nick.jpg"
                 alt={t("hero.photoAlt")}
                 fill
                 priority

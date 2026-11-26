@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { GITHUB_USERNAME } from "../../../_lib/links";
+import { GITHUB_USERNAME, isOwnGithubAccount } from "../../../_lib/links";
+import { detectStack, mapWithLimit } from "../../../_lib/githubStack";
 
 type GithubApiRepo = {
   id: number;
@@ -15,6 +16,8 @@ type GithubApiRepo = {
   archived: boolean;
   fork: boolean;
   homepage: string | null;
+  owner: { login: string };
+  default_branch: string;
 };
 
 const ERROR_CACHE = "public, s-maxage=60, stale-while-revalidate=600";
@@ -48,7 +51,7 @@ const byPushedDesc = (a: GithubApiRepo, b: GithubApiRepo) =>
   new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime();
 
 export async function GET() {
-  const reposUrl = `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed`;
+  const reposUrl = `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed&type=all`;
 
   let reposRaw: GithubApiRepo[];
   try {
@@ -74,12 +77,17 @@ export async function GET() {
     pushedAt: r.pushed_at,
     updatedAt: r.updated_at,
     homepage: sanitizeUrl(r.homepage),
+    collaboration: !isOwnGithubAccount(r.owner.login),
   });
 
-  const allRepos = baseRepos.slice().sort(byPushedDesc).slice(0, 30).map(summarize);
+  // Se analizan todos los repos (no solo los recientes) para que los proyectos antiguos también cuenten en el stack.
+  const recentRepos = baseRepos.slice().sort(byPushedDesc);
+  const stacks = await mapWithLimit(recentRepos, 6, detectStack);
+  const allRepos = recentRepos.map((r, i) => ({ ...summarize(r), stack: stacks[i].stack, weakStack: stacks[i].weak }));
 
+  // Los destacados de Proyectos siguen siendo solo repos propios.
   const repos = baseRepos
-    .slice()
+    .filter((r) => isOwnGithubAccount(r.owner.login))
     .sort((a, b) => b.stargazers_count - a.stargazers_count || byPushedDesc(a, b))
     .slice(0, 6)
     .map(summarize);

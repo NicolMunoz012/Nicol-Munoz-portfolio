@@ -56,36 +56,7 @@ export const esTranslations = {
     recommendationsTitle: "Recomendaciones",
     recommendations: {
       playlist: "Playlist",
-      books: "Libros",
     },
-    booksLabel: "Mis lecturas favoritas",
-    books: [
-      {
-        title: "Buenos días, princesa",
-        author: "Blue Jeans",
-        review: "Una saga que me atrapó completamente. Romanticona sí, pero me encantó cada libro.",
-      },
-      {
-        title: "Veronika decide morir",
-        author: "Paulo Coelho",
-        review: "Me hizo pensar mucho en el valor de la vida y en qué significa realmente estar 'loca'.",
-      },
-      {
-        title: "Satanás",
-        author: "Mario Mendoza",
-        review: "Oscuro e incómodo, pero brillante. Mendoza escribe Colombia de una forma que duele.",
-      },
-      {
-        title: "Cómo hacer que te pasen cosas buenas",
-        author: "Marian Rojas Estapé",
-        review: "Cambió cómo entiendo mis emociones. Lo recomiendo a todo el mundo sin excepción.",
-      },
-      {
-        title: "Yo antes de ti",
-        author: "Jojo Moyes",
-        review: "Me rompió el corazón de la mejor manera posible. Lloré muchísimo.",
-      },
-    ],
   },
   skills: {
     pickTech: "Elige una tecnología",
@@ -95,6 +66,7 @@ export const esTranslations = {
     editorUpdated: "atrás",
     loading: "Cargando",
     reposSubtitle: "Repositorios relacionados",
+    collaboration: "Colaboración",
     skillDescriptions: {
       Java: "Uso Java principalmente en cursos académicos y en proyectos de backend orientados a objetos. Me ha ayudado a entender sólidos principios de programación como herencia, encapsulamiento y diseño de APIs.",
       Python: "Python es mi lenguaje de exploración: lo uso para automatización de tareas, análisis de datos y pequeños scripts que me ahorran tiempo o me permiten experimentar ideas rápidamente.",
@@ -108,16 +80,22 @@ export const esTranslations = {
   experience: {
     academic: [
       {
-        period: "2026 – Presente",
-        title: "Ciberguardianas",
-        place: "Catalizador de Cambio Social – Nariño",
-        description: "Curso de ciberseguridad en curso orientado a mujeres en tecnología. Aborda fundamentos de seguridad digital, protección de datos personales, identificación de amenazas en línea y buenas prácticas para navegar de forma segura. Una iniciativa que combina formación técnica con perspectiva de género en el ecosistema tecnológico.",
+        period: "Oct 2026",
+        title: "Cuarto Seminario Nacional de Ingeniería de Software",
+        place: "Pasto, Colombia",
+        description: "Seminario académico de 8 horas realizado el 27 de octubre de 2026 en Pasto. Reunió a estudiantes, docentes y profesionales en torno a la práctica actual de la ingeniería de software, con ponencias y espacios de diálogo que conectan lo que se aprende en el aula con los retos reales de la industria.",
       },
       {
-        period: "Ene 2026 – Presente",
+        period: "Ene – Ago 2026",
         title: "Samsung Innovation Campus – IA & Empleabilidad",
         place: "Samsung",
-        description: "Programa en curso estructurado en dos módulos complementarios: Inteligencia Artificial, donde se exploran conceptos de machine learning, procesamiento de datos y aplicaciones prácticas de IA; y Empleabilidad, enfocado en el desarrollo de habilidades profesionales, construcción de marca personal y preparación para el mercado laboral tecnológico.",
+        description: "Programa completado, estructurado en dos módulos complementarios: Inteligencia Artificial, donde exploré conceptos de machine learning, procesamiento de datos y aplicaciones prácticas de IA; y Empleabilidad, enfocado en el desarrollo de habilidades profesionales, construcción de marca personal y preparación para el mercado laboral tecnológico.",
+      },
+      {
+        period: "Mar – May 2026",
+        title: "Ciberguardianas",
+        place: "Catalizador de Cambio Social – Nariño",
+        description: "Curso de ciberseguridad completado, orientado a mujeres en tecnología. Abordó fundamentos de seguridad digital, protección de datos personales, identificación de amenazas en línea y buenas prácticas para navegar de forma segura. Una iniciativa que combina formación técnica con perspectiva de género en el ecosistema tecnológico.",
       },
       {
         period: "Oct 2025",

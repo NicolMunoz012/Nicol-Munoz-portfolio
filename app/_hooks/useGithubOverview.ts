@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
+import type { SkillTag } from "../_lib/githubStackTypes";
 
 export type GithubRepo = {
   id: number;
@@ -14,13 +15,19 @@ export type GithubRepo = {
   pushedAt: string;
   updatedAt: string;
   homepage: string | null;
+  /** El repo es de otra persona u organización y Nicol colabora en él. */
+  collaboration: boolean;
+  /** Tecnologías detectadas en sus archivos de dependencias (solo en allRepos). */
+  stack?: SkillTag[];
+  /** Tecnologías deducidas solo por el nombre del repo: se muestran después de las confirmadas. */
+  weakStack?: SkillTag[];
 };
 
 export type GithubOverview = {
   username: string;
   /** Los 6 repos destacados (más estrellas, luego más recientes). */
   repos: GithubRepo[];
-  /** Los 30 repos con actividad más reciente. */
+  /** Todos los repos públicos (propios y de colaboración), del más reciente al más antiguo. */
   allRepos: GithubRepo[];
 };
 
