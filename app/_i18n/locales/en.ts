@@ -56,36 +56,7 @@ export const enTranslations = {
     recommendationsTitle: "Recommendations",
     recommendations: {
       playlist: "Playlist",
-      books: "Books",
     },
-    booksLabel: "My favorite reads",
-    books: [
-      {
-        title: "Good morning, princess",
-        author: "Blue Jeans",
-        review: "A saga that completely hooked me. Romantic, yes, but I loved every single book.",
-      },
-      {
-        title: "Veronika Decides to Die",
-        author: "Paulo Coelho",
-        review: "Made me think deeply about the value of life and what it truly means to be 'crazy'.",
-      },
-      {
-        title: "Satanás",
-        author: "Mario Mendoza",
-        review: "Dark and uncomfortable, but brilliant. Mendoza writes Colombia in a way that stings.",
-      },
-      {
-        title: "Find Serenity in the Age of Anxiety",
-        author: "Marian Rojas Estapé",
-        review: "Changed the way I understand my emotions. I recommend it to absolutely everyone.",
-      },
-      {
-        title: "Me Before You",
-        author: "Jojo Moyes",
-        review: "It broke my heart in the best possible way. I cried so much.",
-      },
-    ],
   },
   skills: {
     pickTech: "Pick a technology",
