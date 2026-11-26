@@ -4,8 +4,8 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
-  useState,
+  useMemo,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 import {
@@ -14,6 +14,7 @@ import {
   type TranslationPath,
   locales,
 } from "../_i18n";
+import { LANGUAGE_STORAGE_KEY } from "../_lib/preferences";
 
 type LanguageContextValue = {
   locale: SupportedLocale;
@@ -26,49 +27,47 @@ const LanguageContext = createContext<LanguageContextValue | undefined>(
   undefined,
 );
 
-const STORAGE_KEY = "portfolio-language";
+// La fuente de verdad es el atributo `lang` de <html>, que el script de
+// `preferences.ts` deja listo antes de hidratar.
+const listeners = new Set<() => void>();
 
-function getInitialLocale(): SupportedLocale {
-  if (typeof window === "undefined") return "es";
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
 
-  const stored = window.localStorage.getItem(STORAGE_KEY) as
-    | SupportedLocale
-    | null;
+function readLocale(): SupportedLocale {
+  return document.documentElement.lang === "en" ? "en" : "es";
+}
 
-  if (stored && locales.includes(stored)) return stored;
-
-  const browserLanguage =
-    typeof navigator !== "undefined" ? navigator.language : "es";
-  const baseLanguage = browserLanguage.split("-")[0] as SupportedLocale;
-
-  return locales.includes(baseLanguage) ? baseLanguage : "es";
+function writeLocale(locale: SupportedLocale) {
+  document.documentElement.lang = locale;
+  try {
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, locale);
+  } catch {
+    // Almacenamiento bloqueado: el idioma se aplica igual durante la sesión.
+  }
+  listeners.forEach((listener) => listener());
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<SupportedLocale>(getInitialLocale);
+  const locale = useSyncExternalStore<SupportedLocale>(subscribe, readLocale, () => "es");
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem(STORAGE_KEY, locale);
-    document.documentElement.lang = locale;
-  }, [locale]);
-
-  const setLocale = useCallback((next: SupportedLocale) => {
-    setLocaleState(next);
-  }, []);
+  const setLocale = useCallback((next: SupportedLocale) => writeLocale(next), []);
 
   const t = useCallback(
     (path: TranslationPath) => getTranslation(locale, path),
     [locale],
   );
 
-  return (
-    <LanguageContext.Provider
-      value={{ locale, setLocale, t, availableLocales: locales }}
-    >
-      {children}
-    </LanguageContext.Provider>
+  const value = useMemo(
+    () => ({ locale, setLocale, t, availableLocales: locales }),
+    [locale, setLocale, t],
   );
+
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 
 export function useLanguage(): LanguageContextValue {
@@ -80,4 +79,3 @@ export function useLanguage(): LanguageContextValue {
 
   return context;
 }
-

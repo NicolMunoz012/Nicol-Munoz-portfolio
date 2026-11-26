@@ -1,27 +1,77 @@
 'use client';
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// MODULE-LEVEL SINGLETONS – shared across every component that calls the hook
+// Singletons de módulo: un único reproductor compartido por todos los
+// componentes que usan el hook.
 // ─────────────────────────────────────────────────────────────────────────────
+const PLAYLIST_ID = 'PLts7NU9C3pH3P4UMrAuVUzBptFlW8ZmAH';
+const CONTAINER_ID = 'yt-player-singleton';
+const PLAYING = 1; // YT.PlayerState.PLAYING (literal: el global YT puede no existir aún)
+
 let playerInstance: YT.Player | null = null;
+let playerReady = false;
 let apiReady = false;
 let apiLoading = false;
-const listeners = new Set<() => void>(); // components waiting for state changes
+const listeners = new Set<() => void>();
 
 function notifyListeners() {
   listeners.forEach((fn) => fn());
 }
 
-function loadYouTubeAPI() {
-  if (apiReady || apiLoading || typeof window === 'undefined') return;
+function initPlayer() {
+  if (!apiReady || playerInstance || typeof YT === 'undefined') return;
+
+  playerInstance = new YT.Player(CONTAINER_ID, {
+    width: 0,
+    height: 0,
+    playerVars: {
+      listType: 'playlist',
+      list: PLAYLIST_ID,
+      autoplay: 0,
+      controls: 0,
+      origin: window.location.origin,
+    },
+    events: {
+      onReady: () => {
+        playerReady = true;
+        playerInstance?.setShuffle(true);
+        notifyListeners();
+      },
+      onStateChange: notifyListeners,
+      onError: notifyListeners,
+    },
+  });
+}
+
+/** Carga la API de YouTube y crea el reproductor oculto. Solo la primera llamada hace algo. */
+function ensurePlayer() {
+  if (typeof window === 'undefined' || playerInstance) return;
+
+  if (!document.getElementById(CONTAINER_ID)) {
+    const div = document.createElement('div');
+    div.id = CONTAINER_ID;
+    div.style.position = 'absolute';
+    div.style.width = '0';
+    div.style.height = '0';
+    div.style.overflow = 'hidden';
+    div.style.pointerEvents = 'none';
+    div.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(div);
+  }
+
+  if (apiReady) {
+    initPlayer();
+    return;
+  }
+  if (apiLoading) return;
   apiLoading = true;
 
-  // Called by YouTube when the script finishes loading
   (window as unknown as { onYouTubeIframeAPIReady?: () => void }).onYouTubeIframeAPIReady = () => {
     apiReady = true;
     apiLoading = false;
+    initPlayer();
     notifyListeners();
   };
 
@@ -30,57 +80,25 @@ function loadYouTubeAPI() {
   document.head.appendChild(tag);
 }
 
-function initPlayer(containerId: string) {
-  if (!apiReady || playerInstance || typeof YT === 'undefined') return;
-
-  playerInstance = new YT.Player(containerId, {
-    width: 0,
-    height: 0,
-    playerVars: {
-      listType: 'playlist',
-      list: 'PLts7NU9C3pH3P4UMrAuVUzBptFlW8ZmAH',
-      autoplay: 0,
-      controls: 0,
-    },
-    events: {
-      onReady: () => {
-        playerInstance?.setShuffle(true);
-        notifyListeners();
-      },
-      onStateChange: () => {
-        notifyListeners();
-      },
-      onError: () => {
-        notifyListeners();
-      },
-    },
-  });
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// HOOK
-// ─────────────────────────────────────────────────────────────────────────────
 export interface YouTubePlayerState {
-  isReady: boolean;
+  /** El reproductor terminó de cargar y acepta órdenes. */
+  isLoaded: boolean;
   isPlaying: boolean;
   currentTitle: string;
   currentChannel: string;
   progress: number; // 0–1
-  play: () => void;
-  pause: () => void;
   toggle: () => void;
   next: () => void;
   prev: () => void;
 }
 
-/** Unique id for the hidden iframe container element */
-const CONTAINER_ID = 'yt-player-singleton';
+/**
+ * @param enabled Mientras sea false no se descarga nada de YouTube. Pásalo a
+ * true cuando la persona abre el reproductor por primera vez.
+ */
+export function useYouTubePlayer(enabled: boolean): YouTubePlayerState {
+  const [, setTick] = useState(0);
 
-export function useYouTubePlayer(): YouTubePlayerState {
-  const [tick, setTick] = useState(0); // triggers re-render on state changes
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  // Subscribe to singleton change events
   useEffect(() => {
     const rerender = () => setTick((n) => n + 1);
     listeners.add(rerender);
@@ -89,126 +107,55 @@ export function useYouTubePlayer(): YouTubePlayerState {
     };
   }, []);
 
-  // Load YouTube IFrame API once
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (enabled) ensurePlayer();
+  }, [enabled]);
 
-    // Ensure the hidden container div exists in the DOM
-    if (!document.getElementById(CONTAINER_ID)) {
-      const div = document.createElement('div');
-      div.id = CONTAINER_ID;
-      div.style.position = 'absolute';
-      div.style.width = '0';
-      div.style.height = '0';
-      div.style.overflow = 'hidden';
-      div.style.pointerEvents = 'none';
-      div.setAttribute('aria-hidden', 'true');
-      document.body.appendChild(div);
-    }
-
-    if (!apiReady) {
-      loadYouTubeAPI();
-    } else {
-      // API was already ready (another component loaded it first)
-      initPlayer(CONTAINER_ID);
-    }
-  }, []);
-
-  // Init player once API is ready
-  useEffect(() => {
-    if (apiReady && !playerInstance) {
-      initPlayer(CONTAINER_ID);
-    }
-  }, [tick]);
-
-  // Progress interval
-  useEffect(() => {
-    const startInterval = () => {
-      if (intervalRef.current) return;
-      intervalRef.current = setInterval(() => setTick((n) => n + 1), 500);
-    };
-    const stopInterval = () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    };
-
-    const state = playerInstance?.getPlayerState?.();
-    // YT.PlayerState.PLAYING === 1 — use literal to avoid ReferenceError before API loads
-    if (state === 1) {
-      startInterval();
-    } else {
-      stopInterval();
-    }
-
-    return stopInterval;
-  });
-
-  // ── Derived state ───────────────────────────────────────────────────────────
-  const playerState = playerInstance?.getPlayerState?.();
-  // YT.PlayerState.PLAYING === 1
-  const isPlaying = playerState === 1;
-
+  let isPlaying = false;
   let currentTitle = '';
   let currentChannel = '';
   let progress = 0;
 
-  try {
-    const videoData = playerInstance?.getVideoData?.();
-    currentTitle = videoData?.title ?? '';
-    currentChannel = videoData?.author ?? '';
+  if (playerReady && playerInstance) {
+    try {
+      isPlaying = playerInstance.getPlayerState() === PLAYING;
+      const videoData = playerInstance.getVideoData?.();
+      currentTitle = videoData?.title ?? '';
+      currentChannel = videoData?.author ?? '';
 
-    const duration = playerInstance?.getDuration?.() ?? 0;
-    const current = playerInstance?.getCurrentTime?.() ?? 0;
-    progress = duration > 0 ? current / duration : 0;
-  } catch {
-    // player not ready yet
+      const duration = playerInstance.getDuration?.() ?? 0;
+      const current = playerInstance.getCurrentTime?.() ?? 0;
+      progress = duration > 0 ? Math.min(1, current / duration) : 0;
+    } catch {
+      // El iframe aún no responde: se mantienen los valores por defecto.
+    }
   }
 
-  const isReady = Boolean(playerInstance && playerState !== undefined && playerState !== -1);
-
-  // ── Actions ─────────────────────────────────────────────────────────────────
-  const play = useCallback(() => {
-    playerInstance?.playVideo();
-    notifyListeners();
-  }, []);
-
-  const pause = useCallback(() => {
-    playerInstance?.pauseVideo();
-    notifyListeners();
-  }, []);
+  // Mientras suena, refresca el progreso dos veces por segundo.
+  useEffect(() => {
+    if (!isPlaying) return;
+    const id = setInterval(() => setTick((n) => n + 1), 500);
+    return () => clearInterval(id);
+  }, [isPlaying]);
 
   const toggle = useCallback(() => {
-    // YT.PlayerState.PLAYING === 1
-    if (playerInstance?.getPlayerState() === 1) {
-      playerInstance.pauseVideo();
-    } else {
-      playerInstance?.playVideo();
-    }
+    if (!playerReady || !playerInstance) return;
+    if (playerInstance.getPlayerState() === PLAYING) playerInstance.pauseVideo();
+    else playerInstance.playVideo();
     notifyListeners();
   }, []);
 
   const next = useCallback(() => {
+    if (!playerReady) return;
     playerInstance?.nextVideo();
     notifyListeners();
   }, []);
 
   const prev = useCallback(() => {
+    if (!playerReady) return;
     playerInstance?.previousVideo();
     notifyListeners();
   }, []);
 
-  return {
-    isReady,
-    isPlaying,
-    currentTitle,
-    currentChannel,
-    progress,
-    play,
-    pause,
-    toggle,
-    next,
-    prev,
-  };
+  return { isLoaded: playerReady, isPlaying, currentTitle, currentChannel, progress, toggle, next, prev };
 }

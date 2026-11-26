@@ -1,119 +1,209 @@
 @import "tailwindcss";
 
-/* Comentario: Tailwind v4 - estrategia dark mode por clase (obligatoria). */
+/* Tailwind v4: modo oscuro por clase. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ── Tokens ──────────────────────────────────────────────────────────────────
+   Colores completos (no tripletas): Tailwind v4 aplica la opacidad con
+   color-mix, así que `bg-card/90` o `text-foreground/70` funcionan tal cual. */
 :root {
-  /* Tokens semánticos del tema claro */
-  --background: 245 240 233; /* #F5F0E9 warm cream */
-  --foreground: 43 22 58;
-  --muted: 90 60 116;
-  --muted-foreground: 100 80 120;
-  --surface: 245 240 233; /* misma superficie */
-  --surface-2: 235 228 218;
-  --border: 195 120 140; /* vino-rosa suave, acorde al bordeaux */
-  --accent: 143 18 66; /* #8F1242 */
-  --accent-foreground: 245 240 233;
-  --primary-dark: 109 11 49; /* #6D0B31 */
-}
+  color-scheme: light;
 
-@theme inline {
-  /* Comentario: Colores de Tailwind expuestos como tokens semánticos. */
-  --color-background: rgb(var(--background) / <alpha-value>);
-  --color-foreground: rgb(var(--foreground) / <alpha-value>);
-  --color-muted: rgb(var(--muted) / <alpha-value>);
-  --color-muted-foreground: rgb(var(--muted-foreground) / <alpha-value>);
-  --color-surface: rgb(var(--surface) / <alpha-value>);
-  --color-surface-2: rgb(var(--surface-2) / <alpha-value>);
-  --color-border: rgb(var(--border) / <alpha-value>);
-  --color-accent: rgb(var(--accent) / <alpha-value>);
-  --color-accent-foreground: rgb(var(--accent-foreground) / <alpha-value>);
-  --color-primary-dark: rgb(var(--primary-dark) / <alpha-value>);
-  --font-sans: var(--font-body-sans);
-  --font-display: var(--font-display);
-  --font-mono: var(--font-mono);
+  --background: #f9f6ee;
+  --foreground: #2b163a;
+  --muted: #5a3c74;
+  --muted-foreground: #645078;
+
+  --card: #fcf9f4;
+  --card-2: #efe8df;
+  --border: #c3788c;
+
+  --accent: #8f1242;
+  --accent-foreground: #f9f6ee;
+  --heading: #6d0b31;
+
+  --primary: #8f1242;
+  --primary-dark: #6d0b31;
+  --primary-foreground: #ffffff;
+
+  --glow: #e59ac4;
+  --cursor-dot: var(--accent);
+
+  /* Franja de testimonios */
+  --band-from: #4a0520;
+  --band-via: #6d0b31;
+  --band-to: #3d0a1c;
+  --band-heading: #f4c0d1;
+  --band-foreground: #f4d5e4;
+
+  /* Ítems del acordeón de proyectos */
+  --project-item: linear-gradient(135deg, #fdf8f0 0%, #f9f0f3 100%);
+  --project-item-active: linear-gradient(135deg, #fdf4f7 0%, #f5e8ed 100%);
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .dark {
-  /* Comentario: Tokens semánticos del tema oscuro (fondo morado profundo, texto bone). */
-  --background: 28 18 45; /* plum/eggplant suavizado */
-  --foreground: 249 246 238; /* #f9f6ee */
-  --muted: 201 184 218; /* lavanda clara */
-  --muted-foreground: 226 214 236; /* bone-lavender */
-  --surface: 70 50 104; /* #463268 - morado medio con buen contraste */
-  --surface-2: 94 68 138; /* #5e448a - morado más claro */
-  --border: 130 50 75; /* vino oscuro — visible y temático en dark mode */
-  --accent: 229 154 196;
-  --accent-foreground: 28 18 45;
-  --ambient-1: 54 28 84;
-  --ambient-2: 24 14 40;
+  color-scheme: dark;
+
+  --background: #1c122d;
+  --foreground: #f9f6ee;
+  --muted: #c9b8da;
+  --muted-foreground: #e2d6ec;
+
+  --card: #2d1f45;
+  --card-2: #382754;
+  --border: #82324b;
+
+  --accent: #e59ac4;
+  --accent-foreground: #1c122d;
+  --heading: #dd4b81;
+
+  --primary: #a91852;
+  --primary-dark: #8f1242;
+
+  --cursor-dot: var(--foreground);
+
+  --band-from: #41041a;
+  --band-via: #41041a;
+  --band-to: #41041a;
+
+  --project-item: linear-gradient(180deg, rgb(6 1 12 / 0.62) 0%, rgb(12 3 22 / 0.88) 100%);
+  --project-item-active: linear-gradient(180deg, rgb(6 1 12 / 0.5) 0%, rgb(12 3 22 / 0.8) 100%);
 }
 
-body {
-  background-color: rgb(var(--background) / 1);
-  color: rgb(var(--foreground) / 1);
-  font-family: var(--font-body-sans), system-ui, -apple-system, BlinkMacSystemFont,
-    "SF Pro Text", "Segoe UI", sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  transition:
-    background-color 220ms ease-out,
-    color 220ms ease-out;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-heading: var(--heading);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-band-heading: var(--band-heading);
+  --color-band-foreground: var(--band-foreground);
+  --font-sans: var(--font-body-sans);
+  --font-display: var(--font-display);
 }
 
-@media (min-width: 640px) {
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    scrollbar-color: color-mix(in srgb, var(--primary) 55%, transparent) transparent;
+  }
+
   body {
-    font-size: 17px;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    transition:
+      background-color 220ms ease-out,
+      color 220ms ease-out;
+  }
+
+  @media (min-width: 640px) {
+    body {
+      font-size: 17px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    body {
+      font-size: 18px;
+    }
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  /* Foco visible en todo control; `--focus-ring` permite ajustarlo sobre fondos de color. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring, var(--accent));
+    outline-offset: 3px;
+  }
+
+  /* Tailwind deja los botones con cursor por defecto. */
+  button:not(:disabled),
+  [role="button"],
+  [role="tab"],
+  summary,
+  select {
+    cursor: pointer;
+  }
+
+  :disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    font-size: 18px;
-  }
+/* El cursor nativo solo se oculta mientras el personalizado está activo
+   (lo decide CustomCursor: dispositivos con puntero fino y hover). */
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
 }
 
-@media (min-width: 768px) {
-  * {
-    cursor: none !important;
-  }
+.cursor-dot {
+  background-color: var(--cursor-dot);
+  /* Aro del color del fondo: mantiene el punto visible sobre cualquier superficie. */
+  box-shadow:
+    0 0 0 1.5px var(--background),
+    0 2px 8px rgb(0 0 0 / 0.3);
 }
 
+/* ── Utilidades ───────────────────────────────────────────────────────────── */
 
-/* ── Accordion skeleton pulse ─────────────────────────────────────────────── */
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.45; }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: 200px 0;
-  }
-}
-
-.shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(109,11,49,0.12) 0%,
-    rgba(109,11,49,0.20) 50%,
-    rgba(109,11,49,0.12) 100%
+/* Superficie de tarjeta: color translúcido + el brillo rosado de la esquina. */
+@utility surface-card {
+  background-color: color-mix(in srgb, var(--card) 88%, transparent);
+  background-image: radial-gradient(
+    circle at 20% 15%,
+    color-mix(in srgb, var(--glow) 16%, transparent),
+    transparent 60%
   );
-  background-size: 200px 100%;
-  animation: shimmer 1.5s infinite;
 }
 
-/* Oculta scrollbar visualmente pero mantiene scroll funcional */
-.scrollbar-hide::-webkit-scrollbar { display: none; }
-.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+/* Grano de película, local (sin peticiones externas). */
+@utility bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 
-/* Scrollbar personalizada visible */
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: 9999px;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: transform 160ms var(--ease-out-expo);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline-color: var(--foreground);
+}
+
+/* Scrollbar fina para tiras horizontales (pestañas, línea de tiempo, calendario). */
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(143, 18, 66, 0.3) transparent;
+  scrollbar-color: color-mix(in srgb, var(--primary) 45%, transparent) transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -125,90 +215,107 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(143, 18, 66, 0.3);
+  background: color-mix(in srgb, var(--primary) 45%, transparent);
   border-radius: 10px;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(143, 18, 66, 0.5);
-}
-
-/* Ocultar scrollbar solo en pantallas grandes donde se usa grid */
-@media (min-width: 1024px) {
-  .custom-scrollbar::-webkit-scrollbar {
-    display: none;
+/* ── Marquesina del reproductor ───────────────────────────────────────────── */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
   }
-  .custom-scrollbar {
-    scrollbar-width: none;
+  to {
+    transform: translateX(-50%);
   }
 }
 
-/* Estado active para elementos interactivos */
-.btn-ghost {
-  @apply active:scale-95 active:bg-accent/20 active:border-accent/80 active:text-accent transition-all;
-}
-.btn-icon {
-  @apply active:scale-90 active:text-accent/70 transition-all;
-}
-.nav-link {
-  @apply active:text-accent/60 active:scale-95 transition-all;
-}
-
-/* ── Hero photo circle ───────────────────────────────────────────────────── */
-.hero-photo-wrapper {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Anillo decorativo girado */
-.hero-photo-ring {
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px dashed rgb(var(--accent) / 0.35);
-  transition: transform 0.8s ease, border-color 0.35s ease;
-  pointer-events: none;
-}
-
-.hero-photo-wrapper:hover .hero-photo-ring {
-  transform: rotate(45deg);
-  border-color: rgb(var(--accent) / 0.65);
-}
-
-/* Círculo contenedor — clip-path mantiene el recorte */
-.hero-photo-circle {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow:
-    0 8px 30px rgb(var(--accent) / 0.18),
-    0 2px 8px rgb(0 0 0 / 0.12);
-  border: 3px solid rgb(var(--accent) / 0.20);
-  position: relative;
-  transition: box-shadow 0.35s ease;
-}
-
-.hero-photo-wrapper:hover .hero-photo-circle {
-  box-shadow:
-    0 12px 38px rgb(var(--accent) / 0.30),
-    0 4px 14px rgb(0 0 0 / 0.16);
-}
-
-/* La imagen escala hacia afuera en hover (se "sale" del círculo) */
-.hero-photo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+.marquee {
   display: block;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.hero-photo-wrapper:hover .hero-photo-img {
-  transform: scale(1.12) translateY(-6px);
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 14s linear infinite;
 }
+
+.marquee-track > * {
+  padding-right: 3rem;
+}
+
+/* ── Franja de testimonios ────────────────────────────────────────────────── */
+.testimonial-band {
+  --focus-ring: var(--band-heading);
+  background: linear-gradient(160deg, var(--band-from) 0%, var(--band-via) 50%, var(--band-to) 100%);
+  color: var(--band-foreground);
+}
+
+.testimonial-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 10% 40%, rgb(229 154 196 / 0.14) 0%, transparent 55%),
+    radial-gradient(circle at 85% 60%, rgb(143 18 66 / 0.22) 0%, transparent 55%);
+}
+
+/* ── Acordeón de proyectos ────────────────────────────────────────────────── */
+.project-accordion {
+  --accordion-ease: linear(
+    0 0%, 0.1538 4.09%, 0.2926 8.29%, 0.4173 12.63%, 0.5282 17.12%, 0.6255 21.77%,
+    0.7099 26.61%, 0.782 31.67%, 0.8425 37%, 0.8887 42.23%, 0.9257 47.79%,
+    0.9543 53.78%, 0.9752 60.32%, 0.9883 67.11%, 0.9961 75%, 1 100%
+  );
+  display: grid;
+  gap: 6px;
+  height: 300px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition:
+    grid-template-rows 0.55s var(--accordion-ease),
+    height 0.55s var(--accordion-ease);
+}
+
+/* En móvil la columna crece al abrir un ítem; en tablet y escritorio la altura es fija. */
+.project-accordion[data-expanded="true"] {
+  height: 560px;
+}
+
+@media (min-width: 768px) {
+  .project-accordion,
+  .project-accordion[data-expanded="true"] {
+    height: 500px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .project-accordion,
+  .project-accordion[data-expanded="true"] {
+    height: 380px;
+  }
+}
+
+.project-item {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--primary-dark) 22%, transparent);
+  background: var(--project-item);
+  transition: border-color 0.3s ease;
+}
+
+.project-item[data-active="true"] {
+  border: 2px solid var(--primary);
+  background: var(--project-item-active);
+}
+
+.project-item-toggle:focus-visible {
+  outline-offset: -4px;
+}
+

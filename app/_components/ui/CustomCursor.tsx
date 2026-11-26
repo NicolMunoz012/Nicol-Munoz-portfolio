@@ -1,161 +1,134 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
-import { useTheme } from '../../_context/ThemeContext';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useMediaQuery } from '../../_hooks/useMediaQuery';
+
+const INTERACTIVE_SELECTOR =
+  'a[href], button:not(:disabled), [role="button"], [role="tab"], summary, label, select, [data-cursor="hover"]';
+
+// Casi crítico: el anillo alcanza al puntero en ~0,1 s sin rebotar.
+const RING_SPRING = { stiffness: 1500, damping: 50, mass: 0.4 };
+
+const CORNERS = [
+  'top-0 left-0 border-t-2 border-l-2 rounded-tl-sm',
+  'top-0 right-0 border-t-2 border-r-2 rounded-tr-sm',
+  'bottom-0 left-0 border-b-2 border-l-2 rounded-bl-sm',
+  'bottom-0 right-0 border-b-2 border-r-2 rounded-br-sm',
+];
 
 export function CustomCursor() {
-  const { theme } = useTheme();
-  const [isHovered, setIsHovered] = useState(false);
-  const [isMouseDown, setIsMouseDown] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  // Solo donde hay mouse o trackpad; en pantallas táctiles no tiene sentido.
+  const enabled = useMediaQuery('(hover: hover) and (pointer: fine)');
 
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
+  const [visible, setVisible] = useState(false);
+  const [hovering, setHovering] = useState(false);
+  const [pressed, setPressed] = useState(false);
+  const visibleRef = useRef(false);
+  const dotRef = useRef<HTMLDivElement>(null);
 
-  // Smooth springs for motion
-  const springConfigOuter = { damping: 25, stiffness: 200, mass: 0.6 };
-  const springConfigInner = { damping: 45, stiffness: 450, mass: 0.1 };
-  
-  const cursorXSpring = useSpring(cursorX, springConfigOuter);
-  const cursorYSpring = useSpring(cursorY, springConfigOuter);
-  const cursorXInner = useSpring(cursorX, springConfigInner);
-  const cursorYInner = useSpring(cursorY, springConfigInner);
+  // El punto se escribe directo en el DOM (1:1 con el puntero, sin pasar por
+  // React ni por resortes); x/y solo alimentan el resorte del anillo.
+  const x = useMotionValue(-100);
+  const y = useMotionValue(-100);
+  const ringX = useSpring(x, RING_SPRING);
+  const ringY = useSpring(y, RING_SPRING);
 
   useEffect(() => {
-    // Check if device is mobile
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
+    if (!enabled) return;
 
-    const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-      if (!isVisible) setIsVisible(true);
+    const root = document.documentElement;
+    root.classList.add('custom-cursor');
+
+    const show = (next: boolean) => {
+      if (visibleRef.current === next) return;
+      visibleRef.current = next;
+      setVisible(next);
     };
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const isInteractive = 
-        target.tagName === 'BUTTON' || 
-        target.tagName === 'A' || 
-        target.closest('button') || 
-        target.closest('a') ||
-        window.getComputedStyle(target).cursor === 'pointer';
-      
-      setIsHovered(!!isInteractive);
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType === 'touch') return;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      }
+      x.set(e.clientX);
+      y.set(e.clientY);
+      if (!visibleRef.current) {
+        // Al reaparecer, el anillo no debe cruzar la pantalla desde su última posición.
+        ringX.jump(e.clientX);
+        ringY.jump(e.clientY);
+        show(true);
+      }
     };
 
-    const handleMouseDown = () => setIsMouseDown(true);
-    const handleMouseUp = () => setIsMouseDown(false);
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => setIsVisible(true);
+    const onOver = (e: PointerEvent) => {
+      const target = e.target instanceof Element ? e.target : null;
+      setHovering(Boolean(target?.closest(INTERACTIVE_SELECTOR)));
+    };
 
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseover', handleMouseOver);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('mouseenter', handleMouseEnter);
+    const onDown = () => setPressed(true);
+    const onUp = () => setPressed(false);
+    const onLeave = () => show(false);
+
+    window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('pointerover', onOver, { passive: true });
+    window.addEventListener('pointerdown', onDown, { passive: true });
+    window.addEventListener('pointerup', onUp, { passive: true });
+    window.addEventListener('blur', onLeave);
+    root.addEventListener('mouseleave', onLeave);
 
     return () => {
-      window.removeEventListener('resize', checkMobile);
-      window.removeEventListener('mousemove', moveCursor);
-      window.removeEventListener('mouseover', handleMouseOver);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('mouseenter', handleMouseEnter);
+      root.classList.remove('custom-cursor');
+      visibleRef.current = false;
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerover', onOver);
+      window.removeEventListener('pointerdown', onDown);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('blur', onLeave);
+      root.removeEventListener('mouseleave', onLeave);
     };
-  }, [cursorX, cursorY, isVisible]);
+  }, [enabled, x, y, ringX, ringY]);
 
-  if (typeof window === 'undefined' || isMobile) return null;
+  if (!enabled) return null;
+
+  const ringScale = hovering ? 'scale-[1.4] rotate-45' : pressed ? 'scale-[0.8]' : 'scale-100';
+  const dotScale = hovering ? 'scale-[0.5]' : pressed ? 'scale-[1.8]' : 'scale-100';
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <>
-          {/* Main Cinematic Ring */}
-          <motion.div
-            className={`fixed top-0 left-0 z-[9999] pointer-events-none ${theme === 'dark' ? 'mix-blend-difference' : 'mix-blend-multiply opacity-80'}`}
-            style={{
-              translateX: cursorXSpring,
-              translateY: cursorYSpring,
-              left: -24,
-              top: -24,
-            }}
-            animate={{
-              scale: isHovered ? 1.4 : isMouseDown ? 0.8 : 1,
-              rotate: isHovered ? 45 : 0,
-            }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+    <div
+      aria-hidden
+      className={`pointer-events-none fixed inset-0 z-[9999] transition-opacity duration-150 ${
+        visible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
+      {/* Anillo */}
+      <motion.div className="absolute left-0 top-0" style={{ x: ringX, y: ringY }}>
+        <div
+          className={`relative -ml-6 -mt-6 h-12 w-12 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] ${ringScale}`}
+        >
+          <div
+            className={`h-full w-full rounded-full border transition-colors duration-150 ${
+              hovering ? 'border-accent bg-accent/20' : 'border-accent/50 bg-accent/10'
+            }`}
+          />
+          <div
+            className={`absolute inset-0 transition-opacity duration-150 ${
+              hovering ? 'opacity-100' : 'opacity-0'
+            }`}
           >
-            <div className="relative flex items-center justify-center">
-              {/* Outer Glow / Ring */}
-              <div className={`w-12 h-12 rounded-full border transition-all duration-300 ${
-                isHovered 
-                  ? 'border-accent bg-accent/20 blur-[1px]' 
-                  : 'border-accent/40 bg-accent/10'
-              }`} />
-              
-              {/* Corner Accents for a futuristic/cinematic UI */}
-              <motion.div 
-                className="absolute inset-0"
-                initial={false}
-                animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1.1 : 0.8 }}
-              >
-                <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-accent rounded-tl-sm shadow-[0_0_8px_rgba(229,154,196,0.5)]" />
-                <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-accent rounded-tr-sm shadow-[0_0_8px_rgba(229,154,196,0.5)]" />
-                <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-accent rounded-bl-sm shadow-[0_0_8px_rgba(229,154,196,0.5)]" />
-                <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-accent rounded-br-sm shadow-[0_0_8px_rgba(229,154,196,0.5)]" />
-              </motion.div>
-            </div>
-          </motion.div>
+            {CORNERS.map((corner) => (
+              <span key={corner} className={`absolute h-2 w-2 border-accent ${corner}`} />
+            ))}
+          </div>
+        </div>
+      </motion.div>
 
-          {/* Sharp Interaction Dot */}
-          <motion.div
-            className={`fixed top-0 left-0 z-[9999] pointer-events-none ${theme === 'dark' ? 'mix-blend-difference' : ''}`}
-            style={{
-              translateX: cursorXInner,
-              translateY: cursorYInner,
-              left: -4,
-              top: -4,
-            }}
-            animate={{
-              scale: isHovered ? 0.4 : isMouseDown ? 2 : 1,
-            }}
-          >
-            {/* The dot itself uses specific colors based on the theme */}
-            <div 
-              className="w-2 h-2 rounded-full transition-colors duration-500 shadow-lg" 
-              style={{ 
-                backgroundColor: theme === 'dark' ? 'rgb(var(--foreground) / 1)' : 'rgb(var(--accent) / 1)',
-                boxShadow: theme === 'dark' 
-                  ? '0 0 15px rgba(249, 246, 238, 0.5)' 
-                  : '0 0 15px rgba(143, 18, 66, 0.5)' 
-              }}
-            />
-          </motion.div>
-
-          {/* Ambient Trail Glow (Reacts to the Three.js background colors) */}
-          <motion.div
-            className="fixed top-0 left-0 z-[9998] pointer-events-none mix-blend-screen"
-            style={{
-              translateX: cursorXSpring,
-              translateY: cursorYSpring,
-              left: -60,
-              top: -60,
-            }}
-            animate={{
-              scale: isHovered ? 3.5 : 2,
-              opacity: isHovered ? 0.25 : 0.1,
-            }}
-          >
-            <div className="w-[120px] h-[120px] rounded-full bg-gradient-radial from-accent/40 via-accent/10 to-transparent blur-3xl" />
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+      {/* Punto: es el puntero real, por eso no lleva resorte */}
+      <div ref={dotRef} className="absolute left-0 top-0 will-change-transform" style={{ transform: 'translate3d(-100px, -100px, 0)' }}>
+        <div
+          className={`cursor-dot -ml-1 -mt-1 h-2 w-2 rounded-full transition-transform duration-150 ease-out ${dotScale}`}
+        />
+      </div>
+    </div>
   );
 }

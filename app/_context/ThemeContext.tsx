@@ -4,10 +4,11 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
-  useState,
+  useMemo,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
+import { THEME_STORAGE_KEY } from "../_lib/preferences";
 
 type Theme = "light" | "dark";
 
@@ -19,56 +20,43 @@ type ThemeContextValue = {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-const THEME_STORAGE_KEY = "portfolio-theme";
+// La fuente de verdad es la clase `dark` de <html>, que el script de
+// `preferences.ts` deja lista antes de hidratar.
+const listeners = new Set<() => void>();
 
-function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "dark";
-
-  const stored = window.localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
-  if (stored === "light" || stored === "dark") return stored;
-
-  const prefersDark =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  return prefersDark ? "dark" : "light";
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
 }
 
-function applyThemeToDocument(theme: Theme) {
-  // Comentario: Aplica la clase de tema al elemento raíz del documento.
-  if (typeof document === "undefined") return;
-  const root = document.documentElement;
+function readTheme(): Theme {
+  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+}
 
-  if (theme === "dark") {
-    root.classList.add("dark");
-  } else {
-    root.classList.remove("dark");
+function writeTheme(theme: Theme) {
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  try {
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+  } catch {
+    // Almacenamiento bloqueado: el tema se aplica igual durante la sesión.
   }
+  listeners.forEach((listener) => listener());
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
+  const theme = useSyncExternalStore<Theme>(subscribe, readTheme, () => "light");
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(THEME_STORAGE_KEY, theme);
-    }
-    applyThemeToDocument(theme);
-  }, [theme]);
-
-  const setTheme = useCallback((next: Theme) => {
-    setThemeState(next);
-  }, []);
-
-  const toggleTheme = useCallback(() => {
-    setThemeState((current) => (current === "dark" ? "light" : "dark"));
-  }, []);
-
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
+  const setTheme = useCallback((next: Theme) => writeTheme(next), []);
+  const toggleTheme = useCallback(
+    () => writeTheme(readTheme() === "dark" ? "light" : "dark"),
+    [],
   );
+
+  const value = useMemo(() => ({ theme, setTheme, toggleTheme }), [theme, setTheme, toggleTheme]);
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme(): ThemeContextValue {
@@ -80,4 +68,3 @@ export function useTheme(): ThemeContextValue {
 
   return context;
 }
-

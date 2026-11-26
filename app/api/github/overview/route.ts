@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
+import { GITHUB_USERNAME, isOwnGithubAccount } from "../../../_lib/links";
+import { detectStack, mapWithLimit } from "../../../_lib/githubStack";
 
-const USERNAME = "NicolMunoz012";
-
-type GithubRepo = {
+type GithubApiRepo = {
   id: number;
   name: string;
   full_name: string;
@@ -16,61 +16,56 @@ type GithubRepo = {
   archived: boolean;
   fork: boolean;
   homepage: string | null;
+  owner: { login: string };
+  default_branch: string;
 };
 
-type GithubPushEvent = {
-  type: "PushEvent";
-  repo: { name: string };
-  created_at: string;
-  payload: {
-    commits?: Array<{
-      sha: string;
-      message: string;
-    }>;
-  };
-};
+const ERROR_CACHE = "public, s-maxage=60, stale-while-revalidate=600";
+const OK_CACHE = "public, s-maxage=300, stale-while-revalidate=3600";
 
 function sanitizeUrl(url: string | null): string | null {
   if (!url) return null;
-  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
   return `https://${url}`;
 }
 
 function githubHeaders() {
   return {
-    Accept: 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'User-Agent': 'portfolio-nicol',
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+    "User-Agent": "portfolio-nicol",
     ...(process.env.GITHUB_TOKEN && {
       Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
     }),
   };
 }
 
+function failure() {
+  return NextResponse.json(
+    { error: "github_repos_failed" },
+    { status: 502, headers: { "Cache-Control": ERROR_CACHE } },
+  );
+}
+
+const byPushedDesc = (a: GithubApiRepo, b: GithubApiRepo) =>
+  new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime();
+
 export async function GET() {
-  const reposUrl = `https://api.github.com/users/${USERNAME}/repos?per_page=100&sort=pushed`;
-  const eventsUrl = `https://api.github.com/users/${USERNAME}/events/public?per_page=30`;
+  const reposUrl = `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed&type=all`;
 
-  const [reposRes, eventsRes] = await Promise.all([
-    fetch(reposUrl, { headers: githubHeaders(), next: { revalidate: 0 } }),
-    fetch(eventsUrl, { headers: githubHeaders(), next: { revalidate: 120 } }),
-  ]);
-
-  if (!reposRes.ok) {
-    return NextResponse.json(
-      { error: "github_repos_failed" },
-      {
-        status: 502,
-        headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=600" },
-      },
-    );
+  let reposRaw: GithubApiRepo[];
+  try {
+    // Sin token GitHub permite 60 peticiones/hora por IP: se cachea 5 minutos.
+    const res = await fetch(reposUrl, { headers: githubHeaders(), next: { revalidate: 300 } });
+    if (!res.ok) return failure();
+    reposRaw = (await res.json()) as GithubApiRepo[];
+  } catch {
+    return failure();
   }
-
-  const reposRaw = (await reposRes.json()) as GithubRepo[];
 
   const baseRepos = reposRaw.filter((r) => !r.fork && !r.archived);
 
-  const repoSummary = (r: GithubRepo) => ({
+  const summarize = (r: GithubApiRepo) => ({
     id: r.id,
     name: r.name,
     fullName: r.full_name,
@@ -82,57 +77,23 @@ export async function GET() {
     pushedAt: r.pushed_at,
     updatedAt: r.updated_at,
     homepage: sanitizeUrl(r.homepage),
+    collaboration: !isOwnGithubAccount(r.owner.login),
   });
 
-  const allRepos = baseRepos
-    .slice()
-    .sort((a, b) => new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime())
-    .slice(0, 30)
-    .map(repoSummary);
+  // Se analizan todos los repos (no solo los recientes) para que los proyectos antiguos también cuenten en el stack.
+  const recentRepos = baseRepos.slice().sort(byPushedDesc);
+  const stacks = await mapWithLimit(recentRepos, 6, detectStack);
+  const allRepos = recentRepos.map((r, i) => ({ ...summarize(r), stack: stacks[i].stack, weakStack: stacks[i].weak }));
 
+  // Los destacados de Proyectos siguen siendo solo repos propios.
   const repos = baseRepos
-    .slice()
-    .sort((a, b) => {
-      if (b.stargazers_count !== a.stargazers_count) {
-        return b.stargazers_count - a.stargazers_count;
-      }
-      return new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime();
-    })
+    .filter((r) => isOwnGithubAccount(r.owner.login))
+    .sort((a, b) => b.stargazers_count - a.stargazers_count || byPushedDesc(a, b))
     .slice(0, 6)
-    .map(repoSummary);
-
-  let commits: Array<{
-    repo: string;
-    sha: string;
-    message: string;
-    url: string;
-    createdAt: string;
-  }> = [];
-
-  if (eventsRes.ok) {
-    const eventsRaw = (await eventsRes.json()) as Array<GithubPushEvent | { type: string }>;
-    const pushEvents = eventsRaw.filter((e): e is GithubPushEvent => e.type === "PushEvent");
-
-    commits = pushEvents
-      .flatMap((e) => {
-        const repo = e.repo.name;
-        const createdAt = e.created_at;
-        const list = e.payload.commits ?? [];
-        return list.map((c) => ({
-          repo,
-          sha: c.sha,
-          message: c.message,
-          url: `https://github.com/${repo}/commit/${c.sha}`,
-          createdAt,
-        }));
-      })
-      .slice(0, 12);
-  }
+    .map(summarize);
 
   return NextResponse.json(
-    { username: USERNAME, repos, allRepos, commits },
-    {
-      headers: { "Cache-Control": "public, s-maxage=120, stale-while-revalidate=600" },
-    },
+    { username: GITHUB_USERNAME, repos, allRepos },
+    { headers: { "Cache-Control": OK_CACHE } },
   );
 }

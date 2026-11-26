@@ -47,3 +47,7 @@ coverage/
 .cache/
 .eslintcache
 
+
+# Impeccable (herramienta local)
+
+.impeccable/

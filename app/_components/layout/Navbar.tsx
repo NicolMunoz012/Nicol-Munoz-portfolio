@@ -1,78 +1,70 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import type { RefObject } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Menu, Sun, Moon } from "lucide-react";
 import { useLanguage } from "../../_context/LanguageContext";
 import { useTheme } from "../../_context/ThemeContext";
-import { Menu, Sun, Moon } from "lucide-react";
-import { motion } from "framer-motion";
 
 interface NavbarProps {
   onMenuToggle: () => void;
   isMenuOpen: boolean;
+  menuButtonRef: RefObject<HTMLButtonElement | null>;
 }
 
-export function Navbar({ onMenuToggle, isMenuOpen }: NavbarProps) {
+const pill =
+  "flex h-11 items-center justify-center rounded-full bg-primary-dark/80 text-white backdrop-blur-md transition-[background-color,scale] duration-150 hover:bg-primary-dark active:scale-95";
+
+export function Navbar({ onMenuToggle, isMenuOpen, menuButtonRef }: NavbarProps) {
   const { t, locale, setLocale } = useLanguage();
   const { theme, toggleTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <header className="fixed inset-x-0 top-0 z-30">
       <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:h-18 sm:px-6 lg:h-20 lg:px-10">
-        {/* Logo izquierdo */}
-        <div className="flex items-center">
-          <div className="relative h-14 w-14 overflow-hidden rounded-full">
-            <img
-              src="/logo.jpg"
-              alt="Nicol Muñoz"
-              className="h-full w-full object-cover"
-            />
-          </div>
-        </div>
+        <Link
+          href="/"
+          aria-label={t("nav.home")}
+          className="relative block h-14 w-14 overflow-hidden rounded-full"
+        >
+          <Image src="/logo.jpg" alt="" fill sizes="56px" className="object-cover" priority />
+        </Link>
 
-        {/* Menu Toggle + Theme + Language */}
-        <div className="flex items-center gap-3">
-          {/* Botón de Tema */}
-          <motion.button
-            onClick={toggleTheme}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6D0B31]/60 text-white backdrop-blur-md transition-all hover:bg-[#6D0B31]/80 active:scale-95"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Toggle theme"
-          >
-            {mounted ? (
-              theme === "dark" ? <Sun size={18} /> : <Moon size={18} />
-            ) : (
-              <Sun size={18} />
-            )}
-          </motion.button>
-
-          {/* Botón de Idioma */}
-          <motion.button
-            onClick={() => setLocale(locale === "es" ? "en" : "es")}
-            className="flex h-10 items-center justify-center rounded-full bg-[#6D0B31]/60 px-4 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-md transition-all hover:bg-[#6D0B31]/80 active:scale-95"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Toggle language"
-          >
-            {locale === "es" ? "ES" : "EN"}
-          </motion.button>
-
-          {/* Botón de Menú */}
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
-            onClick={onMenuToggle}
-            className={`group flex items-center rounded-full bg-[#6D0B31]/60 py-2 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-md transition-all hover:bg-[#6D0B31]/80 active:scale-95 ${
-              isMenuOpen ? "bg-[#6D0B31]/75" : ""
-            } px-2 sm:gap-3 sm:pl-4 sm:pr-2`}
+            type="button"
+            onClick={toggleTheme}
+            className={`${pill} w-11`}
+            aria-label={theme === "dark" ? t("nav.switchToLight") : t("nav.switchToDark")}
           >
-            <span className="hidden sm:inline">{t("nav.menu") || "Menu"}</span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-accent-foreground group-hover:scale-110 transition-transform">
-              <Menu size={16} />
-            </div>
+            {theme === "dark" ? <Sun size={18} aria-hidden /> : <Moon size={18} aria-hidden />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setLocale(locale === "es" ? "en" : "es")}
+            className={`${pill} px-4 text-xs font-bold uppercase tracking-widest`}
+            aria-label={t("nav.switchLanguage")}
+          >
+            <span aria-hidden>{locale.toUpperCase()}</span>
+          </button>
+
+          <button
+            ref={menuButtonRef}
+            type="button"
+            onClick={onMenuToggle}
+            aria-label={t("nav.openMenu")}
+            aria-haspopup="dialog"
+            aria-expanded={isMenuOpen}
+            className={`${pill} group gap-2 px-1.5 text-xs font-bold uppercase tracking-widest sm:pl-4`}
+          >
+            <span className="hidden sm:inline" aria-hidden>
+              {t("nav.menu")}
+            </span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full transition-transform group-hover:scale-110">
+              <Menu size={16} aria-hidden />
+            </span>
           </button>
         </div>
       </nav>

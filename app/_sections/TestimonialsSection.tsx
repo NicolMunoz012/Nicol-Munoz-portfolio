@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Pause, Play } from 'lucide-react';
 import { useLanguage } from '../_context/LanguageContext';
-import { useTheme } from '../_context/ThemeContext';
 import { getTranslationArray } from '../_i18n';
 import { Reveal } from '../_components/ui/Reveal';
 
@@ -12,11 +12,14 @@ type Testimonial = {
   role: string;
 };
 
-/* ── Single testimonial card ── */
+const COPIES = 4; // suficientes copias para llenar cualquier pantalla sin huecos
+const SPEED = 33; // px por segundo (independiente de los Hz de la pantalla)
+const DRAG_THRESHOLD = 6; // px antes de considerar que el gesto es un arrastre
+const STEP = 318; // ancho de tarjeta + separación, para las flechas del teclado
+
 function TestimonialCard({ item }: { item: Testimonial }) {
-  const initials = item.author
-    .replace(/[—-]/g, ' ')
-    .trim()
+  const author = item.author.replace(/^[—-]\s*/, '');
+  const initials = author
     .split(/\s+/)
     .filter(Boolean)
     .map((w) => w[0])
@@ -25,385 +28,217 @@ function TestimonialCard({ item }: { item: Testimonial }) {
     .toUpperCase();
 
   return (
-    <article
-      style={{
-        flex: '0 0 300px',
-        background:
-          'linear-gradient(145deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)',
-        border: '1.5px solid rgba(244,192,209,0.18)',
-        borderRadius: '20px',
-        padding: '24px 22px 20px',
-        backdropFilter: 'blur(10px)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-        boxShadow:
-          '0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)',
-        userSelect: 'none',
-        transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
-        cursor: 'default',
-        minHeight: '0',
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor =
-          'rgba(244,192,209,0.42)';
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          '0 8px 36px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.12)';
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.borderColor =
-          'rgba(244,192,209,0.18)';
-        (e.currentTarget as HTMLElement).style.boxShadow =
-          '0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08)';
-      }}
-    >
-      <span
-        aria-hidden
-        style={{
-          fontSize: '40px',
-          lineHeight: '1',
-          color: '#f4c0d1',
-          opacity: 0.45,
-          fontFamily: 'Georgia, serif',
-          display: 'block',
-          marginBottom: '-8px',
-        }}
-      >
+    <figure className="flex w-[min(300px,78vw)] shrink-0 flex-col gap-4 rounded-[20px] border border-band-heading/20 bg-white/5 px-5 pb-5 pt-6 shadow-lg">
+      <span aria-hidden className="-mb-3 block font-serif text-[40px] leading-none text-band-heading/50">
         &ldquo;
       </span>
-
-      <p
-        style={{
-          margin: 0,
-          fontSize: '15px',
-          lineHeight: 1.7,
-          color: 'rgba(244,213,228,0.88)',
-          flexGrow: 1,
-        }}
-      >
+      <blockquote className="grow text-[15px] leading-relaxed text-band-foreground/90">
         {item.quote}
-      </p>
-
-      <div
-        style={{
-          height: '1px',
-          background:
-            'linear-gradient(to right, transparent, rgba(244,192,209,0.25), transparent)',
-        }}
-      />
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <div
-          style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #8F1242 0%, #6D0B31 100%)',
-            border: '1.5px solid rgba(244,192,209,0.28)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '11px',
-            fontWeight: 700,
-            color: '#f4d5e4',
-            flexShrink: 0,
-            letterSpacing: '0.05em',
-          }}
-        >
-          {initials}
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
-          <span
-            style={{
-              fontSize: '14px',
-              fontWeight: 700,
-              color: '#f4d5e4',
-              lineHeight: 1.2,
-            }}
-          >
-            {item.author}
-          </span>
-          <span
-            style={{
-              fontSize: '12px',
-              color: 'rgba(244,213,228,0.55)',
-              lineHeight: 1.2,
-            }}
-          >
-            {item.role}
-          </span>
-        </div>
+      </blockquote>
+      <div aria-hidden className="h-px bg-linear-to-r from-transparent via-band-heading/25 to-transparent" />
+      <figcaption className="flex items-center gap-2.5">
         <span
           aria-hidden
-          style={{
-            marginLeft: 'auto',
-            fontSize: '11px',
-            color: '#f4c0d1',
-            opacity: 0.7,
-            letterSpacing: '2px',
-          }}
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-band-heading/30 bg-linear-to-br from-[#8f1242] to-[#6d0b31] text-xs font-bold tracking-wide text-band-foreground"
         >
-          ★★★★★
+          {initials}
         </span>
-      </div>
-    </article>
+        <span className="flex flex-col gap-0.5 leading-tight">
+          <span className="text-sm font-bold text-band-foreground">{author}</span>
+          <span className="text-xs text-band-foreground/75">{item.role}</span>
+        </span>
+      </figcaption>
+    </figure>
   );
 }
 
-/* ── Constants ── */
-const COPIES = 4;   // enough copies to fill any viewport without gaps
-const SPEED = 0.55; // px per frame (auto-scroll speed)
-
-/* ── Main section ── */
 export function TestimonialsSection() {
   const { locale, t } = useLanguage();
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-  const testimonials = getTranslationArray(
-    locale,
-    'testimonials.items',
-  ) as Testimonial[];
+  const testimonials = getTranslationArray(locale, 'testimonials.items') as Testimonial[];
 
-  const wrapperRef = useRef<HTMLDivElement>(null); // the overflow:hidden container
-  const trackRef  = useRef<HTMLDivElement>(null);  // the moving flex row
-  const rafRef    = useRef<number | null>(null);
-  const offsetRef = useRef(0);                     // current translateX offset (px)
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const offsetRef = useRef(0); // desplazamiento actual en px
+
+  // Motivos para detener el avance automático. Se leen dentro del bucle de animación.
+  const pausedByUser = useRef(false);
+  const hovering = useRef(false);
+  const focused = useRef(false);
+  const drag = useRef({ pointerId: -1, startX: 0, lastX: 0, dragging: false });
+
+  const [userPaused, setUserPaused] = useState(false);
   const [isGrabbing, setIsGrabbing] = useState(false);
 
-  // Drag state — kept in a ref so RAF closure always sees the latest value
-  const drag = useRef({ active: false, lastX: 0 });
-
-  /* ──────────────────────────────────────────────────────────────
-     RAF loop — runs forever; when dragging, the loop still runs
-     but drag's onMove updates offsetRef directly, so it stays in
-     sync and resumes seamlessly when drag ends.
-  ────────────────────────────────────────────────────────────── */
-  useEffect(() => {
+  /** Mueve la pista `dx` px (positivo = avanza) manteniendo el bucle infinito. */
+  const shift = useCallback((dx: number) => {
     const track = trackRef.current;
-    if (!track || testimonials.length === 0) return;
-
-    function tick() {
-      // Auto-advance only when not dragging
-      if (!drag.current.active) {
-        const W = track!.scrollWidth / COPIES;
-        if (W > 0) {
-          offsetRef.current = (offsetRef.current + SPEED) % W;
-        }
-      }
-      track!.style.transform = `translateX(-${offsetRef.current}px)`;
-      rafRef.current = requestAnimationFrame(tick);
-    }
-
-    rafRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [testimonials.length]);
-
-  /* ──────────────────────────────────────────────────────────────
-     Non-passive touchmove — MUST be registered imperatively so
-     e.preventDefault() can block the browser's page scroll while
-     the user swipes horizontally. React synthetic events are
-     passive by default and cannot call preventDefault().
-  ────────────────────────────────────────────────────────────── */
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    const track   = trackRef.current;
-    if (!wrapper || !track) return;
-
-    function handleTouchMove(e: TouchEvent) {
-      if (!drag.current.active) return;
-      e.preventDefault(); // stop page from scrolling vertically
-      const dx = drag.current.lastX - e.touches[0].clientX;
-      drag.current.lastX = e.touches[0].clientX;
-      const W = track!.scrollWidth / COPIES;
-      if (W > 0) {
-        offsetRef.current = ((offsetRef.current + dx) % W + W) % W;
-      }
-    }
-
-    wrapper.addEventListener('touchmove', handleTouchMove, { passive: false });
-    return () => wrapper.removeEventListener('touchmove', handleTouchMove);
+    if (!track) return;
+    const loopWidth = track.scrollWidth / COPIES;
+    if (loopWidth <= 0) return;
+    offsetRef.current = (((offsetRef.current + dx) % loopWidth) + loopWidth) % loopWidth;
+    track.style.transform = `translate3d(${-offsetRef.current}px, 0, 0)`;
   }, []);
 
-  /* ── Mouse drag ── */
-  function onMouseDown(e: React.MouseEvent) {
-    drag.current.active = true;
-    drag.current.lastX  = e.clientX;
-    setIsGrabbing(true);
-  }
-  function onMouseMove(e: React.MouseEvent) {
-    if (!drag.current.active || !trackRef.current) return;
-    const dx = drag.current.lastX - e.clientX;
-    drag.current.lastX = e.clientX;
-    const W = trackRef.current.scrollWidth / COPIES;
-    if (W > 0) {
-      offsetRef.current = ((offsetRef.current + dx) % W + W) % W;
-    }
-  }
-  function stopDrag() {
-    drag.current.active = false;
-    setIsGrabbing(false);
-  }
+  // Avance automático: solo corre mientras el carrusel está en pantalla.
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper || testimonials.length === 0) return;
 
-  /* ── Touch start / end (move handled imperatively above) ── */
-  function onTouchStart(e: React.TouchEvent) {
-    drag.current.active = true;
-    drag.current.lastX  = e.touches[0].clientX;
+    let frame = 0;
+    let last = 0;
+    let visible = false;
+
+    const tick = (now: number) => {
+      const dt = last ? Math.min(now - last, 64) : 0;
+      last = now;
+      const stopped =
+        pausedByUser.current || hovering.current || focused.current || drag.current.pointerId !== -1;
+      if (!stopped) shift((SPEED * dt) / 1000);
+      frame = requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      if (frame || !visible || document.hidden) return;
+      last = 0;
+      frame = requestAnimationFrame(tick);
+    };
+    const stop = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) start();
+      else stop();
+    });
+    observer.observe(wrapper);
+
+    const onVisibility = () => (document.hidden ? stop() : start());
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      stop();
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [testimonials.length, shift]);
+
+  /* ── Arrastre con pointer events (mouse, táctil y lápiz) ──
+     `touch-action: pan-y` deja el scroll vertical al navegador: si el gesto
+     es vertical llega `pointercancel` y el arrastre se suelta solo. */
+  function endDrag() {
+    drag.current.pointerId = -1;
+    drag.current.dragging = false;
+    setIsGrabbing(false);
   }
 
   if (testimonials.length === 0) return null;
 
-  // 4 copies → track is always wider than any screen → no empty gaps
-  const looped = Array.from({ length: COPIES }, () => testimonials).flat();
-
   return (
-    <div className="px-2 sm:px-3" style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
+    <div className="mx-auto w-full max-w-[1400px] px-2 py-6 sm:px-3">
       <section
         id="testimonials"
-        style={{
-          position: 'relative',
-          width: '100%',
-          background: isDark
-            ? 'linear-gradient(160deg, #41041a 0%, #41041a 50%, #41041a 100%)'
-            : 'linear-gradient(160deg, #4a0520 0%, #6D0B31 50%, #3d0a1c 100%)',
-          padding: '56px 0 52px',
-          overflow: 'hidden',
-          overflowX: 'hidden',
-          boxSizing: 'border-box',
-          borderRadius: '24px',
-        }}
+        aria-labelledby="testimonials-title"
+        className="testimonial-band relative overflow-hidden rounded-3xl pb-10 pt-14"
       >
-      {/* Subtle radial glows */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          background:
-            'radial-gradient(circle at 10% 40%, rgba(229,154,196,0.14) 0%, transparent 55%)',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          background:
-            'radial-gradient(circle at 85% 60%, rgba(143,18,66,0.22) 0%, transparent 55%)',
-        }}
-      />
+        <div className="relative">
+          <Reveal direction="up">
+            <div className="mx-auto mb-2.5 flex w-full max-w-[1000px] items-center gap-5 px-6">
+              <div aria-hidden className="h-px flex-1 bg-linear-to-r from-transparent to-band-heading/35" />
+              <h2
+                id="testimonials-title"
+                className="shrink-0 font-display text-[clamp(1.5rem,5vw,2.5rem)] font-bold tracking-tight text-band-heading"
+              >
+                {t('sections.testimonials.title')}
+              </h2>
+              <div aria-hidden className="h-px flex-1 bg-linear-to-l from-transparent to-band-heading/35" />
+            </div>
+            <p className="mb-10 px-6 text-center text-[15.5px] text-band-foreground/80">
+              {t('sections.testimonials.subtitle')}
+            </p>
+          </Reveal>
 
-      <div style={{ position: 'relative', zIndex: 1 }}>
-        {/* Heading */}
-        <Reveal direction="up">
           <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '20px',
-              width: '100%',
-              maxWidth: '1000px',
-              margin: '0 auto',
-              padding: '0 24px',
-              marginBottom: '10px',
+            ref={wrapperRef}
+            role="group"
+            aria-roledescription="carousel"
+            aria-label={t('testimonials.carouselLabel')}
+            tabIndex={0}
+            className={`touch-pan-y select-none overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)] ${
+              isGrabbing ? 'cursor-grabbing' : 'cursor-grab'
+            }`}
+            onPointerEnter={(e) => {
+              if (e.pointerType === 'mouse') hovering.current = true;
+            }}
+            onPointerLeave={() => {
+              hovering.current = false;
+              // Soltar fuera sin haber arrastrado no dispara pointerup aquí.
+              if (!drag.current.dragging) drag.current.pointerId = -1;
+            }}
+            onFocus={() => {
+              focused.current = true;
+            }}
+            onBlur={() => {
+              focused.current = false;
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight') shift(STEP);
+              else if (e.key === 'ArrowLeft') shift(-STEP);
+              else return;
+              e.preventDefault();
+            }}
+            onPointerDown={(e) => {
+              if (e.pointerType === 'mouse' && e.button !== 0) return;
+              drag.current = { pointerId: e.pointerId, startX: e.clientX, lastX: e.clientX, dragging: false };
+            }}
+            onPointerMove={(e) => {
+              const d = drag.current;
+              if (d.pointerId !== e.pointerId) return;
+              if (!d.dragging) {
+                if (Math.abs(e.clientX - d.startX) < DRAG_THRESHOLD) return;
+                d.dragging = true;
+                e.currentTarget.setPointerCapture(e.pointerId);
+                setIsGrabbing(true);
+              }
+              shift(d.lastX - e.clientX);
+              d.lastX = e.clientX;
+            }}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+            onLostPointerCapture={(e) => {
+              // En táctil, capturar aquí hace que la tarjeta pierda su captura implícita
+              // y ese evento burbujea: solo cuenta cuando la pierde este contenedor.
+              if (e.target === e.currentTarget) endDrag();
             }}
           >
-            <div
-              style={{
-                flex: 1,
-                height: '1px',
-                background:
-                  'linear-gradient(to right, transparent, rgba(244,192,209,0.35))',
-              }}
-            />
-            <h2
-              className="shrink-0 font-display text-[clamp(1.5rem,5vw,2.5rem)] font-bold tracking-tight"
-              style={{ color: '#f4c0d1' }}
-            >
-              {t('sections.testimonials.title')}
-            </h2>
-            <div
-              style={{
-                flex: 1,
-                height: '1px',
-                background:
-                  'linear-gradient(to left, transparent, rgba(244,192,209,0.35))',
-              }}
-            />
-          </div>
-          <p
-            style={{
-              textAlign: 'center',
-              color: 'rgba(244,213,228,0.55)',
-              fontSize: '15.5px',
-              marginBottom: '40px',
-              padding: '0 24px',
-            }}
-          >
-            {t('sections.testimonials.subtitle')}
-          </p>
-        </Reveal>
-
-        {/* ── Infinite circular carousel ── */}
-        <div
-          ref={wrapperRef}
-          style={{
-            overflow: 'hidden',
-            overflowX: 'hidden',
-            maxWidth: '100%',
-            width: '100%',
-            cursor: isGrabbing ? 'grabbing' : 'grab',
-          }}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={stopDrag}
-          onMouseLeave={stopDrag}
-          onTouchStart={onTouchStart}
-          onTouchEnd={stopDrag}
-        >
-          {/* Side fade masks */}
-          <div
-            style={{
-              position: 'relative',
-              overflowX: 'hidden',
-              maxWidth: '100%',
-              maskImage:
-                'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
-              WebkitMaskImage:
-                'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
-              userSelect: 'none',
-            }}
-          >
-            {/* Track — RAF moves this via translateX */}
-            <div
-              ref={trackRef}
-              style={{
-                display: 'flex',
-                gap: '18px',
-                width: 'max-content',
-                padding: '8px 0 12px',
-                pointerEvents: 'none',
-                willChange: 'transform',
-              }}
-            >
-              {looped.map((item, i) => (
-                <TestimonialCard key={i} item={item} />
+            <div ref={trackRef} className="flex w-max gap-[18px] py-2 will-change-transform">
+              {Array.from({ length: COPIES }, (_, copy) => (
+                // Las copias solo existen para el bucle visual: se ocultan a lectores de pantalla.
+                <div key={copy} className="flex gap-[18px]" aria-hidden={copy > 0}>
+                  {testimonials.map((item) => (
+                    <TestimonialCard key={item.author} item={item} />
+                  ))}
+                </div>
               ))}
             </div>
           </div>
+
+          <div className="mt-6 flex justify-center">
+              <button
+                type="button"
+                aria-label={userPaused ? t('testimonials.play') : t('testimonials.pause')}
+                onClick={() => {
+                  pausedByUser.current = !userPaused;
+                  setUserPaused(!userPaused);
+                }}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-band-heading/30 bg-white/5 text-band-heading transition-colors hover:bg-white/15"
+              >
+                {userPaused ? <Play size={16} aria-hidden /> : <Pause size={16} aria-hidden />}
+              </button>
+            </div>
         </div>
-      </div>
-    </section>
+      </section>
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
