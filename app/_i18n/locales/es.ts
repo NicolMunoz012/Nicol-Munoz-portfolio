@@ -95,6 +95,7 @@ export const esTranslations = {
     editorUpdated: "atrás",
     loading: "Cargando",
     reposSubtitle: "Repositorios relacionados",
+    collaboration: "Colaboración",
     skillDescriptions: {
       Java: "Uso Java principalmente en cursos académicos y en proyectos de backend orientados a objetos. Me ha ayudado a entender sólidos principios de programación como herencia, encapsulamiento y diseño de APIs.",
       Python: "Python es mi lenguaje de exploración: lo uso para automatización de tareas, análisis de datos y pequeños scripts que me ahorran tiempo o me permiten experimentar ideas rápidamente.",

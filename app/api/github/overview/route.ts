@@ -15,6 +15,7 @@ type GithubApiRepo = {
   archived: boolean;
   fork: boolean;
   homepage: string | null;
+  owner: { login: string };
 };
 
 const ERROR_CACHE = "public, s-maxage=60, stale-while-revalidate=600";
@@ -48,7 +49,7 @@ const byPushedDesc = (a: GithubApiRepo, b: GithubApiRepo) =>
   new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime();
 
 export async function GET() {
-  const reposUrl = `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed`;
+  const reposUrl = `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed&type=all`;
 
   let reposRaw: GithubApiRepo[];
   try {
@@ -74,12 +75,14 @@ export async function GET() {
     pushedAt: r.pushed_at,
     updatedAt: r.updated_at,
     homepage: sanitizeUrl(r.homepage),
+    collaboration: r.owner.login.toLowerCase() !== GITHUB_USERNAME.toLowerCase(),
   });
 
-  const allRepos = baseRepos.slice().sort(byPushedDesc).slice(0, 30).map(summarize);
+  const allRepos = baseRepos.slice().sort(byPushedDesc).slice(0, 40).map(summarize);
 
+  // Los destacados de Proyectos siguen siendo solo repos propios.
   const repos = baseRepos
-    .slice()
+    .filter((r) => r.owner.login.toLowerCase() === GITHUB_USERNAME.toLowerCase())
     .sort((a, b) => b.stargazers_count - a.stargazers_count || byPushedDesc(a, b))
     .slice(0, 6)
     .map(summarize);

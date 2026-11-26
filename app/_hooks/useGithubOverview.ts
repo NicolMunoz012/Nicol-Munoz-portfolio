@@ -14,13 +14,15 @@ export type GithubRepo = {
   pushedAt: string;
   updatedAt: string;
   homepage: string | null;
+  /** El repo es de otra persona u organización y Nicol colabora en él. */
+  collaboration: boolean;
 };
 
 export type GithubOverview = {
   username: string;
   /** Los 6 repos destacados (más estrellas, luego más recientes). */
   repos: GithubRepo[];
-  /** Los 30 repos con actividad más reciente. */
+  /** Los 40 repos con actividad más reciente, propios y de colaboración. */
   allRepos: GithubRepo[];
 };
 

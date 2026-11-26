@@ -95,6 +95,7 @@ export const enTranslations = {
     editorUpdated: "ago",
     loading: "Loading",
     reposSubtitle: "Related repositories",
+    collaboration: "Collaboration",
     skillDescriptions: {
       Java: "I use Java mainly in academic courses and backend projects focused on object-oriented design. It has helped me build solid programming fundamentals like inheritance, encapsulation, and API design.",
       Python: "Python is my exploration language: I use it for task automation, data analysis, and small scripts that save time or let me quickly test ideas.",

@@ -177,6 +177,11 @@ export function SkillsSection() {
                           {repo.description ?? t("projects.noDescription")}
                         </p>
                         <ul className="flex flex-wrap gap-2">
+                          {repo.collaboration && (
+                            <li className="rounded-full bg-accent/15 px-2.5 py-1 text-xs font-semibold text-accent">
+                              {t("skills.collaboration")}
+                            </li>
+                          )}
                           {repo.language && <li className="rounded-full bg-primary-dark/15 px-2.5 py-1 text-xs font-semibold text-foreground/80">{repo.language}</li>}
                           <li className="rounded-full bg-primary-dark/15 px-2.5 py-1 text-xs font-semibold text-foreground/80">★ {repo.stars}</li>
                           <li className="rounded-full bg-primary-dark/15 px-2.5 py-1 text-xs font-semibold text-foreground/80">
