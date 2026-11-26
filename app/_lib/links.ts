@@ -1,4 +1,10 @@
 export const GITHUB_USERNAME = "NicolMunoz012";
+/** Cuentas de GitHub de Nicol: sus repos cuentan como propios, no como colaboración. */
+export const GITHUB_OWN_ACCOUNTS = [GITHUB_USERNAME, "Nicki0m"];
+
+export function isOwnGithubAccount(login: string) {
+  return GITHUB_OWN_ACCOUNTS.some((account) => account.toLowerCase() === login.toLowerCase());
+}
 export const EMAIL = "nicolmunoz004@gmail.com";
 
 export const SOCIAL_LINKS = {

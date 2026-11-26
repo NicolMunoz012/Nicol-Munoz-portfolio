@@ -14,7 +14,8 @@ import { useLanguage } from "../_context/LanguageContext";
 import { translations } from "../_i18n";
 import { Reveal } from "../_components/ui/Reveal";
 import { SectionHeading } from "../_components/ui/SectionHeading";
-import { useGithubOverview } from "../_hooks/useGithubOverview";
+import { useGithubOverview, type GithubRepo } from "../_hooks/useGithubOverview";
+import type { SkillTag } from "../_lib/githubStackTypes";
 import { handleTabListKeyDown } from "../_lib/a11y";
 
 type SkillName = "IA" | "Java" | "Python" | "Spring" | "Tailwind" | "Next.js" | "React";
@@ -23,20 +24,71 @@ type Skill = {
   name: SkillName;
   Icon: IconType;
   color: string;
-  /** Un repo cuenta para la skill si coincide su lenguaje o alguna palabra clave. */
-  languages: string[];
-  keywords: string[];
+  /** Tecnología detectada en los archivos de dependencias del repo (ver app/_lib/githubStack.ts). */
+  tag: SkillTag;
 };
 
 const SKILLS: Skill[] = [
-  { name: "IA", Icon: FaBrain, color: "#ff6b6b", languages: ["python"], keywords: ["ai", "ml", "machine", "learning", "neural", "tensorflow", "keras"] },
-  { name: "Java", Icon: FaJava, color: "#ed8b00", languages: ["java"], keywords: [] },
-  { name: "Python", Icon: SiPython, color: "#3776ab", languages: ["python"], keywords: [] },
-  { name: "Spring", Icon: SiSpringboot, color: "#6db33f", languages: ["java"], keywords: ["spring"] },
-  { name: "Tailwind", Icon: SiTailwindcss, color: "#06b6d4", languages: ["css", "typescript", "javascript"], keywords: ["tailwind"] },
-  { name: "Next.js", Icon: SiNextdotjs, color: "currentColor", languages: ["typescript", "javascript"], keywords: ["next"] },
-  { name: "React", Icon: SiReact, color: "#61dafb", languages: ["typescript", "javascript"], keywords: ["react"] },
+  { name: "IA", Icon: FaBrain, color: "#ff6b6b", tag: "ia" },
+  { name: "Java", Icon: FaJava, color: "#ed8b00", tag: "java" },
+  { name: "Python", Icon: SiPython, color: "#3776ab", tag: "python" },
+  { name: "Spring", Icon: SiSpringboot, color: "#6db33f", tag: "spring" },
+  { name: "Tailwind", Icon: SiTailwindcss, color: "#06b6d4", tag: "tailwind" },
+  { name: "Next.js", Icon: SiNextdotjs, color: "currentColor", tag: "next" },
+  { name: "React", Icon: SiReact, color: "#61dafb", tag: "react" },
 ];
+
+const REPOS_PER_SKILL = 2;
+/**
+ * Orden de reparto, de la más específica a la más general: así Java recibe primero repos sin Spring,
+ * React sin Next y Python sin IA, y dos tecnologías no muestran la misma pareja.
+ */
+const ASSIGN_ORDER: SkillTag[] = ["spring", "ia", "next", "react", "java", "python", "tailwind"];
+
+/** Para cada tecnología, la más específica que ya tiene su propia tarjeta: esos repos van después. */
+const SHOWN_ELSEWHERE: Partial<Record<SkillTag, SkillTag>> = { java: "spring", react: "next", python: "ia" };
+
+/** Orden de preferencia dentro de una tecnología; a igualdad se mantiene el orden por actividad reciente. */
+function relevance(repo: GithubRepo, tag: SkillTag) {
+  const weak = repo.weakStack?.includes(tag) ? 2 : 0;
+  const elsewhere = SHOWN_ELSEWHERE[tag];
+  return weak + (elsewhere && repo.stack?.includes(elsewhere) ? 1 : 0);
+}
+
+/**
+ * Un repo propio y una colaboración con la tecnología confirmada; si faltan, se completa en orden de relevancia.
+ * Los candidatos llegan ordenados por relevancia y, a igualdad, por actividad reciente.
+ */
+function pickRepos(candidates: GithubRepo[], tag: SkillTag): GithubRepo[] {
+  const confirmed = candidates.filter((repo) => !repo.weakStack?.includes(tag));
+  const own = confirmed.find((repo) => !repo.collaboration);
+  const collab = confirmed.find((repo) => repo.collaboration);
+  const picked = [own, collab].filter((repo): repo is GithubRepo => Boolean(repo));
+  for (const repo of candidates) {
+    if (picked.length >= REPOS_PER_SKILL) break;
+    if (!picked.includes(repo)) picked.push(repo);
+  }
+  return picked.slice(0, REPOS_PER_SKILL);
+}
+
+function assignReposToSkills(repos: GithubRepo[]): Record<SkillTag, GithubRepo[]> {
+  const used = new Set<number>();
+  const assigned = {} as Record<SkillTag, GithubRepo[]>;
+  for (const tag of ASSIGN_ORDER) {
+    const matching = repos
+      .filter((repo) => repo.stack?.includes(tag))
+      .sort((a, b) => relevance(a, tag) - relevance(b, tag));
+    const picked = pickRepos(matching.filter((repo) => !used.has(repo.id)), tag);
+    // Si no alcanzan los repos sin usar, se completa con repos ya mostrados en otra tecnología.
+    for (const repo of matching) {
+      if (picked.length >= REPOS_PER_SKILL) break;
+      if (!picked.includes(repo)) picked.push(repo);
+    }
+    picked.forEach((repo) => used.add(repo.id));
+    assigned[tag] = picked;
+  }
+  return assigned;
+}
 
 function formatRelative(iso: string, now: number) {
   const hours = Math.floor(Math.max(0, now - new Date(iso).getTime()) / 3600000);
@@ -52,18 +104,8 @@ export function SkillsSection() {
 
   const skill = SKILLS.find((s) => s.name === selected) ?? SKILLS[0];
 
-  const projects = useMemo(() => {
-    const pool = overview.data?.allRepos?.length ? overview.data.allRepos : overview.data?.repos ?? [];
-    return pool
-      .filter((repo) => {
-        const haystack = `${repo.name} ${repo.fullName} ${repo.description ?? ""}`.toLowerCase();
-        return (
-          skill.languages.includes((repo.language ?? "").toLowerCase()) ||
-          skill.keywords.some((keyword) => haystack.includes(keyword))
-        );
-      })
-      .slice(0, 2);
-  }, [overview.data, skill]);
+  const reposBySkill = useMemo(() => assignReposToSkills(overview.data?.allRepos ?? []), [overview.data]);
+  const projects = reposBySkill[skill.tag];
 
   return (
     <section id="skills" className="relative mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 md:py-16 lg:px-10">
